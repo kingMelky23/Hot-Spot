@@ -1,19 +1,24 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; 
-import Group from "./group"
+import Group from "./group";
 
 
  export default function Groups(props) {
 
     
     return (
-      <FlatList
-      data={props.groupList}
-      renderItem={({item}) => (
-        <Group name={item.name} capacity={item.capacity} participants={item.participants}/>
-     )}
-       />
+
+      <View>
+        <Text style={styles.groupListingTitle}>Group Listings</Text>
+        <FlatList
+        style={styles.card}
+        data={props.groupList}
+        renderItem={({item}) => (
+          <Group name={item.name} capacity={item.capacity} participants={item.participants}/>
+      )}
+        />
+      </View>
 
     );
   }
@@ -21,37 +26,18 @@ import Group from "./group"
 
   const styles = StyleSheet.create({
 
-    groupStyle: {
-      height:55,
-      width:320,
-      backgroundColor:"white",
-      borderRadius:20,
-      borderWidth:2,
-      borderColor:"gray",
-      borderStyle:"solid",
-      flexDirection:"row",
-      alignItems:"center",
-      justifyContent:"space-between",
-      shadowColor:"black",
-      shadowRadius:20,
-      margin:10
+    card:{
+      width: "100%",
+      borderRadius: 25,
+      height:300,
+    
     },
-
-    iconAndNumberView: {
-      flexDirection:"row",
-      alignItems:"center",
+    groupListingTitle:{
+    
+      fontSize: 30,
+      fontFamily: 'Helvetica-Bold',
+      marginBottom: 5,
     },
-    groupText: {
-      marginLeft:10
-    },
-  
-    numberText: {
-      marginRight:10
-    },
-  
-    personIcon: {
-      marginRight:4
-    }
   });
   
 
