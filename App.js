@@ -1,7 +1,7 @@
 
 import React,{useState} from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Header from "./component/header";
+import Header from "./components/header";
 
 import {AppLoading} from 'expo';
 
@@ -22,7 +22,7 @@ export default function App() {
 
   if(fontsLoaded){
     return(
-    <View >
+    <View style={styles.container} >
       <Header/>
     </View>
       
