@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Image , FlatList} from 'react-native';
-import Groups from "./components/groups.js"
+import Groups from "../../components/groups"
+import Header from '../../components/header'
 
-export default function App() {
+export default function SinglePage() {
 
   const [groupListing, setGroupListing] = useState([
     {name: "group1",capacity: 8, participants: 6},
@@ -11,7 +12,10 @@ export default function App() {
   ]);
 
   return (
+    
     <View style={styles.container}>
+        <Header/>
+        
         <Groups groupList = {groupListing}/>
     </View>
   );
@@ -23,5 +27,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF5555",
     alignItems: 'center',
     justifyContent: 'center',
+    height:500,
   }
 });

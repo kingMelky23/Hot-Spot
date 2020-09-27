@@ -2,6 +2,7 @@
 import React,{useState} from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Header from "./components/header";
+import SinglePage from './views/singlePageEvent/SinglePage'
 
 import {AppLoading} from 'expo';
 
@@ -23,7 +24,7 @@ export default function App() {
   if(fontsLoaded){
     return(
     <View style={styles.container} >
-      <Header/>
+      <SinglePage/>
     </View>
       
     )
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FF5555",
     height: 100,
+    
     // fontFamily: "Kalam-Bold"
   },
 });
