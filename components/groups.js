@@ -10,13 +10,15 @@ import Group from "./group";
     return (
 
       <View>
-        <Text style={styles.groupListingTitle}>Group Listings</Text>
         <Image // images should be sent in as prop from single page event
             style={{flex:1, height: undefined, width: undefined}}
             source={require('../assets/shakeshack.png')}
             resizeMode="contain"
           />
 
+
+        <Text style={styles.groupListingTitle}>Group Listings</Text>
+        
         <FlatList
         style={styles.card}
         data={props.groupList}
