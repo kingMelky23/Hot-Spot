@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Button,
   StyleSheet,
   Text,
   View,
@@ -9,6 +8,11 @@ import {
   Image,
 } from "react-native";
 import GroupItem from "../components/groupItem";
+
+/**
+ * groups render before image a loading spinner to image.
+ *
+ */
 
 export default function EventPage({ navigation, locationName }) {
   const [groupListing, setGroupListing] = useState([
@@ -136,16 +140,12 @@ export default function EventPage({ navigation, locationName }) {
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-          <View style={styles.textPostion}>
-      <Text style={styles.title}>snake shack</Text>
-
-          </View>
+        <View style={styles.textPostion}>
+          <Text style={styles.title}>snake shack</Text>
+        </View>
         <View style={styles.imageContainer}>
-            
           <Image // images should be sent in as prop from single page event
-            style={{flex: 1,
-                height: "100%",
-                width: "100%",}}
+            style={{ flex: 1, height: "100%", width: "100%" }}
             source={require("../assets/shakeshack.png")}
             resizeMode="contain"
           />
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     borderWidth: 3,
     borderColor: "#fff",
-     padding: 5,
+    padding: 5,
     alignItems: "center",
   },
   container: {
@@ -195,22 +195,17 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: "Helvetica-Bold",
     // marginBottom: 5,
-    left: 3
-    
+    left: 3,
   },
   imageContainer: {
     height: 300,
     width: "100%",
-    shadowColor: 'black',
+    shadowColor: "black",
     shadowOpacity: 1,
-    shadowRadius:15,
-    shadowOffset:{ height: 5 },
+    shadowRadius: 15,
+    shadowOffset: { height: 5 },
   },
-  image:{
-    
-    
-    
-  },
+  image: {},
   textPostion: {
     right: 80,
   },

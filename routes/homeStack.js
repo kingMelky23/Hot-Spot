@@ -5,6 +5,7 @@ import Event from "../screens/EventPage";
 import GroupPage from "../screens/GroupPage";
 import Header from "../shared/header";
 import Home from "../screens/Home";
+import PlainHeader from '../shared/plainHeader'
 
 const screens = {
   Home: {
@@ -19,7 +20,7 @@ const screens = {
     screen: Event,
     navigationOptions: ({ navigation }) => {
       return {
-        headerTitle: () => <Header navigation={navigation} title="Event " />,
+        headerTitle: () => <PlainHeader navigation={navigation} title="Event" />,
       };
     },
   },
@@ -33,7 +34,7 @@ const HomeStack = createStackNavigator(screens, {
     title: "Hot Spot",
     headerStyle: {
       backgroundColor: "#FF5555",
-      height: 160,
+      height: 100,
       borderWidth: 0,
     },
   },
