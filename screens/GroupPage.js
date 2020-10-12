@@ -9,8 +9,6 @@ export default function GroupPage({navigation}) {
             <Text>Capacity: {navigation.getParam('capacity')}</Text>
             <Text>Participants: {navigation.getParam('participants')}</Text>
             <Text>Location: {navigation.getParam('location')}</Text>
-  
-            
         </View>
     )
 }

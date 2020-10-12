@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Button, StyleSheet, FlatList, Text, View , Image} from 'react-native'
+import { StyleSheet, FlatList, Text, View , Image} from 'react-native'
 
 var faker = require("faker");
 
@@ -55,5 +55,6 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection:"row",
         margin:10
-    }
+    },
+   
 })
