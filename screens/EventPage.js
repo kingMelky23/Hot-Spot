@@ -18,7 +18,10 @@ import { Feather,FontAwesome, } from '@expo/vector-icons';
 
 export default function EventPage({ navigation, locationName }) {
 
-  const [heart,setHeartIcon] = useState(["heart-o"])
+  
+
+  
+  
 
   const [groupListing, setGroupListing] = useState([
     {
@@ -146,16 +149,12 @@ export default function EventPage({ navigation, locationName }) {
     <View style={styles.container}>
       <View style={styles.card}>
 
-
-
-
-
         <View style={styles.locationInfo}>
          
 
             <Text style={styles.title}>snake shack</Text>
 
-              <FontAwesome name={heart} size={24} color="red" style={styles.heartIcon} onPress={()=>console.log('clicked')}/>
+              <FontAwesome name="heart-o" size={24} color="red" style={styles.heartIcon} />
 
 
           
