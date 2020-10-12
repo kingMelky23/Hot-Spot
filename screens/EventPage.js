@@ -8,6 +8,7 @@ import {
   Image,
 } from "react-native";
 import GroupItem from "../components/groupItem";
+import { Feather } from '@expo/vector-icons'; 
 
 /**
  * groups render before image a loading spinner to image.
@@ -142,6 +143,10 @@ export default function EventPage({ navigation, locationName }) {
       <View style={styles.card}>
         <View style={styles.textPostion}>
           <Text style={styles.title}>snake shack</Text>
+          <View style={styles.paragraph}>
+              <Text>2655 Richmond Ave</Text>
+
+          </View>
         </View>
         <View style={styles.imageContainer}>
           <Image // images should be sent in as prop from single page event
@@ -151,8 +156,10 @@ export default function EventPage({ navigation, locationName }) {
           />
         </View>
 
-        <View style={styles.textPostion}>
+        <View style={styles.textPostion,{flexDirection: 'row'}}>
           <Text style={styles.title}>Group Listings</Text>
+          <Feather name="more-horizontal" size={24} color="black"/>
+
         </View>
         <FlatList
           style={{ marginBottom: 50 }}
@@ -208,5 +215,9 @@ const styles = StyleSheet.create({
   image: {},
   textPostion: {
     right: 80,
+    
   },
+  paragraph:{
+    flexDirection:'row',
+  }
 });
