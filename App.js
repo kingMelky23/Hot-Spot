@@ -1,12 +1,15 @@
 
 import React,{useState} from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Header from "./components/header";
-import SinglePage from './views/singlePageEvent/SinglePage'
-
 import {AppLoading} from 'expo';
-
 import * as Font from "expo-font";
+
+import Navigator from './routes/drawer'
+
+// import Header from "./components/header";
+// import SinglePage from './views/singlePageEvent/SinglePage'
+
+
 
 const getFonts = () =>
   Font.loadAsync({
@@ -24,7 +27,7 @@ export default function App() {
   if(fontsLoaded){
     return(
     <View style={styles.container} >
-      <SinglePage/>
+      <Navigator/>
     </View>
       
     )
@@ -42,7 +45,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FF5555",
-    height: 100,
+    
     
     // fontFamily: "Kalam-Bold"
   },

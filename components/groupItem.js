@@ -21,19 +21,22 @@ import { MaterialIcons } from '@expo/vector-icons';
   const styles = StyleSheet.create({
 
     groupStyle: {
-      height:55,
-      width:320,
+      height:40,
+      width:370,
       backgroundColor:"white",
-      borderRadius:20,
-      borderWidth:2,
+      borderRadius: 100,
+      borderWidth:1,
       borderColor:"gray",
       borderStyle:"solid",
       flexDirection:"row",
       alignItems:"center",
       justifyContent:"space-between",
-      shadowColor:"black",
-      shadowRadius:20,
-      margin:10
+      margin:8,
+      
+      shadowColor: 'black',
+      shadowOpacity: 0.5,
+      shadowRadius:5,
+      shadowOffset:{ height: 5 },
     },
 
     iconAndNumberView: {
