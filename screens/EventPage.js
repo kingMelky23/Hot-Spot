@@ -8,7 +8,8 @@ import {
   Image,
 } from "react-native";
 import GroupItem from "../components/groupItem";
-import { Feather } from '@expo/vector-icons'; 
+import { Feather,FontAwesome, } from '@expo/vector-icons'; 
+
 
 /**
  * groups render before image a loading spinner to image.
@@ -16,6 +17,9 @@ import { Feather } from '@expo/vector-icons';
  */
 
 export default function EventPage({ navigation, locationName }) {
+
+  const [heart,setHeartIcon] = useState(["heart-o"])
+
   const [groupListing, setGroupListing] = useState([
     {
       name: "group1",
@@ -141,8 +145,20 @@ export default function EventPage({ navigation, locationName }) {
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <View style={styles.textPostion}>
-          <Text style={styles.title}>snake shack</Text>
+
+
+
+
+
+        <View style={styles.locationInfo}>
+         
+
+            <Text style={styles.title}>snake shack</Text>
+
+              <FontAwesome name={heart} size={24} color="red" style={styles.heartIcon} onPress={()=>console.log('clicked')}/>
+
+
+          
           <View style={styles.paragraph}>
               <Text>2655 Richmond Ave</Text>
 
@@ -156,9 +172,9 @@ export default function EventPage({ navigation, locationName }) {
           />
         </View>
 
-        <View style={styles.textPostion,{flexDirection: 'row'}}>
+        <View style={styles.textPostion}>
           <Text style={styles.title}>Group Listings</Text>
-          <Feather name="more-horizontal" size={24} color="black"/>
+          <Feather name="more-horizontal" size={35} color="black" style={styles.filter}/>
 
         </View>
         <FlatList
@@ -201,7 +217,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontFamily: "Helvetica-Bold",
-    // marginBottom: 5,
+    
     left: 3,
   },
   imageContainer: {
@@ -219,5 +235,17 @@ const styles = StyleSheet.create({
   },
   paragraph:{
     flexDirection:'row',
+  },
+  locationInfo:{
+    right: 100
+  },
+  heartIcon:{
+    position: 'absolute',
+     right: -200,
+      top:9
+  },
+  filter:{
+    position: 'absolute',
+    right: -145
   }
 });
