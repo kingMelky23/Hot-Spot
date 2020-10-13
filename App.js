@@ -1,21 +1,52 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+
+import React,{useState} from "react";
+import { StyleSheet, Text, View } from "react-native";
+import {AppLoading} from 'expo';
+import * as Font from "expo-font";
+
+import Navigator from './routes/drawer'
+
+// import Header from "./components/header";
+// import SinglePage from './views/singlePageEvent/SinglePage'
+
+
+
+const getFonts = () =>
+  Font.loadAsync({
+    "Kalam-Bold":require('./assets/fonts/Kalam-Bold.ttf'),
+    "Kalam-Light": require('./assets/fonts/Kalam-Light.ttf'),
+    "Kalam-Regular": require('./assets/fonts/Kalam-Regular.ttf'),
+  });
+
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Hot Spot</Text>
-      <StatusBar style="auto" />
+  const [fontsLoaded,setFontsLoaded] = useState(false);
+  
+
+
+  if(fontsLoaded){
+    return(
+    <View style={styles.container} >
+      <Navigator/>
     </View>
-  );
+      
+    )
+  } else {
+    return(
+    <AppLoading
+      startAsync={getFonts}
+      onFinish={()=>setFontsLoaded(true)}
+    />
+    )
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#FF5555",
+    
+    
+    // fontFamily: "Kalam-Bold"
   },
 });
