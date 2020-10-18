@@ -10,7 +10,7 @@ import { MaterialIcons } from '@expo/vector-icons';
       <View style={styles.groupStyle}>
           <Text style={styles.groupText}>{props.name}</Text>
           <View style={styles.iconAndNumberView}>
-              <MaterialIcons name="person" size={24} color="black" style={styles.personIcon} />
+              <MaterialIcons name="person" size={24} color="#000" style={styles.personIcon} />
               <Text style={styles.numberText}>{props.participants}/{props.capacity}</Text>
           </View>
       </View>

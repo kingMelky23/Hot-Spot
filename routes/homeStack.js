@@ -26,6 +26,11 @@ const screens = {
   },
   GroupPage: {
     screen: GroupPage,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: () => <PlainHeader navigation={navigation} title="Event" />,
+      };
+    },
   },
 };
 
