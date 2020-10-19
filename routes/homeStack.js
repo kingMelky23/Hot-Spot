@@ -9,9 +9,9 @@ import Login from '../screens/Login'
 import PlainHeader from '../shared/plainHeader'
 
 const screens = {
-  login:{
-    screen: Login
-  },
+  // login:{
+  //   screen: Login
+  // },
   Home: {
     screen: Home,
     navigationOptions: ({ navigation }) => {

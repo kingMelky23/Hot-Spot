@@ -22,4 +22,18 @@ export const globalStyles = StyleSheet.create({
         backgroundColor: "#FF5555",
         borderWidth: 0,
       },
+      input:{
+        borderWidth: 1,
+        borderColor: "#DDD",
+        padding: 10,
+        fontSize: 18,
+        borderRadius: 6,
+      },
+      errorText:{
+        color: "crimson",
+        fontWeight:"bold",
+        marginBottom: 10,
+        marginTop: 6,
+        textAlign: "center"
+      }
 }) 

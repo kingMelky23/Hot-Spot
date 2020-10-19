@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
-import UserItem from "../components/UserItem";
+import UserItem from "../shared/UserItem";
 import { ScrollView } from "react-native-gesture-handler";
 
 export default function GroupPage({ navigation }) {
