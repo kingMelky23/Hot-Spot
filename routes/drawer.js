@@ -13,6 +13,7 @@ const RootDrawerNavigator = createDrawerNavigator({
     Profile:{
         screen: profileStack,
     }
+    
 })
 
 export default createAppContainer(RootDrawerNavigator)

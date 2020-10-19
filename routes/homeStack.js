@@ -5,9 +5,13 @@ import Event from "../screens/EventPage";
 import GroupPage from "../screens/GroupPage";
 import Header from "../shared/header";
 import Home from "../screens/Home";
+import Login from '../screens/Login'
 import PlainHeader from '../shared/plainHeader'
 
 const screens = {
+  login:{
+    screen: Login
+  },
   Home: {
     screen: Home,
     navigationOptions: ({ navigation }) => {
