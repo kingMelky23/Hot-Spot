@@ -9,9 +9,7 @@ import Login from '../screens/Login'
 import PlainHeader from '../shared/plainHeader'
 
 const screens = {
-  login:{
-    screen: Login
-  },
+  
   Home: {
     screen: Home,
     navigationOptions: ({ navigation }) => {
@@ -19,6 +17,9 @@ const screens = {
         headerTitle: () => <Header navigation={navigation} title="Hot Spot" />,
       };
     },
+  },
+  login:{
+    screen: Login
   },
   EventPage: {
     screen: Event,
