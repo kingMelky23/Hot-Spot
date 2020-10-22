@@ -10,13 +10,9 @@ import PlainHeader from '../shared/plainHeader'
 
 
 const screens = {
-<<<<<<< HEAD
   // login:{
   //   screen: Login
   // },
-=======
-  
->>>>>>> 31b12aaa643799b3699d817526caae92bdff747e
   Home: {
     screen: Home,
     navigationOptions: ({ navigation }) => {
