@@ -21,7 +21,7 @@ const profileStack = createStackNavigator(screens,{
         title: "Hot Spot",
             headerStyle:{
                 backgroundColor: '#FF5555',
-                height:160
+                height:100
             }
     }
 })
