@@ -31,15 +31,17 @@ export default function Home({navigation}) {
             <FlatList 
             data={locations}
             renderItem={({item}) => (
-               <View style={styles.boxView}>       
-                <Image style={styles.img} source={{
-                    uri:item.picture
-                }}/>
-                 <View>
-                    <Text style={styles.heading}>{item.name}</Text>
-                    <Text style={styles.groups}>{item.numberOfGroups} Groups</Text>
-                 </View>
-             </View>
+                <TouchableOpacity onPress={pressHandler}>
+                    <View style={styles.boxView}>       
+                        <Image style={styles.img} source={{
+                            uri:item.picture
+                        }}/>
+                        <View>
+                            <Text style={styles.heading}>{item.name}</Text>
+                            <Text style={styles.groups}>{item.numberOfGroups} Groups</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
             )}/>
         </View>
     )
