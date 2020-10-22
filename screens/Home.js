@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { StyleSheet, FlatList, Text, View , Image} from 'react-native'
+import { StyleSheet, FlatList, Text, View , Image,TouchableOpacity} from 'react-native'
 
 var faker = require("faker");
 
