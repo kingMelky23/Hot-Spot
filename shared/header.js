@@ -17,6 +17,15 @@ import Search from './search'
 export default function Header({ navigation, title }) {
   const [modalOpen, setModalOpen] = useState(false);
 
+  const onSearch = (eventName,eventAddress,photo_ref) =>{
+
+    console.log("1)" + eventName + "\n")
+    console.log('2' + eventAddress + "\n")
+    console.log('2' + photo_ref + "\n")
+    navigation.navigate("EventPage")
+    
+  }
+
   const openMenu = () => {
     navigation.openDrawer();
   };
@@ -32,7 +41,7 @@ export default function Header({ navigation, title }) {
               onPress={() => setModalOpen(false)}
               style={styles.close}
             />
-            <Search/>
+            <Search setModalOpen={setModalOpen} onSearch={onSearch}/>
             {/* <CreateGroup addGroup={addGroup}/> */}
           </SafeAreaView>
         </TouchableWithoutFeedback>
@@ -49,6 +58,7 @@ export default function Header({ navigation, title }) {
         size={20}
         color="black"
         style={styles.searchIcon}
+        
         onPress={()=>setModalOpen(true)}
 
       />

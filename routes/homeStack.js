@@ -21,9 +21,6 @@ const screens = {
       };
     },
   },
-  login:{
-    screen: Login
-  },
   EventPage: {
     screen: Event,
     navigationOptions: ({ navigation }) => {

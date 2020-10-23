@@ -9,17 +9,20 @@ export default function Home({navigation}) {
     {
         picture: faker.image.city(),
         name: faker.address.city(),
-        numberOfGroups:9
+        numberOfGroups:9,
+        key:"1"
     },
     {
         picture: faker.image.city(),
         name: faker.address.city(),
         numberOfGroups:12,
+        key:"2"
     },
     {
         picture: faker.image.city(),
         name:faker.address.city(),
         numberOfGroups:3,
+        key:"3"
     }]);
 
     const pressHandler = () =>{

@@ -14,39 +14,45 @@ import {
 import GroupItem from "../components/groupItem";
 import { Feather, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 
-import CreateGroup from './createGroup'
-
-
+import CreateGroup from "./createGroup";
 
 /**
  * groups render before image a loading spinner to image.
  *
  */
 
-export default function EventPage({ navigation, locationName }) {
-  
-  const [modalOpen,setModalOpen] = useState(false)
-  const [heart,setHeart] = useState(['heart-o'])
-  const [like,setLike] = useState([false])
-  const onLike = () =>{
-    setLike(!like)
-    if(like == true){
-      setHeart("heart")
+export default function EventPage({ navigation}) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [heart, setHeart] = useState(["heart-o"]);
+  const [like, setLike] = useState([false]);
+
+  /**like page
+   * NOT IMPLEMENTED
+   */
+  const onLike = () => {
+    setLike(!like);
+    if (like == true) {
+      setHeart("heart");
     } else {
-      setHeart("heart-o")
+      setHeart("heart-o");
     }
-  } 
-  const addGroup = (group) =>{
-    groupListing.key= Math.random().toString()
-    setGroupListing((currentGroups)=>{
-      return[group,...currentGroups]
+  };
+
+  /**
+   * ADD GROUP
+   * USE BACK END
+   */
+  const addGroup = (group) => {
+    groupListing.key = Math.random().toString();
+    setGroupListing((currentGroups) => {
+      return [group, ...currentGroups];
     });
-    setModalOpen(false)
-  }
+    setModalOpen(false);
+  };
   const [groupListing, setGroupListing] = useState([
     {
       name: "group1",
-      description:"lorem ipsum",
+      description: "lorem ipsum",
       capacity: 8,
       participants: 6,
       key: "1",
@@ -54,21 +60,21 @@ export default function EventPage({ navigation, locationName }) {
       date: "September 20,2020",
       time: "3:30 PM",
       address: "2655 Richmond Ave",
-      members:[
-        {userName: 'mel',key:1, admin: true},
-        {userName: 'robbie',key:2, admin: false},
-        {userName: 'zane',key:3, admin: false},
-        {userName: 'derrick',key:4, admin: false},
-        {userName: 'sam',key:5, admin: false},
-        {userName: 'putin',key:6, admin: false},
-        {userName: 'piko',key:7, admin: false},
-        {userName: 'firetruck',key:8, admin: false},
-        {userName: 'choji',key:9, admin: false},
-      ]
+      members: [
+        { userName: "mel", key: 1, admin: true },
+        { userName: "robbie", key: 2, admin: false },
+        { userName: "zane", key: 3, admin: false },
+        { userName: "derrick", key: 4, admin: false },
+        { userName: "sam", key: 5, admin: false },
+        { userName: "putin", key: 6, admin: false },
+        { userName: "piko", key: 7, admin: false },
+        { userName: "firetruck", key: 8, admin: false },
+        { userName: "choji", key: 9, admin: false },
+      ],
     },
     {
       name: "group2",
-      description:"lorem ipsum",
+      description: "lorem ipsum",
       capacity: 10,
       participants: 9,
       key: "2",
@@ -76,21 +82,21 @@ export default function EventPage({ navigation, locationName }) {
       date: "September 20,2020",
       time: "3:30 PM",
       address: "2655 Richmond Ave",
-      members:[
-        {userName: 'mel',key:1, admin: true},
-        {userName: 'robbie',key:2, admin: false},
-        {userName: 'zane',key:3, admin: false},
-        {userName: 'derrick',key:4, admin: false},
-        {userName: 'sam',key:5, admin: false},
-        {userName: 'putin',key:6, admin: false},
-        {userName: 'piko',key:7, admin: false},
-        {userName: 'firetruck',key:8, admin: false},
-        {userName: 'choji',key:9, admin: false},
-      ]
+      members: [
+        { userName: "mel", key: 1, admin: true },
+        { userName: "robbie", key: 2, admin: false },
+        { userName: "zane", key: 3, admin: false },
+        { userName: "derrick", key: 4, admin: false },
+        { userName: "sam", key: 5, admin: false },
+        { userName: "putin", key: 6, admin: false },
+        { userName: "piko", key: 7, admin: false },
+        { userName: "firetruck", key: 8, admin: false },
+        { userName: "choji", key: 9, admin: false },
+      ],
     },
     {
       name: "group3",
-      description:"lorem ipsum",
+      description: "lorem ipsum",
       capacity: 6,
       participants: 3,
       key: "3",
@@ -98,348 +104,50 @@ export default function EventPage({ navigation, locationName }) {
       date: "September 20,2020",
       time: "3:30 PM",
       address: "2655 Richmond Ave",
-      members:[
-        {userName: 'mel',key:1, admin: true},
-        {userName: 'robbie',key:2, admin: false},
-        {userName: 'zane',key:3, admin: false},
-        {userName: 'derrick',key:4, admin: false},
-        {userName: 'sam',key:5, admin: false},
-        {userName: 'putin',key:6, admin: false},
-        {userName: 'piko',key:7, admin: false},
-        {userName: 'firetruck',key:8, admin: false},
-        {userName: 'choji',key:9, admin: false},
-      ]
+      members: [
+        { userName: "mel", key: 1, admin: true },
+        { userName: "robbie", key: 2, admin: false },
+        { userName: "zane", key: 3, admin: false },
+        { userName: "derrick", key: 4, admin: false },
+        { userName: "sam", key: 5, admin: false },
+        { userName: "putin", key: 6, admin: false },
+        { userName: "piko", key: 7, admin: false },
+        { userName: "firetruck", key: 8, admin: false },
+        { userName: "choji", key: 9, admin: false },
+      ],
     },
-    // {
-    //   name: "group4",
-    //   description:"lorem ipsum",
-    //   capacity: 6,
-    //   participants: 3,
-    //   key: "4",
-    //   location: "shake Shake",
-    //   date: "September 20,2020",
-    //   time: "3:30 PM",
-    //   address: "2655 Richmond Ave",
-    //   members:[
-    //     {userName: 'mel',key:1, admin: true},
-    //     {userName: 'robbie',key:2, admin: false},
-    //     {userName: 'zane',key:3, admin: false},
-    //     {userName: 'derrick',key:4, admin: false},
-    //     {userName: 'sam',key:5, admin: false},
-    //     {userName: 'putin',key:6, admin: false},
-    //     {userName: 'piko',key:7, admin: false},
-    //     {userName: 'firetruck',key:8, admin: false},
-    //     {userName: 'choji',key:9, admin: false},
-    //   ]
-    // },
-    // {
-    //   name: "group5",
-    //   description:"lorem ipsum",
-    //   capacity: 6,
-    //   participants: 3,
-    //   key: "5",
-    //   location: "shake Shake",
-    //   date: "September 20,2020",
-    //   time: "3:30 PM",
-    //   address: "2655 Richmond Ave",
-    //   members:[
-    //     {userName: 'mel',key:1, admin: true},
-    //     {userName: 'robbie',key:2, admin: false},
-    //     {userName: 'zane',key:3, admin: false},
-    //     {userName: 'derrick',key:4, admin: false},
-    //     {userName: 'sam',key:5, admin: false},
-    //     {userName: 'putin',key:6, admin: false},
-    //     {userName: 'piko',key:7, admin: false},
-    //     {userName: 'firetruck',key:8, admin: false},
-    //     {userName: 'choji',key:9, admin: false},
-    //   ]
-    // },
-    // {
-    //   name: "group6",
-    //   description:"lorem ipsum",
-    //   capacity: 6,
-    //   participants: 3,
-    //   key: "6",
-    //   location: "shake Shake",
-    //   date: "September 20,2020",
-    //   time: "3:30 PM",
-    //   address: "2655 Richmond Ave",
-    //   members:[
-    //     {userName: 'mel',key:1, admin: true},
-    //     {userName: 'robbie',key:2, admin: false},
-    //     {userName: 'zane',key:3, admin: false},
-    //     {userName: 'derrick',key:4, admin: false},
-    //     {userName: 'sam',key:5, admin: false},
-    //     {userName: 'putin',key:6, admin: false},
-    //     {userName: 'piko',key:7, admin: false},
-    //     {userName: 'firetruck',key:8, admin: false},
-    //     {userName: 'choji',key:9, admin: false},
-    //   ]
-    // },
-    // {
-    //   name: "group7",
-    //   description:"lorem ipsum",
-    //   capacity: 6,
-    //   participants: 3,
-    //   key: "7",
-    //   location: "shake Shake",
-    //   date: "September 20,2020",
-    //   time: "3:30 PM",
-    //   address: "2655 Richmond Ave",
-    //   members:[
-    //     {userName: 'mel',key:1, admin: true},
-    //     {userName: 'robbie',key:2, admin: false},
-    //     {userName: 'zane',key:3, admin: false},
-    //     {userName: 'derrick',key:4, admin: false},
-    //     {userName: 'sam',key:5, admin: false},
-    //     {userName: 'putin',key:6, admin: false},
-    //     {userName: 'piko',key:7, admin: false},
-    //     {userName: 'firetruck',key:8, admin: false},
-    //     {userName: 'choji',key:9, admin: false},
-    //   ]
-    // },
-    // {
-    //   name: "group8",
-    //   description:"lorem ipsum",
-    //   capacity: 6,
-    //   participants: 3,
-    //   key: "8",
-    //   location: "shake Shake",
-    //   date: "September 20,2020",
-    //   time: "3:30 PM",
-    //   address: "2655 Richmond Ave",
-    //   members:[
-    //     {userName: 'mel',key:1, admin: true},
-    //     {userName: 'robbie',key:2, admin: false},
-    //     {userName: 'zane',key:3, admin: false},
-    //     {userName: 'derrick',key:4, admin: false},
-    //     {userName: 'sam',key:5, admin: false},
-    //     {userName: 'putin',key:6, admin: false},
-    //     {userName: 'piko',key:7, admin: false},
-    //     {userName: 'firetruck',key:8, admin: false},
-    //     {userName: 'choji',key:9, admin: false},
-    //   ]
-    // },
-    // {
-    //   name: "group9",
-    //   description:"lorem ipsum",
-    //   capacity: 6,
-    //   participants: 3,
-    //   key: "9",
-    //   location: "shake Shake",
-    //   date: "September 20,2020",
-    //   time: "3:30 PM",
-    //   address: "2655 Richmond Ave",
-    //   members:[
-    //     {userName: 'mel',key:1, admin: true},
-    //     {userName: 'robbie',key:2, admin: false},
-    //     {userName: 'zane',key:3, admin: false},
-    //     {userName: 'derrick',key:4, admin: false},
-    //     {userName: 'sam',key:5, admin: false},
-    //     {userName: 'putin',key:6, admin: false},
-    //     {userName: 'piko',key:7, admin: false},
-    //     {userName: 'firetruck',key:8, admin: false},
-    //     {userName: 'choji',key:9, admin: false},
-    //   ]
-    // },
-    // {
-    //   name: "group10",
-    //   description:"lorem ipsum",
-    //   capacity: 6,
-    //   participants: 3,
-    //   key: "10",
-    //   location: "shake Shake",
-    //   date: "September 20,2020",
-    //   time: "3:30 PM",
-    //   address: "2655 Richmond Ave",
-    //   members:[
-    //     {userName: 'mel',key:1, admin: true},
-    //     {userName: 'robbie',key:2, admin: false},
-    //     {userName: 'zane',key:3, admin: false},
-    //     {userName: 'derrick',key:4, admin: false},
-    //     {userName: 'sam',key:5, admin: false},
-    //     {userName: 'putin',key:6, admin: false},
-    //     {userName: 'piko',key:7, admin: false},
-    //     {userName: 'firetruck',key:8, admin: false},
-    //     {userName: 'choji',key:9, admin: false},
-    //   ]
-    // },
-    // {
-    //   name: "group11",
-    //   description:"lorem ipsum",
-    //   capacity: 6,
-    //   participants: 3,
-    //   key: "11",
-    //   location: "shake Shake",
-    //   date: "September 20,2020",
-    //   time: "3:30 PM",
-    //   address: "2655 Richmond Ave",
-    //   members:[
-    //     {userName: 'mel',key:1, admin: true},
-    //     {userName: 'robbie',key:2, admin: false},
-    //     {userName: 'zane',key:3, admin: false},
-    //     {userName: 'derrick',key:4, admin: false},
-    //     {userName: 'sam',key:5, admin: false},
-    //     {userName: 'putin',key:6, admin: false},
-    //     {userName: 'piko',key:7, admin: false},
-    //     {userName: 'firetruck',key:8, admin: false},
-    //     {userName: 'choji',key:9, admin: false},
-    //   ]
-    // },
-    // {
-    //   name: "group12",
-    //   description:"lorem ipsum",
-    //   capacity: 6,
-    //   participants: 3,
-    //   key: "12",
-    //   location: "shake Shake",
-    //   date: "September 20,2020",
-    //   time: "3:30 PM",
-    //   address: "2655 Richmond Ave",
-    //   members:[
-    //     {userName: 'mel',key:1, admin: true},
-    //     {userName: 'robbie',key:2, admin: false},
-    //     {userName: 'zane',key:3, admin: false},
-    //     {userName: 'derrick',key:4, admin: false},
-    //     {userName: 'sam',key:5, admin: false},
-    //     {userName: 'putin',key:6, admin: false},
-    //     {userName: 'piko',key:7, admin: false},
-    //     {userName: 'firetruck',key:8, admin: false},
-    //     {userName: 'choji',key:9, admin: false},
-    //   ]
-    // },
-    // {
-    //   name: "group12",
-    //   description:"lorem ipsum",
-    //   capacity: 6,
-    //   participants: 3,
-    //   key: "13",
-    //   location: "shake Shake",
-    //   date: "September 20,2020",
-    //   time: "3:30 PM",
-    //   address: "2655 Richmond Ave",
-    //   members:[
-    //     {userName: 'mel',key:1, admin: true},
-    //     {userName: 'robbie',key:2, admin: false},
-    //     {userName: 'zane',key:3, admin: false},
-    //     {userName: 'derrick',key:4, admin: false},
-    //     {userName: 'sam',key:5, admin: false},
-    //     {userName: 'putin',key:6, admin: false},
-    //     {userName: 'piko',key:7, admin: false},
-    //     {userName: 'firetruck',key:8, admin: false},
-    //     {userName: 'choji',key:9, admin: false},
-    //   ]
-    // },
-    // {
-    //   name: "group12",
-    //   description:"lorem ipsum",
-    //   capacity: 6,
-    //   participants: 3,
-    //   key: "14",
-    //   location: "shake Shake",
-    //   date: "September 20,2020",
-    //   time: "3:30 PM",
-    //   address: "2655 Richmond Ave",
-    //   members:[
-    //     {userName: 'mel',key:1, admin: true},
-    //     {userName: 'robbie',key:2, admin: false},
-    //     {userName: 'zane',key:3, admin: false},
-    //     {userName: 'derrick',key:4, admin: false},
-    //     {userName: 'sam',key:5, admin: false},
-    //     {userName: 'putin',key:6, admin: false},
-    //     {userName: 'piko',key:7, admin: false},
-    //     {userName: 'firetruck',key:8, admin: false},
-    //     {userName: 'choji',key:9, admin: false},
-    //   ]
-    // },
-    // {
-    //   name: "group12",
-    //   description:"lorem ipsum",
-    //   capacity: 6,
-    //   participants: 3,
-    //   key: "15",
-    //   location: "shake Shake",
-    //   date: "September 20,2020",
-    //   time: "3:30 PM",
-    //   address: "2655 Richmond Ave",
-    //   members:["mel","derrik","robbie","sam","zane",],
-    // },
-    // {
-    //   name: "group12",
-    //   description:"lorem ipsum",
-    //   capacity: 6,
-    //   participants: 3,
-    //   key: "16",
-    //   location: "shake Shake",
-    //   date: "September 20,2020",
-    //   time: "3:30 PM",
-    //   address: "2655 Richmond Ave",
-    //   members:[
-    //     {userName: 'mel',key:1, admin: true},
-    //     {userName: 'robbie',key:2, admin: false},
-    //     {userName: 'zane',key:3, admin: false},
-    //     {userName: 'derrick',key:4, admin: false},
-    //     {userName: 'sam',key:5, admin: false},
-    //     {userName: 'putin',key:6, admin: false},
-    //     {userName: 'piko',key:7, admin: false},
-    //     {userName: 'firetruck',key:8, admin: false},
-    //     {userName: 'choji',key:9, admin: false},
-    //   ]
-    // },
-    // {
-    //   name: "group16",
-    //   description:"lorem ipsum",
-    //   capacity: 6,
-    //   participants: 3,
-    //   key: "17",
-    //   location: "shake Shake",
-    //   date: "September 20,2020",
-    //   time: "3:30 PM",
-    //   address: "2655 Richmond Ave",
-    //   members:[
-    //     {userName: 'mel',key:1, admin: true},
-    //     {userName: 'robbie',key:2, admin: false},
-    //     {userName: 'zane',key:3, admin: false},
-    //     {userName: 'derrick',key:4, admin: false},
-    //     {userName: 'sam',key:5, admin: false},
-    //     {userName: 'putin',key:6, admin: false},
-    //     {userName: 'piko',key:7, admin: false},
-    //     {userName: 'firetruck',key:8, admin: false},
-    //     {userName: 'choji',key:9, admin: false},
-    //   ]
-    // },
   ]);
 
   return (
     <View style={styles.container}>
-
-    <Modal visible={modalOpen} animationType="slide">
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-
-        <SafeAreaView style={styles.modalContent}>
-            
+      {/**CREAT GROUP MODAL */}
+      <Modal visible={modalOpen} animationType="slide">
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <SafeAreaView style={styles.modalContent}>
             <MaterialIcons
               name="close"
               size={24}
-              onPress={()=> setModalOpen(false)}
-              
+              onPress={() => setModalOpen(false)}
             />
+            <CreateGroup addGroup={addGroup} />
+          </SafeAreaView>
+        </TouchableWithoutFeedback>
+      </Modal>
 
-            <CreateGroup addGroup={addGroup}/>
-        </SafeAreaView>
-      </TouchableWithoutFeedback>
-    </Modal>
+
+
+
 
       <View style={styles.card}>
         <View style={styles.locationInfo}>
-          <Text style={styles.title}>snake shack</Text>
+          <Text style={styles.title}>snake shack</Text> 
 
           <FontAwesome
             name="heart"
             size={24}
             color="red"
             style={styles.heartIcon}
-            onPress= {()=>onLike()}
+            onPress={() => onLike()}
           />
 
           <View style={styles.paragraph}>
@@ -461,7 +169,7 @@ export default function EventPage({ navigation, locationName }) {
             size={35}
             color="black"
             style={styles.addModal}
-            onPress={()=>setModalOpen(true)}
+            onPress={() => setModalOpen(true)}
           />
         </View>
         <FlatList
@@ -533,9 +241,8 @@ const styles = StyleSheet.create({
   addModal: {
     position: "absolute",
     right: -145,
-    
   },
-  modalContent:{
-    flex: 1, 
-  }
+  modalContent: {
+    flex: 1,
+  },
 });
