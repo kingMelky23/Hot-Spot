@@ -11,7 +11,7 @@ import {
   Image,
   Modal,
 } from "react-native";
-import GroupItem from "../components/groupItem";
+import GroupItem from "../shared/groupItem";
 import { Feather, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import axios from 'axios'
 
@@ -203,7 +203,7 @@ export default function EventPage({ navigation}) {
           data={groupListing}
           renderItem={({ item }) => (
             <TouchableOpacity
-              onPress={() => navigation.navigate("GroupPage", item)}
+              onPress={() => navigation.navigate("JoinGroup", item)}
             >
               <GroupItem
                 name={item.name}

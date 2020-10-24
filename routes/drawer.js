@@ -3,6 +3,8 @@ import {createAppContainer} from 'react-navigation'
 
 import HomeStack from './homeStack'
 import profileStack from './profileStack'
+import NotificationStack from './notificationStack'
+import MyGroups from './myGroupsStack'
 
 
 
@@ -13,6 +15,12 @@ const RootDrawerNavigator = createDrawerNavigator({
     },
     Profile:{
         screen: profileStack,
+    },
+    Notifications:{
+        screen: NotificationStack
+    },
+    MyGroups:{
+        screen: MyGroups
     }
     
 })
