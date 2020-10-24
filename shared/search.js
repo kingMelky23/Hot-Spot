@@ -17,16 +17,21 @@ export default function Search({setModalOpen,onSearch}) {
   useEffect(()=>{
     console.log(eventAddress)
     const searchTerm = async ()=>{
-      await axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${eventAddress}&inputtype=textquery&fields=photos&key=AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4`).then((res)=>{
-       // res.data.candidates[0].photos[0]
- 
+      await axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${eventAddress}&inputtype=textquery&fields=photos&key=`).then((res)=>{
+       // key here
+      
        const photo_ref = res.data.candidates[0].photos[0].photo_reference
        
        submitData(photo_ref)
      })
      .catch((err)=> console.log(err))
    }
-   searchTerm()
+
+
+   if(typeof eventAddress === undefined){
+      console.log("caught")
+   }else{searchTerm()}
+   
   },[eventAddress])
 
 
@@ -51,11 +56,12 @@ export default function Search({setModalOpen,onSearch}) {
         setEventname(data.structured_formatting.main_text)
         setEventAddress(data.description.toString())
         
-        //searchTerm()
+        
       }}
       query={{
-        key: "AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4",
+        key: "",
         language: "en",
+        //key here
       }}
       currentLocation={true}
       debounce={500}

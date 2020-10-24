@@ -19,10 +19,14 @@ export default function Header({ navigation, title }) {
 
   const onSearch = (eventName,eventAddress,photo_ref) =>{
 
-    console.log("1)" + eventName + "\n")
-    console.log('2' + eventAddress + "\n")
-    console.log('2' + photo_ref + "\n")
-    navigation.navigate("EventPage")
+    const items={
+      locationName: eventName.toString(),
+      locationAddress: eventAddress.toString(),
+      locationPhoto: photo_ref.toString(),
+    }
+
+    console.log(items)
+    navigation.navigate("EventPage",items)
     
   }
 
@@ -42,7 +46,7 @@ export default function Header({ navigation, title }) {
               style={styles.close}
             />
             <Search setModalOpen={setModalOpen} onSearch={onSearch}/>
-            {/* <CreateGroup addGroup={addGroup}/> */}
+
           </SafeAreaView>
         </TouchableWithoutFeedback>
       </Modal>

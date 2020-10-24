@@ -14,7 +14,8 @@ export const globalStyles = StyleSheet.create({
         borderTopRightRadius: 25,
         borderWidth: 3,
         borderColor: "#fff",
-        padding: 15,
+        padding: 5,
+        position: 'relative'
         // alignItems: "center",
       },
       container: {

@@ -20,6 +20,20 @@ export default function PlainHeader({ navigation, title }) {
     navigation.openDrawer();
   };
 
+  const onSearch = (eventName,eventAddress,photo_ref) =>{
+
+    const items={
+      locationName: eventName.toString(),
+      locationAddress: eventAddress.toString(),
+      locationPhoto: photo_ref.toString(),
+    }
+
+    console.log(items)
+    navigation.navigate("EventPage",items)
+    
+  }
+
+
   return (
     <SafeAreaView style={styles.header}>
       <Modal visible={modalOpen} animationType="slide">
@@ -30,8 +44,7 @@ export default function PlainHeader({ navigation, title }) {
               size={24}
               onPress={() => setModalOpen(false)}
             />
-            <Search/>
-            {/* <CreateGroup addGroup={addGroup}/> */}
+            <Search setModalOpen={setModalOpen} onSearch={onSearch}/>
           </SafeAreaView>
         </TouchableWithoutFeedback>
       </Modal>

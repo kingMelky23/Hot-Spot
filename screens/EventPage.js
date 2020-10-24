@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,8 +13,11 @@ import {
 } from "react-native";
 import GroupItem from "../components/groupItem";
 import { Feather, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import axios from 'axios'
 
+import {globalStyles } from '../styles/globalStyles'
 import CreateGroup from "./createGroup";
+var faker = require("faker");
 
 /**
  * groups render before image a loading spinner to image.
@@ -25,18 +28,36 @@ export default function EventPage({ navigation}) {
   const [modalOpen, setModalOpen] = useState(false);
   const [heart, setHeart] = useState(["heart-o"]);
   const [like, setLike] = useState([false]);
+  const [googleImage,setGoogleImage] = useState(navigation.getParam("locationPhoto"))
 
   /**like page
    * NOT IMPLEMENTED
    */
-  const onLike = () => {
+  const onLike = async() => {
     setLike(!like);
     if (like == true) {
       setHeart("heart");
     } else {
       setHeart("heart-o");
     }
+    
   };
+
+  useEffect(() => {
+    const photo = async() =>{
+      await axios.get(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${navigation.getParam("locationPhoto")}&key=`
+      //key here
+      ).then((res)=>setGoogleImage(res.request.responseURL))
+      .catch((err)=>{
+        setGoogleImage(faker.image.city())
+        console.log(err)
+      })
+    }
+    photo()
+  })
+
+
+  
 
   /**
    * ADD GROUP
@@ -119,8 +140,8 @@ export default function EventPage({ navigation}) {
   ]);
 
   return (
-    <View style={styles.container}>
-      {/**CREAT GROUP MODAL */}
+    <View style={globalStyles.container}>
+    
       <Modal visible={modalOpen} animationType="slide">
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <SafeAreaView style={styles.modalContent}>
@@ -138,9 +159,10 @@ export default function EventPage({ navigation}) {
 
 
 
-      <View style={styles.card}>
+      <View style={[globalStyles.card,{alignItems:"center"}]}>
         <View style={styles.locationInfo}>
-          <Text style={styles.title}>snake shack</Text> 
+          <View style={{justifyContent:"space-between",flexDirection:"row",width: "100%"}}>
+             <Text style={styles.title}>{navigation.getParam("locationName")}</Text> 
 
           <FontAwesome
             name="heart"
@@ -149,15 +171,19 @@ export default function EventPage({ navigation}) {
             style={styles.heartIcon}
             onPress={() => onLike()}
           />
+          </View>
+            
+          
+         
 
           <View style={styles.paragraph}>
-            <Text>2655 Richmond Ave</Text>
+            <Text>{navigation.getParam("locationAddress")}</Text>
           </View>
         </View>
         <View style={styles.imageContainer}>
           <Image // images should be sent in as prop from single page event
             style={{ flex: 1, height: "100%", width: "100%" }}
-            source={require("../assets/shakeshack.png")}
+            source={{uri: googleImage}}
             resizeMode="contain"
           />
         </View>
@@ -213,7 +239,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: "Helvetica-Bold",
 
-    left: 3,
+    
   },
   imageContainer: {
     height: 300,
@@ -222,6 +248,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 15,
     shadowOffset: { height: 5 },
+    marginVertical:10
   },
   image: {},
   textPostion: {
@@ -231,12 +258,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   locationInfo: {
-    right: 100,
+    alignSelf:"flex-start",
+   
+    
   },
   heartIcon: {
-    position: "absolute",
-    right: -200,
-    top: 9,
+    
+    
+    top: 4,
   },
   addModal: {
     position: "absolute",
