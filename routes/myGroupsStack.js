@@ -1,8 +1,10 @@
 import React from 'react'
 import { createStackNavigator } from "react-navigation-stack";
 
+import GroupPage from '../screens/GroupPage'
 import MyGroups from '../screens/MyGroups'
 import Header from '../shared/header'
+import PlainHeader from '../shared/plainHeader'
 
 
 const screens = {
@@ -10,10 +12,18 @@ const screens = {
         screen: MyGroups,
         navigationOptions: ({navigation})=>{
             return{
-                headerTitle: ()=> <Header navigation={navigation} title='MyGroups'/>
+                headerTitle: ()=> <Header navigation={navigation} title='My Groups'/>
             }
         }
     },
+    GroupPage: {
+        screen: GroupPage,
+        navigationOptions: ({ navigation }) => {
+          return {
+            headerTitle: () => <PlainHeader navigation={navigation} title="Event" />,
+          };
+        },
+      },
 }
 
 const MyGroupsStack = createStackNavigator(screens,{
