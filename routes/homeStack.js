@@ -3,6 +3,7 @@ import { createStackNavigator } from "react-navigation-stack";
 
 import Event from "../screens/EventPage";
 import GroupPage from "../screens/GroupPage";
+import JoinGroup from '../screens/JoinGroup'
 import Header from "../shared/header";
 import Home from "../screens/Home";
 import Login from '../screens/Login'
@@ -26,7 +27,7 @@ const screens = {
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: () => <Header navigation={navigation} title="Hot Spot" />,
-        headerLeft: null
+        headerLeft: () => null
       };
     },
   },
@@ -38,8 +39,8 @@ const screens = {
       };
     },
   },
-  GroupPage: {
-    screen: GroupPage,
+  JoinGroup: {
+    screen: JoinGroup,
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: () => <PlainHeader navigation={navigation} title="Event" />,

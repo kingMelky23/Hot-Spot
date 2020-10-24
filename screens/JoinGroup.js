@@ -4,12 +4,11 @@ import { globalStyles } from "../styles/globalStyles";
 import UserItem from "../shared/UserItem";
 import { ScrollView } from "react-native-gesture-handler";
 
-export default function GroupPage({ navigation }) {
+export default function JoinGroup({ navigation }) {
   const members = navigation.getParam("members");
 
   const [showMore, setShowMore] = useState([false]);
   const [showMoreText, setShowMoreText] = useState(["show more"]);
-
 
   /**like button future feature will add location to users favorite spots
     should later be added componenets
@@ -25,14 +24,13 @@ export default function GroupPage({ navigation }) {
   };
 
   return (
-    <View style={globalStyles.container}> 
+    <View style={globalStyles.container}>
       <ScrollView>
         <View style={globalStyles.card}>
-
           <Text style={styles.title}>{navigation.getParam("name")}</Text>
           <Text>{navigation.getParam("date")}</Text>
 
-          <View style={styles.locationInfo}> 
+          <View style={styles.locationInfo}>
             <Text>{navigation.getParam("time")}</Text>
             <Text>{navigation.getParam("address")}</Text>
           </View>
@@ -41,9 +39,7 @@ export default function GroupPage({ navigation }) {
               showMore ? styles.descriptionBox : styles.showMoreDescription
             }
           >
-            <Text>
-              lorem
-            </Text>
+            <Text>lorem</Text>
             <TouchableOpacity /* changes size of desciption box */
               style={styles.showMoreButton}
               onPress={() => onShowMore()}
@@ -58,24 +54,18 @@ export default function GroupPage({ navigation }) {
 
           {members.map((item) => {
             return (
-              <TouchableOpacity
-                key={item.key}
-                onPress={() => ""}
-              >
-                <UserItem
-                  name={item.userName}
-                  admin={item.admin}
-                />
+              <TouchableOpacity key={item.key} onPress={() => ""}>
+                <UserItem name={item.userName} admin={item.admin} />
               </TouchableOpacity>
             );
           })}
 
-          <TouchableOpacity style={styles.leaveButton}>
-            <Text style={{color: "#FFF", fontSize: 20}}>Leave</Text>
+          <TouchableOpacity style={styles.joinButton}>
+            <Text style={{ color: "#FFF", fontSize: 20 }}>JOIN</Text>
           </TouchableOpacity>
-        </View> 
-      </ScrollView> 
-    </View> 
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -105,13 +95,14 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 3 },
     backgroundColor: "#FFF",
   },
-  leaveButton: {
+  joinButton: {
     height: 100,
     marginTop: 4,
-    backgroundColor: "#FF5555",
+    backgroundColor: "#4BB543",
     justifyContent: "center",
     alignItems: "center",
-    margin: 0,
+    marginBottom: 70,
+    paddingVertical: -5,
   },
   showMoreDescription: {
     height: 450,
