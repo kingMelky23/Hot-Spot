@@ -1,9 +1,52 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { StyleSheet, Text, View,TextInput,TouchableOpacity,Image } from 'react-native'
+import axios from "axios"; 
 
 export default function Login({navigation}) {
-    const [email,setEmail] = useState('');
+    const [username,setUsername] = useState('');
     const [password,setPassword] = useState('')
+
+   
+      const submitUsername= (username,password)=>{
+         axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/Login`, {
+          username:"robbie",
+          password:"23"
+        })
+        .then((res) => {
+            console.log(res)
+            console.log("I AM WORKING")
+        })
+       .catch((err)=> {
+         console.log(err)
+         console.log("Error in post request")
+        }
+       )
+
+      // axios({
+      //   method: 'post',
+      //   url: 'https://hotspot-backend.herokuapp.com/api/v1/post/Login',
+      //   data: {
+      //     username: 'robbie',
+      //     password: 'ro'
+      //   }
+      // })
+      //  .catch((err)=> {
+      //    console.log(err)
+      //    console.log("Error in post request")
+      //   }
+      //  )
+
+      // axios.request({
+      //   method: 'GET',
+      //   url: "https://hotspot-backend.herokuapp.com/api/v1/post/Login",
+      //   body: {
+      //     username:username,
+
+      //   }
+      
+    
+     }    
+
     return (
         <View style={styles.container}>
             <View styles={styles.logoWrapper}>
@@ -13,9 +56,9 @@ export default function Login({navigation}) {
           <View style={styles.inputView} >
             <TextInput  
               style={styles.inputText}
-              placeholder="Email..." 
+              placeholder="Username..." 
               placeholderTextColor="#003f5c"
-              onChangeText={text => setEmail(text)}/>
+              onChangeText={text => setUsername(text)}/>
           </View>
           <View style={styles.inputView} >
             <TextInput  
@@ -28,7 +71,7 @@ export default function Login({navigation}) {
           <TouchableOpacity>
             <Text style={styles.forgot}>Forgot Password?</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.loginBtn} onPress={()=>navigation.navigate("HomePage")}>
+          <TouchableOpacity style={styles.loginBtn} onPress={() => submitUsername(username,password)}>
             <Text style={styles.loginText}>LOGIN</Text>
           </TouchableOpacity>
           <TouchableOpacity>
