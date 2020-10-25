@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from 'react'
 import { StyleSheet, Text, View,TextInput,TouchableOpacity,Image, Alert } from 'react-native'
 import axios from "axios"; 
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export default function Login({navigation}) {
     const [username,setUsername] = useState('');
@@ -9,22 +10,31 @@ export default function Login({navigation}) {
    
       const submitUsername= (username,password)=>{
          axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/Login`, {
-          username:username,
-          password:password
+          username,
+          password,
         })
         .then((res) => {
-
+            
             if (JSON.parse(res.request._response).success) {
-                navigation.navigate("HomePage")
+                const val = JSON.stringify(res)
+                _signinAsync(val)
+                
             } else {
               Alert.alert("Oops!", "Login Invalid")  
             };
         })
        .catch((err)=> {
+         console.log(err)
          console.log("Error in post request")
         }
        )
      }    
+
+     const _signinAsync = async(val)=>{
+
+      await AsyncStorage.setItem('userToken',val)
+      navigation.navigate("App")
+     }
 
     return (
         <View style={styles.container}>
@@ -53,7 +63,7 @@ export default function Login({navigation}) {
           <TouchableOpacity style={styles.loginBtn} onPress={() => submitUsername(username,password)}>
             <Text style={styles.loginText}>LOGIN</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>navigation.navigate("Register")}>
             <Text style={styles.loginText}>Signup</Text>
           </TouchableOpacity>
         </View>

@@ -1,11 +1,15 @@
 import {createDrawerNavigator} from 'react-navigation-drawer'
-import {createAppContainer} from 'react-navigation'
+import {createAppContainer, createSwitchNavigator} from 'react-navigation'
+
 
 import HomeStack from './homeStack'
 import profileStack from './profileStack'
 import NotificationStack from './notificationStack'
 import MyGroups from './myGroupsStack'
+import AuthStack from './authStack'
+import AuthLoadingScreen from '../screens/AuthLoadingScreen'
 
+import SignoutStack from './SignoutStack'
 
 
 const RootDrawerNavigator = createDrawerNavigator({
@@ -21,8 +25,19 @@ const RootDrawerNavigator = createDrawerNavigator({
     },
     MyGroups:{
         screen: MyGroups
+    },
+    SignOut:{
+        screen: SignoutStack
     }
     
 })
 
-export default createAppContainer(RootDrawerNavigator)
+export default createAppContainer(createSwitchNavigator( {
+    AuthLoading: AuthLoadingScreen,
+    App: RootDrawerNavigator,
+    Auth: AuthStack,
+  },
+  {
+    initialRouteName: 'AuthLoading',
+  }))
+
