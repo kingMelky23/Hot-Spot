@@ -8,20 +8,11 @@ import Header from "../shared/header";
 import Home from "../screens/Home";
 import Login from '../screens/Login'
 import PlainHeader from '../shared/plainHeader'
-import LoginHeader from '../shared/loginHeader'
+
 
 
 const screens = {
-  Login:{
-    screen: Login,
-    navigationOptions: ({ navigation }) => {
-      return {
-        headerTitle: () => <LoginHeader navigation={navigation} title="Hot Spot" />,
-        
-      };
-    },
-
-  },
+  
   HomePage: {
     screen: Home,
     navigationOptions: ({ navigation }) => {

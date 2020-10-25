@@ -4,22 +4,25 @@ import { createStackNavigator } from "react-navigation-stack";
 import Login from '../screens/Login'
 import Register from '../screens/Register'
 import Header from '../shared/header'
+import LoginHeader from '../shared/loginHeader'
  
 
 const screens = {
-    Login: {
-        screen: Login,
-        navigationOptions: ({navigation})=>{
-            return{
-                headerTitle: ()=> <Header navigation={navigation} title='Hot Spot'/>
-            }
-        }
+    Login:{
+    screen: Login,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: () => <LoginHeader navigation={navigation} title="Hot Spot" />,
+        
+      };
     },
+
+  },
     Register: {
         screen: Register,
         navigationOptions: ({navigation})=>{
             return{
-                headerTitle: ()=> <Header navigation={navigation} title='Register'/>
+                headerTitle: ()=> <LoginHeader navigation={navigation} title='Register'/>
             }
         }
     },

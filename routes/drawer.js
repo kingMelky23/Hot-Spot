@@ -9,6 +9,7 @@ import MyGroups from './myGroupsStack'
 import AuthStack from './authStack'
 import AuthLoadingScreen from '../screens/AuthLoadingScreen'
 
+import SignoutStack from './SignoutStack'
 
 
 const RootDrawerNavigator = createDrawerNavigator({
@@ -24,6 +25,9 @@ const RootDrawerNavigator = createDrawerNavigator({
     },
     MyGroups:{
         screen: MyGroups
+    },
+    SignOut:{
+        screen: SignoutStack
     }
     
 })
