@@ -43,8 +43,8 @@ export default function Home({navigation}) {
                             uri:item.locationPhoto
                         }}/>
                         <View>
-                            <Text style={styles.heading}>{item.locationName}</Text>
-                            <Text style={styles.groups}>{item.numberOfGroups} Groups</Text>
+                            <Text style={styles.head}> {item.locationName} </Text>
+                            <Text style={styles.groups}> {item.numberOfGroups} Groups</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -65,5 +65,13 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         margin:10
     },
+    head: {
+        fontSize:18,
+        fontWeight:"bold"
+    },
+    groups: {
+        marginTop:7
+    }
    
+
 })
