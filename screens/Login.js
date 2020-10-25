@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react'
-import { StyleSheet, Text, View,TextInput,TouchableOpacity,Image } from 'react-native'
+import { StyleSheet, Text, View,TextInput,TouchableOpacity,Image, Alert } from 'react-native'
 import axios from "axios"; 
 
 export default function Login({navigation}) {
@@ -9,49 +9,28 @@ export default function Login({navigation}) {
    
       const submitUsername= (username,password)=>{
          axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/Login`, {
-          username:"robbie",
-          password:"23"
+          username:username,
+          password:password
         })
         .then((res) => {
-            console.log(res)
-            console.log("I AM WORKING")
+
+            if (JSON.parse(res.request._response).success) {
+                navigation.navigate("HomePage")
+            } else {
+              Alert.alert("Oops!", "Login Invalid")  
+            };
         })
        .catch((err)=> {
-         console.log(err)
          console.log("Error in post request")
         }
        )
-
-      // axios({
-      //   method: 'post',
-      //   url: 'https://hotspot-backend.herokuapp.com/api/v1/post/Login',
-      //   data: {
-      //     username: 'robbie',
-      //     password: 'ro'
-      //   }
-      // })
-      //  .catch((err)=> {
-      //    console.log(err)
-      //    console.log("Error in post request")
-      //   }
-      //  )
-
-      // axios.request({
-      //   method: 'GET',
-      //   url: "https://hotspot-backend.herokuapp.com/api/v1/post/Login",
-      //   body: {
-      //     username:username,
-
-      //   }
-      
-    
      }    
 
     return (
         <View style={styles.container}>
-            <View styles={styles.logoWrapper}>
-            {/* <Image source={require('../assets/main-logo.png')} style={styles.logoPicture}/> */}
+           <View styles={styles.logoWrapper}>
             <Text style={styles.logo}>Hot Spot</Text>
+            {/* <Image source={require('../assets/main-logo.png')} style={styles.logoPicture}/> */}
           </View>
           <View style={styles.inputView} >
             <TextInput  
@@ -88,20 +67,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
       },
-      logoWrapper:{
-        display:'flex',
-        flexDirection:'column'
+      logoWrapper: {
+        flexDirection:"row",
+        marginBottom:100,
       },
       logo:{
         fontWeight:"bold",
         fontSize:50,
         color:"#fb5b5a",
-        marginBottom:40
       },
       logoPicture:{
         width:50,
         height:50
-
       },
       inputView:{
         width:"80%",
