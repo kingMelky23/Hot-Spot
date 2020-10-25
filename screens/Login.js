@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react'
-import { StyleSheet, Text, View,TextInput,TouchableOpacity,Image, Alert } from 'react-native'
+import { StyleSheet, Text, View,TextInput,TouchableOpacity,Image } from 'react-native'
 import axios from "axios"; 
 
 export default function Login({navigation}) {
@@ -9,18 +9,16 @@ export default function Login({navigation}) {
    
       const submitUsername= (username,password)=>{
          axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/Login`, {
-          username:username,
-          password:password
+          username:"robbie",
+          password:"23"
         })
         .then((res) => {
-          console.log(JSON.parse(res.request._response).success === true)
-            if (JSON.parse(res.request._response).success === true) {
-                navigation.navigate("HomePage")
-            };
+            console.log(JSON.parse(res.request._response))
+            console.log("I AM WORKING")
         })
        .catch((err)=> {
+         console.log(err)
          console.log("Error in post request")
-         Alert.alert("Oops!", "Login Invalid")    
         }
        )
 
@@ -54,7 +52,6 @@ export default function Login({navigation}) {
             <View styles={styles.logoWrapper}>
             {/* <Image source={require('../assets/main-logo.png')} style={styles.logoPicture}/> */}
             <Text style={styles.logo}>Hot Spot</Text>
-          
           </View>
           <View style={styles.inputView} >
             <TextInput  
