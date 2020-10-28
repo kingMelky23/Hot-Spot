@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View,Image,FlatList } from 'react-native'
+import { StyleSheet, Text, View,Image,FlatList, TouchableOpacity } from 'react-native'
 import {ListItem, Icon} from "react-native-elements"
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import { not } from 'react-native-reanimated'
 
 import {globalStyles} from '../styles/globalStyles'
@@ -42,7 +41,6 @@ export default function Notifications() {
          type="font-awesome"
          color="green"
          size="35"
-
          />
        </TouchableOpacity>
          <TouchableOpacity>
