@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View,Image,FlatList } from 'react-native'
+import { StyleSheet, Text, View,Image,FlatList, TouchableOpacity } from 'react-native'
 import {ListItem, Icon} from "react-native-elements"
+import { FontAwesome } from '@expo/vector-icons'; 
 import { not } from 'react-native-reanimated'
 
 import {globalStyles} from '../styles/globalStyles'
@@ -33,33 +34,43 @@ export default function Notifications() {
           <ListItem.Title>{item.name}</ListItem.Title>
           <ListItem.Subtitle>{item.request}</ListItem.Subtitle>
         </ListItem.Content>
-        <Icon 
-        name="check"
-        type="font-awesome"
-        color="green"
-        />
-         <Icon 
-        name="times"
-        type="font-awesome"
-        color="red"
-        />
-
-
+       {item.request === "join" ? 
+       <>
+       <TouchableOpacity>
+       <FontAwesome 
+          name="check" 
+          size={35} 
+          color="green" 
+          />
+       </TouchableOpacity>
+         <TouchableOpacity>
+         <FontAwesome 
+            name="close" 
+            size={35} color="red"  
+            style={{marginLeft:20}}
+            
+            />
+        
+         </TouchableOpacity>
+       </> :
+       <></>
+      }
       </ListItem>
     )
     
       return (
-          <FlatList
+        <View style={styles.container}>
+          <FlatList 
             data ={notify}
             renderItem = {renderItem}
           />
+        </View>
       )
   }
   
   const styles = StyleSheet.create({
-      
-      
-    });
+ 
+  });
     
                                                 
    
