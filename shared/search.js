@@ -17,20 +17,19 @@ export default function Search({setModalOpen,onSearch}) {
   useEffect(()=>{
     console.log(eventAddress)
     const searchTerm = async ()=>{
-      await axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${eventAddress}&inputtype=textquery&fields=photos&key=`).then((res)=>{
-       // key here
-      
-       const photo_ref = res.data.candidates[0].photos[0].photo_reference
-       
+      await axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${eventAddress}&inputtype=textquery&fields=photos&key=AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4`)
+      .then((res)=>{
+      const photo_ref = res.data.candidates[0].photos[0].photo_reference    
        submitData(photo_ref)
      })
-     .catch((err)=> console.log(err))
+     .catch((err)=> console.log("Initial load of image \n"+err))
    }
 
-
    if(typeof eventAddress === undefined){
-      console.log("caught")
-   }else{searchTerm()}
+      console.log("Search: event address is undefined")
+   }else{
+     searchTerm() 
+     }
    
   },[eventAddress])
 
@@ -42,7 +41,7 @@ export default function Search({setModalOpen,onSearch}) {
   //when set as a return it return [object object]
 
   const submitData = (photo_ref) =>{
-    console.log("photos"+ photo_ref)
+   
     onSearch(eventName,eventAddress,photo_ref)
     setModalOpen(false)
   }
@@ -56,10 +55,10 @@ export default function Search({setModalOpen,onSearch}) {
         setEventname(data.structured_formatting.main_text)
         setEventAddress(data.description.toString())
         
-        
+      
       }}
       query={{
-        key: "",
+        key: "AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4",
         language: "en",
         //key here
       }}

@@ -25,10 +25,13 @@ var faker = require("faker");
  */
 
 export default function EventPage({ navigation}) {
+
+  
   const [modalOpen, setModalOpen] = useState(false);
   const [heart, setHeart] = useState(["heart-o"]);
   const [like, setLike] = useState([false]);
   const [googleImage,setGoogleImage] = useState(navigation.getParam("locationPhoto"))
+  const [event_id,setEvent_id] = useState()
 
   /**like page
    * NOT IMPLEMENTED
@@ -45,7 +48,7 @@ export default function EventPage({ navigation}) {
 
   useEffect(() => {
     const photo = async() =>{
-      await axios.get(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${navigation.getParam("locationPhoto")}&key=`
+      await axios.get(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${navigation.getParam("locationPhoto")}&key=AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4`
       //key here
       ).then((res)=>setGoogleImage(res.request.responseURL))
       .catch((err)=>{
@@ -53,7 +56,17 @@ export default function EventPage({ navigation}) {
         console.log(err)
       })
     }
+    const getAddressBackend = async ()=>{
+      await axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/FindEventByAddressName?location_address=${navigation.getParam("locationAddress")}`).then((res)=>{
+        console.log(res.data.events[0])
+        const eid = (res.data.events[0]._id.$oid).toString()
+        setEvent_id(eid)
+      })
+    }
+
+
     photo()
+    getAddressBackend()
   })
 
 
@@ -63,13 +76,45 @@ export default function EventPage({ navigation}) {
    * ADD GROUP
    * USE BACK END
    */
-  const addGroup = (group) => {
+  const addGroup = async(group) => {
     groupListing.key = Math.random().toString();
+
+    await axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/AddNewGroupToEvent/${event_id}
+    `,{
+      name:"test1",
+      max_members: 10,
+      meetup_time: "09/22/2020 : 2:30PM EST"
+    })
+    .catch((err)=>console.log(err))
+
     setGroupListing((currentGroups) => {
       return [group, ...currentGroups];
+
+
+
     });
+
+   
+
+
+
     setModalOpen(false);
   };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   const [groupListing, setGroupListing] = useState([
     {
       name: "group1",

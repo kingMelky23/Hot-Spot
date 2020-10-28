@@ -25,7 +25,7 @@ export default function Header({ navigation, title }) {
       locationPhoto: photo_ref.toString(),
     }
 
-    console.log(items)
+    
     navigation.navigate("EventPage",items)
     
   }

@@ -39,7 +39,6 @@ export default function Profile() {
       <FlatList
         data={DATA}
         renderItem={data=> {
-          console.log(data.item.picture)
           return (
             <View style={styles.eventCard}>
               <Image source={{uri:data.item.picture}} style={styles.cardImage}/>
