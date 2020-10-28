@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View,Image,FlatList } from 'react-native'
 import {ListItem, Icon} from "react-native-elements"
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import { not } from 'react-native-reanimated'
 
 import {globalStyles} from '../styles/globalStyles'
@@ -33,18 +34,29 @@ export default function Notifications() {
           <ListItem.Title>{item.name}</ListItem.Title>
           <ListItem.Subtitle>{item.request}</ListItem.Subtitle>
         </ListItem.Content>
-        <Icon 
-        name="check"
-        type="font-awesome"
-        color="green"
-        />
+       {item.request === "join" ? 
+       <>
+       <TouchableOpacity>
          <Icon 
-        name="times"
-        type="font-awesome"
-        color="red"
-        />
+         name="check"
+         type="font-awesome"
+         color="green"
+         size="35"
 
-
+         />
+       </TouchableOpacity>
+         <TouchableOpacity>
+          <Icon 
+         name="times"
+         type="font-awesome"
+         color="red"
+         size="35"
+         style={{marginLeft:20}}
+         />
+         </TouchableOpacity>
+       </> :
+       <></>
+      }
       </ListItem>
     )
     
@@ -58,8 +70,7 @@ export default function Notifications() {
   
   const styles = StyleSheet.create({
       
-      
-    });
+  });
     
                                                 
    
