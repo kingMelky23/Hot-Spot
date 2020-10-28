@@ -27,7 +27,7 @@ export default function GroupPage({ navigation }) {
 
   return (
     <View style={globalStyles.container}> 
-      <ScrollView>
+      <ScrollView style={{flex:1}}>
         <View style={globalStyles.card}>
 
           <Text style={styles.title}>{navigation.getParam("name")}</Text>

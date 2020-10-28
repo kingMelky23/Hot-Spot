@@ -22,17 +22,11 @@ export default function Search({setModalOpen,onSearch}) {
       const photo_ref = res.data.candidates[0].photos[0].photo_reference    
        submitData(photo_ref)
      })
-     .catch((err)=> console.log(err))
+     .catch((err)=> console.log("Initial load of image \n"+err))
    }
 
-
-
-
-  
-
-
    if(typeof eventAddress === undefined){
-      console.log("caught")
+      console.log("Search: event address is undefined")
    }else{
      searchTerm() 
      }
