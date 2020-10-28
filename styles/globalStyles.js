@@ -29,6 +29,16 @@ export const globalStyles = StyleSheet.create({
         padding: 10,
         fontSize: 18,
         borderRadius: 6,
+        
+      },
+      inputView:{
+        width:"80%",
+        // backgroundColor:"#465881",
+        // borderRadius:25,
+        height:50,
+        marginBottom:20,
+        justifyContent:"center",
+        // padding:20
       },
       errorText:{
         color: "crimson",

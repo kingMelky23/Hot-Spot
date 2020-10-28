@@ -11,7 +11,7 @@ class AuthLoadingScreen extends Component{
 
     _bootstrapAsnyc = async () =>{
         const userToken = await AsyncStorage.getItem('userToken')
-
+        console.log(userToken)
         this.props.navigation.navigate (userToken ? 'App' : 'Auth')
     }
 

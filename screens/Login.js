@@ -14,9 +14,10 @@ export default function Login({navigation}) {
           password,
         })
         .then((res) => {
-            
+          
             if (JSON.parse(res.request._response).success) {
                 const val = JSON.stringify(res)
+                
                 _signinAsync(val)
                 
             } else {
