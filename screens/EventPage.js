@@ -14,6 +14,7 @@ import {
 import GroupItem from "../shared/groupItem";
 import { Feather, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import axios from 'axios'
+import {connect} from "react-redux"
 
 import {globalStyles } from '../styles/globalStyles'
 import CreateGroup from "./createGroup";
@@ -23,8 +24,7 @@ var faker = require("faker");
  * groups render before image a loading spinner to image.
  *
  */
-
-export default function EventPage({ navigation}) {
+ function EventPage({ navigation}) {
 
   
   const [modalOpen, setModalOpen] = useState(false);
@@ -53,15 +53,17 @@ export default function EventPage({ navigation}) {
       ).then((res)=>setGoogleImage(res.request.responseURL))
       .catch((err)=>{
         setGoogleImage(faker.image.city())
-        console.log(err)
+        console.log("EventPage: init rend\n"+err)
       })
     }
     const getAddressBackend = async ()=>{
+      
       await axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/FindEventByAddressName?location_address=${navigation.getParam("locationAddress")}`).then((res)=>{
-        console.log(res.data.events[0])
-        const eid = (res.data.events[0]._id.$oid).toString()
+        console.log("EventPage: loading event details from backend \n")
+        
+        const eid = (res.data.events[0]._id.$oid).toString().trim()
         setEvent_id(eid)
-      })
+      }).catch((err)=>console.log("EventPage: init render"+err))
     }
 
 
@@ -76,16 +78,25 @@ export default function EventPage({ navigation}) {
    * ADD GROUP
    * USE BACK END
    */
-  const addGroup = async(group) => {
+  const addGroup = (group) => {
     groupListing.key = Math.random().toString();
 
-    await axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/AddNewGroupToEvent/${event_id}
-    `,{
-      name:"test1",
+
+    console.log("EventPage: event id = \n"+event_id)
+    axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/AddNewGroupToEvent/${event_id}`,
+    {
+      name:"test9",
       max_members: 10,
       meetup_time: "09/22/2020 : 2:30PM EST"
     })
-    .catch((err)=>console.log(err))
+    .then((res)=> {
+      console.log("EventPage: Posting to group test \n")
+      
+  })
+    .catch((err)=>{
+      console.log("EventPage: faied post to group \n")
+      console.log(err)
+    })
 
     setGroupListing((currentGroups) => {
       return [group, ...currentGroups];
@@ -320,3 +331,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+const mapStateToProps =()=>{
+  
+}
+
+export default connect()(EventPage)
