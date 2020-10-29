@@ -14,7 +14,8 @@ import {
 import GroupItem from "../shared/groupItem";
 import { Feather, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import axios from 'axios'
-import {connect} from "react-redux"
+import {useSelector, useDispatch} from 'react-redux'
+import {set_Event_Id} from '../redux/actions'
 
 import {globalStyles } from '../styles/globalStyles'
 import CreateGroup from "./createGroup";
@@ -31,7 +32,10 @@ var faker = require("faker");
   const [heart, setHeart] = useState(["heart-o"]);
   const [like, setLike] = useState([false]);
   const [googleImage,setGoogleImage] = useState(navigation.getParam("locationPhoto"))
-  const [event_id,setEvent_id] = useState()
+
+
+  const dispatch = useDispatch()
+  const get_EID =  useSelector(state => state.eventIDReducer)
 
   /**like page
    * NOT IMPLEMENTED
@@ -60,16 +64,19 @@ var faker = require("faker");
       
       await axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/FindEventByAddressName?location_address=${navigation.getParam("locationAddress")}`).then((res)=>{
         console.log("EventPage: loading event details from backend \n")
-        
-        const eid = (res.data.events[0]._id.$oid).toString().trim()
-        setEvent_id(eid)
-      }).catch((err)=>console.log("EventPage: init render"+err))
+        console.log('eid----------------------------------------------------------------')
+        console.log(JSON.stringify(res.data.events))
+        // const eid = (res.data.events[0]._id.$oid).toString().trim()
+        // console.log(eid)
+        // dispatch(set_Event_Id(eid))    
+      })
+      .catch((err)=>console.log("EventPage: error init render"+err))
     }
 
 
     photo()
     getAddressBackend()
-  })
+  },[])
 
 
   
@@ -82,15 +89,16 @@ var faker = require("faker");
     groupListing.key = Math.random().toString();
 
 
-    console.log("EventPage: event id = \n"+event_id)
-    axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/AddNewGroupToEvent/${event_id}`,
+    console.log("EventPage: event id = \n"+get_EID)
+    axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/AddNewGroupToEvent/${get_EID}`,
     {
-      name:"test9",
+      name:"test11",
       max_members: 10,
       meetup_time: "09/22/2020 : 2:30PM EST"
     })
     .then((res)=> {
       console.log("EventPage: Posting to group test \n")
+      console.log(res)
       
   })
     .catch((err)=>{
@@ -332,8 +340,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps =()=>{
-  
-}
 
-export default connect()(EventPage)
+
+export default EventPage
