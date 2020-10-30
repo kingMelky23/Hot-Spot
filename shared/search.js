@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import {useSelector} from "react-redux"
 import { date } from "yup";
 import axios from 'axios'
 
@@ -12,7 +13,7 @@ export default function Search({setModalOpen,onSearch}) {
 
   const [eventAddress,setEventAddress] = useState()
   const [eventName,setEventname] = useState()
- 
+  const coordinates = useSelector((state) => state.coordinatesReducer);
 
   useEffect(()=>{
     console.log(eventAddress)
@@ -40,17 +41,20 @@ export default function Search({setModalOpen,onSearch}) {
    
   },[eventAddress])
 
-
   const submitData = (photoURL) =>{
     
-    // axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/CreateEvent`,{
-    //   name:eventName,
-    //   description:eventName,
-    //   lat,
-    //   long,
-    //   location_address: eventAddress
-
-    // })
+    axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/CreateEvent`,{
+      name:eventName,
+      description:eventName,
+      lat: coordinates.latitude,
+      long: coordinates.longitude,
+      location_address: eventAddress,
+      photo_url: photoURL
+    })
+    .then((res)=>{
+      console.log("submit----------------------------------------------------------")
+      console.log(res)
+    })
 
 
     onSearch(eventName,eventAddress,photoURL)

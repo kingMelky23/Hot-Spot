@@ -42,9 +42,9 @@ export default function Home({ navigation }) {
 
   async function findEvents() {
     console.log(
-      "______________________________________________________________"
+      "findEvents______________________________________________________________"
     );
-    console.log(coordinates);
+    
 
     await axios
       .get(
@@ -55,7 +55,7 @@ export default function Home({ navigation }) {
         console.log(
           "-------------------------------------------------------------"
         );
-        console.log(res.data);
+        // console.log(res.data);
         changeLocations(res.data.events);
       })
       .catch((err) => {
