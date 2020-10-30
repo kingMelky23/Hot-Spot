@@ -28,11 +28,13 @@ export default function Home({navigation}) {
         key:"3"
     }]);
 
-    const [longitude, setLongitude] = useState();
-    const [latitude, setLatitude] = useState(); 
+    const [longitude, setLongitude] = useState(0.0);
+    const [latitude, setLatitude] = useState(0.0); 
 
-    async function findEvents(lat, long) { 
-        await axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/FindEventsNearCoordinates?lat=${lat}&long=${long}`)
+    async function findEvents() {
+
+
+        await axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/FindEventsNearCoordinates?lat=${latitude}&long=${longitude}`)
         .then((res) => {
             console.log("HI")
             console.log("-------------------------------------------------------------")
@@ -48,10 +50,13 @@ export default function Home({navigation}) {
         const geoLocation = async() => {
             await axios.post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4")
         .then((res)=>{
-            setLongitude(res.data.location.lng);
-            setLatitude(res.data.location.lat);
-            findEvents(latitude,longitude);
+        
+            const lng = parseFloat(res.data.location.lng);
+            const lat = parseFloat(res.data.location.lat);
+            setLongitude(lng);
+            setLatitude(lat);           
         })
+        .then(()=>findEvents())
         .catch((err)=>{console.log(err)})}
         geoLocation();
     },[])
@@ -76,7 +81,7 @@ export default function Home({navigation}) {
                         }}/>
                         <View>
                             <Text style={styles.head}> {item.name} </Text>
-                            <Text style={styles.groups}> {item.groups.length} Groups</Text>
+                            <Text style={styles.groups}> Groups</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
