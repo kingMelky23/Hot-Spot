@@ -36,9 +36,9 @@ export default function Home({navigation}) {
 
         await axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/FindEventsNearCoordinates?lat=${latitude}&long=${longitude}`)
         .then((res) => {
-            console.log("HI")
-            console.log("-------------------------------------------------------------")
-            console.log(res.data);
+            // console.log("HI")
+            // console.log("-------------------------------------------------------------")
+            // console.log(res.data);
             changeLocations(res.data.events);
         }).catch((err) => {
             console.log(err);

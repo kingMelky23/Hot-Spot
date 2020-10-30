@@ -65,13 +65,15 @@ var faker = require("faker");
       await axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/FindEventByAddressName?location_address=${navigation.getParam("locationAddress")}`).then((res)=>{
         console.log("EventPage: loading event details from backend \n")
         console.log('eid----------------------------------------------------------------')
-        console.log(JSON.stringify(res.data.events))
+        console.log(res)
         // const eid = (res.data.events[0]._id.$oid).toString().trim()
         // console.log(eid)
         // dispatch(set_Event_Id(eid))    
       })
       .catch((err)=>console.log("EventPage: error init render"+err))
     }
+
+
 
 
     photo()
