@@ -3,11 +3,12 @@ import React,{useState} from "react";
 import { StyleSheet, Text, View } from "react-native";
 import {AppLoading} from 'expo';
 import * as Font from "expo-font";
+import { Provider } from 'react-redux'
+
 
 import Navigator from './routes/drawer'
+import store from './redux/store'
 
-// import Header from "./components/header";
-// import SinglePage from './views/singlePageEvent/SinglePage'
 
 
 
@@ -26,9 +27,11 @@ export default function App() {
 
   if(fontsLoaded){
     return(
-    <View style={styles.container} >
-      <Navigator/>
-    </View>
+      <Provider store={store}>
+        <View style={styles.container} >
+          <Navigator/>
+        </View>
+      </Provider>
       
     )
   } else {
