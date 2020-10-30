@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,11 +13,11 @@ import {
 } from "react-native";
 import GroupItem from "../shared/groupItem";
 import { Feather, FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import axios from 'axios'
-import {useSelector, useDispatch} from 'react-redux'
-import {set_Event_Id} from '../redux/actions'
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { set_Event_Id } from "../redux/actions";
 
-import {globalStyles } from '../styles/globalStyles'
+import { globalStyles } from "../styles/globalStyles";
 import CreateGroup from "./createGroup";
 var faker = require("faker");
 
@@ -25,63 +25,55 @@ var faker = require("faker");
  * groups render before image a loading spinner to image.
  *
  */
- function EventPage({ navigation}) {
-
-  
+function EventPage({ navigation }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [heart, setHeart] = useState(["heart-o"]);
   const [like, setLike] = useState([false]);
-  const [googleImage,setGoogleImage] = useState(navigation.getParam("locationPhoto"))
+  const [googleImage, setGoogleImage] = useState(
+    navigation.getParam("locationPhoto")
+  );
 
-
-  const dispatch = useDispatch()
-  const get_EID =  useSelector(state => state.eventIDReducer)
+  const dispatch = useDispatch();
+  const get_EID = useSelector((state) => state.eventIDReducer);
 
   /**like page
    * NOT IMPLEMENTED
    */
-  const onLike = async() => {
+  const onLike = async () => {
     setLike(!like);
     if (like == true) {
       setHeart("heart");
     } else {
       setHeart("heart-o");
     }
-    
   };
 
   useEffect(() => {
-    const photo = async() =>{
-      await axios.get(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${navigation.getParam("locationPhoto")}&key=AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4`
-      //key here
-      ).then((res)=>setGoogleImage(res.request.responseURL))
-      .catch((err)=>{
-        setGoogleImage(faker.image.city())
-        console.log("EventPage: init rend\n"+err)
-      })
-    }
-    const getAddressBackend = async ()=>{
-      
-      await axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/FindEventByAddressName?location_address=${navigation.getParam("locationAddress")}`).then((res)=>{
-        console.log("EventPage: loading event details from backend \n")
-        console.log('eid----------------------------------------------------------------')
-        console.log(res)
-        // const eid = (res.data.events[0]._id.$oid).toString().trim()
-        // console.log(eid)
-        // dispatch(set_Event_Id(eid))    
-      })
-      .catch((err)=>console.log("EventPage: error init render"+err))
-    }
+    setGoogleImage(navigation.getParam("locationPhoto"));
 
+    const getAddressBackend = async () => {
+      await axios
+        .get(
+          `https://hotspot-backend.herokuapp.com/api/v1/get/FindEventByAddressName?location_address=${navigation.getParam(
+            "locationAddress"
+          )}`
+        )
+        .then((res) => {
+          console.log("EventPage: loading event details from backend \n");
+          console.log(
+            "eid----------------------------------------------------------------"
+          );
+          console.log(res);
+          // const eid = (res.data.events[0]._id.$oid).toString().trim()
+          // console.log(eid)
+          // dispatch(set_Event_Id(eid))
+        })
+        .catch((err) => console.log("EventPage: error init render" + err));
+    };
 
-
-
-    photo()
-    getAddressBackend()
-  },[])
-
-
-  
+    // photo()
+    getAddressBackend();
+  }, []);
 
   /**
    * ADD GROUP
@@ -90,51 +82,31 @@ var faker = require("faker");
   const addGroup = (group) => {
     groupListing.key = Math.random().toString();
 
-
-    console.log("EventPage: event id = \n"+get_EID)
-    axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/AddNewGroupToEvent/${get_EID}`,
-    {
-      name:"test11",
-      max_members: 10,
-      meetup_time: "09/22/2020 : 2:30PM EST"
-    })
-    .then((res)=> {
-      console.log("EventPage: Posting to group test \n")
-      console.log(res)
-      
-  })
-    .catch((err)=>{
-      console.log("EventPage: faied post to group \n")
-      console.log(err)
-    })
+    console.log("EventPage: event id = \n" + get_EID);
+    axios
+      .post(
+        `https://hotspot-backend.herokuapp.com/api/v1/post/AddNewGroupToEvent/${get_EID}`,
+        {
+          name: "test11",
+          max_members: 10,
+          meetup_time: "09/22/2020 : 2:30PM EST",
+        }
+      )
+      .then((res) => {
+        console.log("EventPage: Posting to group test \n");
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log("EventPage: faied post to group \n");
+        console.log(err);
+      });
 
     setGroupListing((currentGroups) => {
       return [group, ...currentGroups];
-
-
-
     });
-
-   
-
-
 
     setModalOpen(false);
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   const [groupListing, setGroupListing] = useState([
     {
@@ -207,7 +179,6 @@ var faker = require("faker");
 
   return (
     <View style={globalStyles.container}>
-    
       <Modal visible={modalOpen} animationType="slide">
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <SafeAreaView style={styles.modalContent}>
@@ -221,26 +192,27 @@ var faker = require("faker");
         </TouchableWithoutFeedback>
       </Modal>
 
-
-
-
-
-      <View style={[globalStyles.card,{alignItems:"center"}]}>
+      <View style={[globalStyles.card, { alignItems: "center" }]}>
         <View style={styles.locationInfo}>
-          <View style={{justifyContent:"space-between",flexDirection:"row",width: "100%"}}>
-             <Text style={styles.title}>{navigation.getParam("locationName")}</Text> 
+          <View
+            style={{
+              justifyContent: "space-between",
+              flexDirection: "row",
+              width: "100%",
+            }}
+          >
+            <Text style={styles.title}>
+              {navigation.getParam("locationName")}
+            </Text>
 
-          <FontAwesome
-            name="heart"
-            size={24}
-            color="red"
-            style={styles.heartIcon}
-            onPress={() => onLike()}
-          />
+            <FontAwesome
+              name="heart"
+              size={24}
+              color="red"
+              style={styles.heartIcon}
+              onPress={() => onLike()}
+            />
           </View>
-            
-          
-         
 
           <View style={styles.paragraph}>
             <Text>{navigation.getParam("locationAddress")}</Text>
@@ -249,7 +221,7 @@ var faker = require("faker");
         <View style={styles.imageContainer}>
           <Image // images should be sent in as prop from single page event
             style={{ flex: 1, height: "100%", width: "100%" }}
-            source={{uri: googleImage}}
+            source={{ uri: googleImage }}
             resizeMode="contain"
           />
         </View>
@@ -304,8 +276,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontFamily: "Helvetica-Bold",
-
-    
   },
   imageContainer: {
     height: 300,
@@ -314,7 +284,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 15,
     shadowOffset: { height: 5 },
-    marginVertical:10
+    marginVertical: 10,
   },
   image: {},
   textPostion: {
@@ -324,13 +294,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   locationInfo: {
-    alignSelf:"flex-start",
-   
-    
+    alignSelf: "flex-start",
   },
   heartIcon: {
-    
-    
     top: 4,
   },
   addModal: {
@@ -342,6 +308,4 @@ const styles = StyleSheet.create({
   },
 });
 
-
-
-export default EventPage
+export default EventPage;

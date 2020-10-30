@@ -20,8 +20,15 @@ export default function Search({setModalOpen,onSearch}) {
       await axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${eventAddress}&inputtype=textquery&fields=photos&key=AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4`)
       .then((res)=>{
       const photo_ref = res.data.candidates[0].photos[0].photo_reference    
-       submitData(photo_ref)
+ 
+      return (axios.get(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo_ref}&key=AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4`))
+        
      })
+     .then((res)=>{
+
+      photoURL = res.request.responseURL
+      submitData(photoURL)
+    })
      .catch((err)=> console.log("Initial load of image \n"+err))
    }
 
@@ -34,15 +41,19 @@ export default function Search({setModalOpen,onSearch}) {
   },[eventAddress])
 
 
-
+  const submitData = (photoURL) =>{
     
-  //still no set
-  //photo seems to be undefined 
-  //when set as a return it return [object object]
+    // axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/CreateEvent`,{
+    //   name:eventName,
+    //   description:eventName,
+    //   lat,
+    //   long,
+    //   location_address: eventAddress
 
-  const submitData = (photo_ref) =>{
-   
-    onSearch(eventName,eventAddress,photo_ref)
+    // })
+
+
+    onSearch(eventName,eventAddress,photoURL)
     setModalOpen(false)
   }
     
