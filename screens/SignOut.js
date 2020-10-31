@@ -6,7 +6,7 @@ import FlatButton from '../shared/button'
 
 export default function SignOut({navigation}) {
     const _signOutAsync = async()=>{
-        console.log("here")
+        
         await AsyncStorage.clear();
         navigation.navigate("Auth")
     }

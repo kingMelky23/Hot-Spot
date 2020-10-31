@@ -21,10 +21,7 @@ import { globalStyles } from "../styles/globalStyles";
 import CreateGroup from "./createGroup";
 var faker = require("faker");
 
-/**
- * groups render before image a loading spinner to image.
- *
- */
+
 function EventPage({ navigation }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [heart, setHeart] = useState(["heart-o"]);
@@ -59,30 +56,17 @@ function EventPage({ navigation }) {
           )}`
         )
         .then((res) => {
-          console.log("EventPage: loading event details from backend \n");
-          console.log(
-            "eid----------------------------------------------------------------"
-          );
-          console.log(res);
-          // const eid = (res.data.events[0]._id.$oid).toString().trim()
-          // console.log(eid)
-          // dispatch(set_Event_Id(eid))
+          const eid = res.data.events[0]._id.$oid.toString().trim();
+          dispatch(set_Event_Id(eid));
         })
         .catch((err) => console.log("EventPage: error init render" + err));
     };
-
-    // photo()
     getAddressBackend();
   }, []);
 
-  /**
-   * ADD GROUP
-   * USE BACK END
-   */
   const addGroup = (group) => {
     groupListing.key = Math.random().toString();
 
-    console.log("EventPage: event id = \n" + get_EID);
     axios
       .post(
         `https://hotspot-backend.herokuapp.com/api/v1/post/AddNewGroupToEvent/${get_EID}`,
@@ -93,11 +77,15 @@ function EventPage({ navigation }) {
         }
       )
       .then((res) => {
-        console.log("EventPage: Posting to group test \n");
+        console.log(
+          "EventPage: Posting to group test ______________________\n"
+        );
         console.log(res);
       })
       .catch((err) => {
-        console.log("EventPage: faied post to group \n");
+        console.log(
+          "EventPage: faied post to group _____________________________\n"
+        );
         console.log(err);
       });
 

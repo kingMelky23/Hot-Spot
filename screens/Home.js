@@ -41,20 +41,15 @@ export default function Home({ navigation }) {
   ]);
 
   async function findEvents() {
-    console.log(
-      "findEvents______________________________________________________________"
-    );
-    
-
     await axios
       .get(
         `https://hotspot-backend.herokuapp.com/api/v1/get/FindEventsNearCoordinates?lat=${coordinates.latitude}&long=${coordinates.longitude}`
       )
       .then((res) => {
-        console.log("HI");
-        console.log(
-          "-------------------------------------------------------------"
-        );
+        
+        // console.log(
+        //   "Near Events-------------------------------------------------------------"
+        // );
         // console.log(res.data);
         changeLocations(res.data.events);
       })
@@ -82,6 +77,7 @@ export default function Home({ navigation }) {
         })
         .then(() => findEvents())
         .catch((err) => {
+          console.log("Geolocation error___________________________________________________")
           console.log(err);
         });
     };
