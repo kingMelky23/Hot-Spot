@@ -1,4 +1,4 @@
-import {SET_EVENT_ID, GET_EVENT_ID} from '../actions/types';
+import {SET_EVENT_ID} from '../actions/types';
 
 const INITAL_STATE = "";
 

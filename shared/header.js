@@ -12,23 +12,20 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
-import Search from './search'
+import Search from "./search";
 
 export default function Header({ navigation, title }) {
   const [modalOpen, setModalOpen] = useState(false);
 
-  const onSearch = (eventName,eventAddress,photo_ref) =>{
-
-    const items={
+  const onSearch = (eventName, eventAddress, photoURL) => {
+    const items = {
       locationName: eventName.toString(),
       locationAddress: eventAddress.toString(),
-      locationPhoto: photo_ref.toString(),
-    }
+      locationPhoto: photoURL.toString(),
+    };
 
-    
-    navigation.navigate("EventPage",items)
-    
-  }
+    navigation.navigate("EventPage", items);
+  };
 
   const openMenu = () => {
     navigation.openDrawer();
@@ -45,8 +42,7 @@ export default function Header({ navigation, title }) {
               onPress={() => setModalOpen(false)}
               style={styles.close}
             />
-            <Search setModalOpen={setModalOpen} onSearch={onSearch}/>
-
+            <Search setModalOpen={setModalOpen} onSearch={onSearch} />
           </SafeAreaView>
         </TouchableWithoutFeedback>
       </Modal>
@@ -62,9 +58,7 @@ export default function Header({ navigation, title }) {
         size={20}
         color="black"
         style={styles.searchIcon}
-        
-        onPress={()=>setModalOpen(true)}
-
+        onPress={() => setModalOpen(true)}
       />
       <View>
         <Text style={styles.headerText}>{title}</Text>
@@ -110,12 +104,11 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     padding: 7,
   },
-  modalContent:{
+  modalContent: {
     flex: 1,
-    
   },
-//   close:{
-//       position: "absolute",
-//       left: -145,
-//   }
+  //   close:{
+  //       position: "absolute",
+  //       left: -145,
+  //   }
 });

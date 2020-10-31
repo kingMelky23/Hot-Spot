@@ -3,12 +3,16 @@ import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
 import UserItem from "../shared/UserItem";
 import { ScrollView } from "react-native-gesture-handler";
+import {useSelector} from 'react-redux'
+import axios from 'axios'
 
 export default function JoinGroup({ navigation }) {
   const members = navigation.getParam("members");
 
   const [showMore, setShowMore] = useState([false]);
   const [showMoreText, setShowMoreText] = useState(["show more"]);
+
+const eventID = useSelector(state => state.eventIDReducer)
 
   /**like button future feature will add location to users favorite spots
     should later be added componenets
@@ -23,6 +27,12 @@ export default function JoinGroup({ navigation }) {
     }
   };
 
+  const joinRequest = async()=>{
+    await axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/AddMemberToGroup`,{
+      event_id: eventID
+    })
+  }
+  
   return (
     <View style={globalStyles.container}>
       <ScrollView>
@@ -60,7 +70,7 @@ export default function JoinGroup({ navigation }) {
             );
           })}
 
-          <TouchableOpacity style={styles.joinButton}>
+          <TouchableOpacity style={styles.joinButton} onPress={()=>joinRequest()}>
             <Text style={{ color: "#FFF", fontSize: 20 }}>JOIN</Text>
           </TouchableOpacity>
         </View>
