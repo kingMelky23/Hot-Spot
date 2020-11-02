@@ -106,7 +106,7 @@ export default function Home({ navigation }) {
                 />
                 <View>
                   <Text style={styles.head}> {item.name} </Text>
-                  <Text style={styles.groups}> Groups</Text>
+                  <Text style={styles.groups}> Groups: 9</Text>
                 </View>
               </View>
             </TouchableOpacity>
@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
   head: {
     fontSize: 18,
     fontWeight: "bold",
+    
   },
   groups: {
     marginTop: 7,

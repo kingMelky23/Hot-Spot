@@ -80,7 +80,7 @@ export default function CreateGroup({addGroup}) {
                         value={formikProps.values.date}
                     />
                     <TextInput
-                        style={globalStyles.input}
+                        style={[globalStyles.input,{marginBottom: 50}]}
                         placeholder="12:00am"
                         onChangeText={formikProps.handleChange('time')}
                         value={formikProps.values.time}
