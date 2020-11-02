@@ -15,7 +15,7 @@ import axios from "axios"
 import FlatButton from '../shared/button'
 
 const registerForm = yup.object({
-  firstName: yup.string().required().min(4),
+  firstName: yup.string().required().min(3),
   lastName: yup.string().required().min(4),
   email: yup.string().required().min(4),
   password: yup.string().required().min(5),
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 35,
     backgroundColor: "#465881",
-    margin:"10"
+    margin:10
   },
   // inputView: {
   //   width: "100%",
