@@ -21,7 +21,6 @@ import { globalStyles } from "../styles/globalStyles";
 import CreateGroup from "./createGroup";
 var faker = require("faker");
 
-
 function EventPage({ navigation }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [heart, setHeart] = useState(["heart-o"]);
@@ -66,7 +65,7 @@ function EventPage({ navigation }) {
 
   const addGroup = (group) => {
     groupListing.key = Math.random().toString();
-
+    console.log(group);
     axios
       .post(
         `https://hotspot-backend.herokuapp.com/api/v1/post/AddNewGroupToEvent/${get_EID}`,
