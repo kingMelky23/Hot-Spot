@@ -55,6 +55,7 @@ function EventPage({ navigation }) {
           )}`
         )
         .then((res) => {
+          // console.log(res.data)
           const eid = res.data.events[0]._id.$oid.toString().trim();
           dispatch(set_Event_Id(eid));
         })
