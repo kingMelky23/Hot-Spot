@@ -23,7 +23,7 @@ export default function Search({ setModalOpen, onSearch }) {
           // console.log("long_______________________________________________________")
 
           const latLng = res.data.candidates[0].geometry.location;
-          // console.log(latLng)
+
           setCoordinates(latLng);
           // console.log("lat____________________________________________________________________")
 
@@ -45,8 +45,8 @@ export default function Search({ setModalOpen, onSearch }) {
     }
   }, [eventAddress]);
 
-  const submitData = (photoURL) => {
-    axios
+  const submitData = async (photoURL) => {
+    await axios
       .post(`https://hotspot-backend.herokuapp.com/api/v1/post/CreateEvent`, {
         name: eventName,
         description: eventName,
@@ -59,7 +59,7 @@ export default function Search({ setModalOpen, onSearch }) {
         console.log(
           "submit----------------------------------------------------------"
         );
-        console.log(res);
+        // console.log(res);
       })
       .catch((res) => {
         console.log(
