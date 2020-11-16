@@ -19,7 +19,7 @@ import { set_Event_Id } from "../redux/actions";
 
 import { globalStyles } from "../styles/globalStyles";
 import CreateGroup from "./createGroup";
-var faker = require("faker");
+
 
 function EventPage({ navigation }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -55,33 +55,30 @@ function EventPage({ navigation }) {
           )}`
         )
         .then((res) => {
-          // console.log(res.data)
+          console.log("destruct __________________________________________")
+          
+          const groups = res.data.events[0].groups
+          let group = groups.map(data =>({
+            key: data.$oid,
+            name: data.data.name,
+            participants: Object.keys(data.data.participants).length,
+            capacity: data.data.max_members
+          }))
+          setGroupListing(group)
+
           const eid = res.data.events[0]._id.$oid.toString().trim();
           dispatch(set_Event_Id(eid));
         })
         .catch((err) => console.log("EventPage: error init render" + err));
     };
     getAddressBackend();
-  }, []);
+  }, [groupListing]);
 
   const addGroup = (group) => {
-    groupListing.key = Math.random().toString();
-    console.log(group);
     axios
       .post(
-        `https://hotspot-backend.herokuapp.com/api/v1/post/AddNewGroupToEvent/${get_EID}`,
-        {
-          name: "test11",
-          max_members: 10,
-          meetup_time: "09/22/2020 : 2:30PM EST",
-        }
+        `https://hotspot-backend.herokuapp.com/api/v1/post/AddNewGroupToEvent/${get_EID}`,group
       )
-      .then((res) => {
-        console.log(
-          "EventPage: Posting to group test ______________________\n"
-        );
-        console.log(res);
-      })
       .catch((err) => {
         console.log(
           "EventPage: faied post to group _____________________________\n"
@@ -89,9 +86,9 @@ function EventPage({ navigation }) {
         console.log(err);
       });
 
-    setGroupListing((currentGroups) => {
-      return [group, ...currentGroups];
-    });
+    // setGroupListing((currentGroups) => {
+    //   return [group, ...currentGroups];
+    // });
 
     setModalOpen(false);
   };
@@ -118,52 +115,9 @@ function EventPage({ navigation }) {
         { userName: "firetruck", key: 8, admin: false },
         { userName: "choji", key: 9, admin: false },
       ],
-    },
-    {
-      name: "group2",
-      description: "lorem ipsum",
-      capacity: 10,
-      participants: 9,
-      key: "2",
-      location: "shake Shake",
-      date: "September 20,2020",
-      time: "3:30 PM",
-      address: "2655 Richmond Ave",
-      members: [
-        { userName: "mel", key: 1, admin: true },
-        { userName: "robbie", key: 2, admin: false },
-        { userName: "zane", key: 3, admin: false },
-        { userName: "derrick", key: 4, admin: false },
-        { userName: "sam", key: 5, admin: false },
-        { userName: "putin", key: 6, admin: false },
-        { userName: "piko", key: 7, admin: false },
-        { userName: "firetruck", key: 8, admin: false },
-        { userName: "choji", key: 9, admin: false },
-      ],
-    },
-    {
-      name: "group3",
-      description: "lorem ipsum",
-      capacity: 6,
-      participants: 3,
-      key: "3",
-      location: "shake Shake",
-      date: "September 20,2020",
-      time: "3:30 PM",
-      address: "2655 Richmond Ave",
-      members: [
-        { userName: "mel", key: 1, admin: true },
-        { userName: "robbie", key: 2, admin: false },
-        { userName: "zane", key: 3, admin: false },
-        { userName: "derrick", key: 4, admin: false },
-        { userName: "sam", key: 5, admin: false },
-        { userName: "putin", key: 6, admin: false },
-        { userName: "piko", key: 7, admin: false },
-        { userName: "firetruck", key: 8, admin: false },
-        { userName: "choji", key: 9, admin: false },
-      ],
-    },
-  ]);
+    }
+  ])
+  
 
   return (
     <View style={globalStyles.container}>
@@ -207,7 +161,7 @@ function EventPage({ navigation }) {
           </View>
         </View>
         <View style={styles.imageContainer}>
-          <Image // images should be sent in as prop from single page event
+          <Image 
             style={{ flex: 1, height: "100%", width: "100%" }}
             source={{ uri: googleImage }}
             resizeMode="contain"

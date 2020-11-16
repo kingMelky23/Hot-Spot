@@ -19,6 +19,8 @@ const groupSchema = yup.object({
     .test("is-num-2-16", "max_members must be num 2-16", (val) => {
       return parseInt(val) < 16 && parseInt(val) > 1;
     }),
+  // startDate: yup.string.required(),
+  // endDate:yup.string.required(),
 });
 
 export default function CreateGroup({ addGroup }) {
