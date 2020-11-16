@@ -25,8 +25,12 @@ const registerForm = yup.object({
 
 export default function Register({ navigation }) {
   return (
+    // <View style={{color:"red"}}>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
+      {/* <View style={{color:"black"}}> */}
+      <ScrollView style={styles.container} contentContainerStyle={
+        {flexGrow:1, justifyContent:'center', alignItems:"center"}
+        }>
        
         <Formik
           initialValues={{
@@ -59,7 +63,7 @@ export default function Register({ navigation }) {
         >
 
           {(formikProps) => (
-            <View style={globalStyles.inputView}>
+            <View>
               <Text>First Name</Text>
               <TextInput
                 style={styles.input}
@@ -140,8 +144,10 @@ export default function Register({ navigation }) {
             </View>
           )}
         </Formik>
-      </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
+          // </View>
+
   );
 }
 
@@ -149,8 +155,8 @@ const styles = StyleSheet.create({
   container: {
     flex:1,
     backgroundColor: "#003f5c",
-    alignItems: "center",
-    justifyContent:"center"
+    // alignItems: "center",
+    // justifyContent:"center"
   },
   input: {
     borderWidth: 1,
@@ -158,7 +164,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 18,
     borderRadius: 25,
-    width: "100%",
+    width: 250,
     height: 35,
     backgroundColor: "#465881",
     margin:10
