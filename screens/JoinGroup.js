@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
 import UserItem from "../shared/UserItem";
 import { ScrollView } from "react-native-gesture-handler";
-import {useSelector} from 'react-redux'
-import axios from 'axios'
+
+import axios from "axios";
 
 export default function JoinGroup({ navigation }) {
-  const members = navigation.getParam("members");
-
+  const groupKey = navigation.getParam("key");
   const [showMore, setShowMore] = useState([false]);
   const [showMoreText, setShowMoreText] = useState(["show more"]);
-
-const eventID = useSelector(state => state.eventIDReducer)
+  const [groupDetail, setGroupDetail] = useState({
+    admin: "",
+    name: "",
+    description: "",
+    minimal_karma: null,
+    members: [],
+  });
 
   /**like button future feature will add location to users favorite spots
     should later be added componenets
@@ -27,16 +31,48 @@ const eventID = useSelector(state => state.eventIDReducer)
     }
   };
 
-  const joinRequest = async()=>{
-    await axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/AddMemberToGroup`,{
-      event_id: eventID
-    })
-  }
-  
+  useEffect(() => {
+    const findGroup = async () => {
+      await axios
+        .get(
+          `https://hotspot-backend.herokuapp.com/api/v1/get/FindGroupById?group_id=${groupKey}`
+        )
+        .then((res) => {
+          console.log(res.data.group);
+          const {
+            admins: [{ $oid: admin }],
+            name,
+            description,
+            minimal_karma,
+            participants,
+          } = res.data.group;
+
+          console.log(res)
+          setGroupDetail({
+            admin,
+            description,
+            minimal_karma,
+            members: Object.values(participants[0]),
+          });
+        });
+    };
+
+    findGroup();
+  }, [groupKey]);
+
+  const joinRequest = async () => {
+    await axios.post(
+      `https://hotspot-backend.herokuapp.com/api/v1/post/AddMemberToGroup`,
+      {
+        event_id: groupKey,
+      }
+    );
+  };
+
   return (
     <View style={globalStyles.container}>
-      <ScrollView>
-        <View style={globalStyles.card}>
+      <View style={globalStyles.card}>
+        <ScrollView>
           <Text style={styles.title}>{navigation.getParam("name")}</Text>
           <Text>{navigation.getParam("date")}</Text>
 
@@ -49,7 +85,7 @@ const eventID = useSelector(state => state.eventIDReducer)
               showMore ? styles.descriptionBox : styles.showMoreDescription
             }
           >
-            <Text>lorem</Text>
+            <Text>{groupDetail.description}</Text>
             <TouchableOpacity /* changes size of desciption box */
               style={styles.showMoreButton}
               onPress={() => onShowMore()}
@@ -62,19 +98,22 @@ const eventID = useSelector(state => state.eventIDReducer)
             Participants
           </Text>
 
-          {members.map((item) => {
+          {groupDetail.members.map((item) => {
             return (
-              <TouchableOpacity key={item.key} onPress={() => ""}>
-                <UserItem name={item.userName} admin={item.admin} />
+              <TouchableOpacity key={item} onPress={() => ""}>
+                <UserItem name={item} admin={(item=== groupDetail.admin?true:false)}/>
               </TouchableOpacity>
             );
           })}
-
-          <TouchableOpacity style={styles.joinButton} onPress={()=>joinRequest()}>
+          {/* admin={item.admin} */}
+          <TouchableOpacity
+            style={styles.joinButton}
+            onPress={() => joinRequest()}
+          >
             <Text style={{ color: "#FFF", fontSize: 20 }}>JOIN</Text>
           </TouchableOpacity>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </View>
   );
 }
