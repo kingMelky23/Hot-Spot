@@ -30,10 +30,13 @@ const DateTimeFormat = ({ ...props }) => {
   };
 
   const handleConfirm = (dateTime) => {
-    // console.log("A time has been picked: ", dateTime);
 
-    setFieldValue(field.name, dateTime);
+    let timeStamp = new Date()
+    // console.log(timeStamp.getTime())
+    let newTime = (Math.floor(timeStamp.getTime()/1000)).toString()
+    setFieldValue(field.name, newTime);
     setSelectedDate(dateTime);
+
     hideDateTimePicker();
   };
 

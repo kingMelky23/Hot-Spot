@@ -38,7 +38,6 @@ export default function JoinGroup({ navigation }) {
           `https://hotspot-backend.herokuapp.com/api/v1/get/FindGroupById?group_id=${groupKey}`
         )
         .then((res) => {
-          // console.log(res.data.group);
           const {
             admins: [{ $oid: admin }],
             name,
@@ -46,10 +45,10 @@ export default function JoinGroup({ navigation }) {
             minimal_karma,
             participants,
           } = res.data.group;
-          console.log("__________________________________")
-          participants.map((item)=>{
-            console.log(item.$oid)
-          })
+
+          // participants.map((item)=>{
+          //   console.log(item.data)
+          // })
           // console.log(Object.values(participants))
 
           // console.log(res)
@@ -102,11 +101,13 @@ export default function JoinGroup({ navigation }) {
           <Text style={(styles.title, { fontSize: 20, margin: 5 })}>
             Participants
           </Text>
-            {/* {console.log(groupDetail.members)} */}
           {groupDetail.members.map((item) => {
             return (
-              <TouchableOpacity key={item} onPress={() => ""}>
-                <UserItem name={item.$oid} admin={(item=== groupDetail.admin?true:false)}/>
+              <TouchableOpacity key={item.$oid} onPress={() => ""}>
+                <UserItem
+                  name={item.data.first_name + " " + item.data.last_name}
+                  admin={item.$oid === groupDetail.admin ? true : false}
+                />
               </TouchableOpacity>
             );
           })}
