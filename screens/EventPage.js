@@ -54,9 +54,7 @@ function EventPage({ navigation }) {
             "locationAddress"
           )}`
         )
-        .then((res) => {
-          console.log("destruct __________________________________________")
-          
+        .then((res) => {          
           const groups = res.data.events[0].groups
           let group = groups.map(data =>({
             key: data.$oid,
@@ -75,6 +73,7 @@ function EventPage({ navigation }) {
   }, [groupListing]);
 
   const addGroup = (group) => {
+
     axios
       .post(
         `https://hotspot-backend.herokuapp.com/api/v1/post/AddNewGroupToEvent/${get_EID}`,group

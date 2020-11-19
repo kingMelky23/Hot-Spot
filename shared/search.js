@@ -55,12 +55,6 @@ export default function Search({ setModalOpen, onSearch }) {
         location_address: eventAddress,
         photo_url: photoURL,
       })
-      .then((res) => {
-        console.log(
-          "submit----------------------------------------------------------"
-        );
-        // console.log(res);
-      })
       .catch((res) => {
         console.log(
           "createEvent Error ____________________________________________________________"

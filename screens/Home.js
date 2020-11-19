@@ -50,7 +50,7 @@ export default function Home({ navigation }) {
         // console.log(
         //   "Near Events-------------------------------------------------------------"
         // );
-        // console.log(res.data);
+        console.log(res.data.events);
         changeLocations(res.data.events);
       })
       .catch((err) => {
@@ -84,9 +84,11 @@ export default function Home({ navigation }) {
     geoLocation();
   }, []);
 
-  const pressHandler = () => {
-    navigation.navigate("EventPage");
-  };
+  const getSize =(arr)=>{
+    if(typeof(arr) === "undefined") return 0
+    return arr.length || 0
+  }
+
 
   return (
     <View style={globalStyles.container}>
@@ -95,7 +97,13 @@ export default function Home({ navigation }) {
           data={locations}
           renderItem={({ item }) => (
             <TouchableOpacity
-              onPress={() => navigation.navigate("EventPage", item)}
+              onPress={() =>
+                navigation.navigate("EventPage", {
+                  locationName: item.name,
+                  locationAddress:item.location_address,
+                  locationPhoto: item.photo_url,
+                })
+              }
             >
               <View style={styles.boxView}>
                 <Image
@@ -106,7 +114,8 @@ export default function Home({ navigation }) {
                 />
                 <View>
                   <Text style={styles.head}> {item.name} </Text>
-                  <Text style={styles.groups}> Groups</Text>
+              
+                  <Text style={styles.groups}>Groups {getSize(item.groups)} </Text>
                 </View>
               </View>
             </TouchableOpacity>
@@ -131,6 +140,7 @@ const styles = StyleSheet.create({
   head: {
     fontSize: 18,
     fontWeight: "bold",
+    
   },
   groups: {
     marginTop: 7,
