@@ -11,6 +11,7 @@ web-build/
 
 #apikeys
 .env
+secret.js
 
 
 # macOS
