@@ -17,7 +17,7 @@ export default function Search({ setModalOpen, onSearch }) {
     const searchTerm = async () => {
       await axios
         .get(
-          `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${eventAddress}&inputtype=textquery&fields=photos,geometry&key=AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4`
+          `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${eventAddress}&inputtype=textquery&fields=photos,geometry&key=${GOOGLE_API_KEY}`
         )
         .then((res) => {
           const photo_ref = res.data.candidates[0].photos[0].photo_reference;
@@ -30,7 +30,7 @@ export default function Search({ setModalOpen, onSearch }) {
           // console.log("lat____________________________________________________________________")
 
           return axios.get(
-            `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo_ref}&key=AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4`
+            `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo_ref}&key=${GOOGLE_API_KEY}`
           );
         })
         .then((res) => {

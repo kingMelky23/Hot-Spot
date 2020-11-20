@@ -11,7 +11,7 @@ import { globalStyles } from "../styles/globalStyles";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 var faker = require("faker");
-
+import {GOOGLE_API_KEY } from "../secret"
 import { set_Coordinates } from "../redux/actions";
 
 export default function Home({ navigation }) {
@@ -50,7 +50,7 @@ export default function Home({ navigation }) {
     const geoLocation = async () => {
       await axios
         .post(
-          "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4"
+          `https://www.googleapis.com/geolocation/v1/geolocate?key=${GOOGLE_API_KEY}`
         )
         .then((res) => {
           const lng = parseFloat(res.data.location.lng);
