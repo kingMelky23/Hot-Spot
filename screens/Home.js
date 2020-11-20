@@ -26,18 +26,6 @@ export default function Home({ navigation }) {
       numberOfGroups: 9,
       key: "1",
     },
-    {
-      locationPhoto: faker.image.city(),
-      locationName: faker.address.city(),
-      numberOfGroups: 12,
-      key: "2",
-    },
-    {
-      locationPhoto: faker.image.city(),
-      locationName: faker.address.city(),
-      numberOfGroups: 3,
-      key: "3",
-    },
   ]);
 
   async function findEvents() {
@@ -50,7 +38,7 @@ export default function Home({ navigation }) {
         // console.log(
         //   "Near Events-------------------------------------------------------------"
         // );
-        console.log(res.data.events);
+        // console.log(res.data.events)
         changeLocations(res.data.events);
       })
       .catch((err) => {
@@ -88,6 +76,7 @@ export default function Home({ navigation }) {
     if(typeof(arr) === "undefined") return 0
     return arr.length || 0
   }
+
 
 
   return (

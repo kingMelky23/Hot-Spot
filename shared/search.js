@@ -5,10 +5,11 @@ import { useSelector } from "react-redux";
 import { date } from "yup";
 import axios from "axios";
 
+
 export default function Search({ setModalOpen, onSearch }) {
   const [eventAddress, setEventAddress] = useState();
   const [eventName, setEventname] = useState();
-  const [coordinates, setCoordinates] = useState({ lat: 0.0, lng: 0.0 });
+  const [coordinates, setCoordinates] = useState({ lat: null, lng: null});
 
   useEffect(() => {
     console.log(eventAddress);
@@ -21,7 +22,7 @@ export default function Search({ setModalOpen, onSearch }) {
           const photo_ref = res.data.candidates[0].photos[0].photo_reference;
 
           // console.log("long_______________________________________________________")
-
+          console.log(res.data.candidates[0].geometry.location)
           const latLng = res.data.candidates[0].geometry.location;
 
           setCoordinates(latLng);
@@ -46,6 +47,10 @@ export default function Search({ setModalOpen, onSearch }) {
   }, [eventAddress]);
 
   const submitData = async (photoURL) => {
+
+    console.log(coordinates)
+
+
     await axios
       .post(`https://hotspot-backend.herokuapp.com/api/v1/post/CreateEvent`, {
         name: eventName,
