@@ -4,6 +4,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { useSelector } from "react-redux";
 import { date } from "yup";
 import axios from "axios";
+import {GOOGLE_API_KEY } from "../secret"
 
 
 export default function Search({ setModalOpen, onSearch }) {
@@ -81,7 +82,7 @@ export default function Search({ setModalOpen, onSearch }) {
         setEventAddress(data.description.toString());
       }}
       query={{
-        key: "AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4",
+        key: GOOGLE_API_KEY,
         language: "en",
       }}
       currentLocation={true}
