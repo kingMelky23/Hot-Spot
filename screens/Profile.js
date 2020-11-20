@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
-import { StyleSheet, Text, View,Image,TouchableOpacity,FlatList } from 'react-native'
+import { StyleSheet, Text, View,Image,TouchableOpacity,FlatList,SafeAreaView } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'; 
 
 export default function Profile() {
   const DATA = [
@@ -22,10 +23,28 @@ export default function Profile() {
       picture:"https://media-exp1.licdn.com/dms/image/C4D1BAQFAC3o2eHS_vA/company-background_10000/0?e=2159024400&v=beta&t=EUdtqUGN2pXf17w9xlDLBdSI60wIgV4gI0W36q8NHto"
     },
   ];
+
+
+  const touched = ()=>{
+    console.log("touched")
+  }
     return (
         <View style={styles.container}>
         <Image style={styles.header} source={{uri:"https://images.unsplash.com/photo-1489844097929-c8d5b91c456e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"}}></Image>
         <Image style={styles.avatar} source={{uri: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'}}/>
+        {/* <View style={styles.manageIcon}>
+          <TouchableOpacity
+          style={{backgroundColor:"blue"}}
+          onPress={()=>touched()}>
+            <Ionicons name="ios-settings" size={50} color="#FF5555" />
+          </TouchableOpacity>
+        </View> */}
+        <View style={styles.manageIcon}>
+        <TouchableOpacity  onPress={()=>touched()}>
+          
+        <Ionicons name="ios-settings" size={26} color="#FF5555" />
+        </TouchableOpacity>
+        </View>
         <View style={styles.body}>
           <View style={styles.bodyContent}>
             <Text style={styles.name}>Sarah Snow, 28</Text>
@@ -141,6 +160,13 @@ const styles = StyleSheet.create({
       borderRadius:30,
       backgroundColor: "#00BFFF",
     },
+    manageIcon:{
+      zIndex:1,
+      position:"absolute",
+      alignSelf:'center',
+      marginTop:237,
+      paddingLeft:74
+    }
   });
   
                                               
