@@ -1,6 +1,6 @@
 import {createDrawerNavigator} from 'react-navigation-drawer'
-import {createAppContainer, createSwitchNavigator} from 'react-navigation'
-
+import {createAppContainer, createSwitchNavigator,} from 'react-navigation'
+import {} from 'react-navigation-material-bottom-tabs';
 
 import HomeStack from './homeStack'
 import profileStack from './profileStack'
