@@ -10,6 +10,12 @@ import { FlatList } from "react-native-gesture-handler";
 
 /** add yup validation for date and time */
 
+
+
+/**
+ * send date as epoc time
+ */
+
 const groupSchema = yup.object({
   name: yup.string().required().min(4),
   description: yup.string().required().min(8),
@@ -19,6 +25,8 @@ const groupSchema = yup.object({
     .test("is-num-2-16", "max_members must be num 2-16", (val) => {
       return parseInt(val) < 16 && parseInt(val) > 1;
     }),
+  meetup_time: yup.string().required(),
+  ending_time:yup.string().required(),
 });
 
 export default function CreateGroup({ addGroup }) {
@@ -29,8 +37,8 @@ export default function CreateGroup({ addGroup }) {
           name: "",
           description: "",
           max_members: "",
-          startDate: "",
-          endDate: "",
+          meetup_time: "",
+          ending_time: "",
         }}
         validationSchema={groupSchema}
         onSubmit={(values, actions) => {
@@ -80,8 +88,16 @@ export default function CreateGroup({ addGroup }) {
             {/* <Text >Date</Text> */}
 
             <View style={styles.timeFormat}>
-              <DateTimeFormat name="startDate" title="Start Date" />
-              <DateTimeFormat name="endDate" title="End Date" />
+              <DateTimeFormat name="meetup_time" title="Start Date" />
+              <Text style={globalStyles.errorText}>
+              {formikProps.touched.meetup_time &&
+                formikProps.errors.meetup_time}
+            </Text>
+              <DateTimeFormat name="ending_time" title="End Date" />
+              <Text style={globalStyles.errorText}>
+              {formikProps.touched.ending_time &&
+                formikProps.errors.ending_time}
+            </Text>
             </View>
 
             <FlatButton text="submit" onPress={formikProps.handleSubmit} />

@@ -168,19 +168,7 @@ export default function GroupPage({ navigation }) {
             rightOpenValue={-150}
             disableRightSwipe
           />
-          {/* {members.map((item) => {
-            return (
-              <TouchableOpacity
-                key={item.key}
-                onPress={() => ""}
-              >
-                <UserItem
-                  name={item.userName}
-                  admin={item.admin}
-                />
-              </TouchableOpacity>
-            );
-          })} */}
+
 
           <TouchableOpacity style={styles.leaveButton}>
             <Text style={{ color: "#FFF", fontSize: 20 }}>Leave</Text>

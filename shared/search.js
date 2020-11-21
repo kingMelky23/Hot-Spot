@@ -4,36 +4,35 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { useSelector } from "react-redux";
 import { date } from "yup";
 import axios from "axios";
+import {GOOGLE_API_KEY } from "../secret"
+
 
 export default function Search({ setModalOpen, onSearch }) {
   const [eventAddress, setEventAddress] = useState();
   const [eventName, setEventname] = useState();
-  const [coordinates, setCoordinates] = useState({ lat: 0.0, lng: 0.0 });
 
   useEffect(() => {
     console.log(eventAddress);
+    let coordinates;
     const searchTerm = async () => {
       await axios
         .get(
-          `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${eventAddress}&inputtype=textquery&fields=photos,geometry&key=AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4`
+          `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${eventAddress}&inputtype=textquery&fields=photos,geometry&key=${GOOGLE_API_KEY}`
         )
         .then((res) => {
           const photo_ref = res.data.candidates[0].photos[0].photo_reference;
 
-          // console.log("long_______________________________________________________")
-
-          const latLng = res.data.candidates[0].geometry.location;
-          // console.log(latLng)
-          setCoordinates(latLng);
-          // console.log("lat____________________________________________________________________")
+          // console.log(res.data.candidates[0].geometry.location)
+          const temp = res.data.candidates[0].geometry.location;
+          coordinates=temp
 
           return axios.get(
-            `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo_ref}&key=AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4`
+            `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo_ref}&key=${GOOGLE_API_KEY}`
           );
         })
         .then((res) => {
           const photoURL = res.request.responseURL;
-          submitData(photoURL);
+          submitData(photoURL,coordinates);
         })
         .catch((err) => console.log("Initial load of image \n" + err));
     };
@@ -45,8 +44,13 @@ export default function Search({ setModalOpen, onSearch }) {
     }
   }, [eventAddress]);
 
-  const submitData = (photoURL) => {
-    axios
+  const submitData = async (photoURL,coordinates) => {
+    console.log("long_______________________________________________________")
+
+    console.log(coordinates)
+
+
+    await axios
       .post(`https://hotspot-backend.herokuapp.com/api/v1/post/CreateEvent`, {
         name: eventName,
         description: eventName,
@@ -54,12 +58,6 @@ export default function Search({ setModalOpen, onSearch }) {
         long: coordinates.lng,
         location_address: eventAddress,
         photo_url: photoURL,
-      })
-      .then((res) => {
-        console.log(
-          "submit----------------------------------------------------------"
-        );
-        console.log(res);
       })
       .catch((res) => {
         console.log(
@@ -77,12 +75,13 @@ export default function Search({ setModalOpen, onSearch }) {
       placeholder="Search"
       minLength={2}
       onPress={(data, details = null) => {
+        // console.log(details)
         // 'details' is provided when fetchDetails = true
         setEventname(data.structured_formatting.main_text);
         setEventAddress(data.description.toString());
       }}
       query={{
-        key: "AIzaSyD0uqCj-8Hr4IegcMZ4NVGzPSQmhmEAZk4",
+        key: GOOGLE_API_KEY,
         language: "en",
       }}
       currentLocation={true}
