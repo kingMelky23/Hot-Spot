@@ -10,7 +10,7 @@ const screens = {
         screen: SignOut,
         navigationOptions: ({navigation})=>{
             return{
-                headerTitle: ()=> <Header navigation={navigation} title='SignOut'/>
+                headerTitle: ()=> <Header navigation={navigation} title='Sign Out'/>
             }
         }
     },
