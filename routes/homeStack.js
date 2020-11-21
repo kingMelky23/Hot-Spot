@@ -1,5 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "react-navigation-stack";
+import {createMaterialBottomTabNavigator} from "react-navigation-material-bottom-tabs"
 
 import Event from "../screens/EventPage";
 import GroupPage from "../screens/GroupPage";
@@ -8,8 +9,24 @@ import Header from "../shared/header";
 import Home from "../screens/Home";
 import Login from '../screens/Login'
 import PlainHeader from '../shared/plainHeader'
+import ChatRoom from '../screens/ChatRoom'
 
-
+const EventScreenTab = createMaterialBottomTabNavigator(
+  {
+    EventScreen:{
+      screen: Event,
+    },
+    ChatRoom:{
+      screen: ChatRoom,
+    }
+  },
+  {
+    initialRouteName: 'EventScreen',
+    activeColor: '#f0edf6',
+    inactiveColor: '#DD1111',
+    barStyle: { backgroundColor: '#FF5555', height:80 },
+  }
+)
 
 const screens = {
   
@@ -23,7 +40,7 @@ const screens = {
     },
   },
   EventPage: {
-    screen: Event,
+    screen: EventScreenTab,
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: () => <PlainHeader navigation={navigation} title="Event" />,
