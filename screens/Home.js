@@ -103,12 +103,8 @@ export default function Home({ navigation }) {
                 />
                 <View>
                   <Text style={styles.head}> {item.name} </Text>
-<<<<<<< HEAD
-                  <Text style={styles.groups}> Groups: 9</Text>
-=======
               
                   <Text style={styles.groups}>Groups {getSize(item.groups)} </Text>
->>>>>>> 15cbe467b156321b99068757634289a6547fbcd5
                 </View>
               </View>
             </TouchableOpacity>
