@@ -25,8 +25,8 @@ const groupSchema = yup.object({
     .test("is-num-2-16", "max_members must be num 2-16", (val) => {
       return parseInt(val) < 16 && parseInt(val) > 1;
     }),
-  // meeting_time: yup.string.required(),
-  // ending_time:yup.string.required(),
+  meetup_time: yup.string().required(),
+  ending_time:yup.string().required(),
 });
 
 export default function CreateGroup({ addGroup }) {
@@ -89,7 +89,15 @@ export default function CreateGroup({ addGroup }) {
 
             <View style={styles.timeFormat}>
               <DateTimeFormat name="meetup_time" title="Start Date" />
+              <Text style={globalStyles.errorText}>
+              {formikProps.touched.meetup_time &&
+                formikProps.errors.meetup_time}
+            </Text>
               <DateTimeFormat name="ending_time" title="End Date" />
+              <Text style={globalStyles.errorText}>
+              {formikProps.touched.ending_time &&
+                formikProps.errors.ending_time}
+            </Text>
             </View>
 
             <FlatButton text="submit" onPress={formikProps.handleSubmit} />
