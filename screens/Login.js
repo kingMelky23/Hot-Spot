@@ -9,6 +9,7 @@ import {
   Alert,
   TouchableWithoutFeedback,
   Keyboard,
+  KeyboardAvoidingView
 } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -46,7 +47,7 @@ export default function Login({ navigation }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View styles={styles.logoWrapper}>
           <Text style={styles.logo}>Hot Spot</Text>
           {/* <Image source={require('../assets/main-logo.png')} style={styles.logoPicture}/> */}
@@ -80,7 +81,7 @@ export default function Login({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate("Register")}>
           <Text style={styles.loginText}>Signup</Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }
