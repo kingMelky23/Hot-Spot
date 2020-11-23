@@ -53,6 +53,8 @@ export default function Header({ navigation, title }) {
         style={styles.hamburgerIcon}
       />
       <View></View>
+        <Text style={styles.headerText}>{title}</Text>
+        {/**Write function to hide search bar */}
       <AntDesign
         name="search1"
         size={20}
@@ -61,8 +63,6 @@ export default function Header({ navigation, title }) {
         onPress={() => setModalOpen(true)}
       />
       <View>
-        <Text style={styles.headerText}>{title}</Text>
-        {/**Write function to hide search bar */}
       </View>
     </View>
   );
@@ -74,7 +74,8 @@ const styles = StyleSheet.create({
     height: "100%",
     flexDirection: "row",
     alignItems: "flex-start",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    
   },
   headerText: {
     fontSize: 30,
@@ -83,8 +84,9 @@ const styles = StyleSheet.create({
   },
   hamburgerIcon: {
     position: "absolute",
-    left: -70,
+    right:"111%",
     top: 0,
+    
   },
   input: {
     marginBottom: 10,
@@ -99,16 +101,15 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     position: "absolute",
-    right: -55,
+    left: "111%",
     borderWidth: 1,
     borderRadius: 18,
     padding: 7,
+    justifyContent:"flex-end",
+    
   },
   modalContent: {
     flex: 1,
   },
-  //   close:{
-  //       position: "absolute",
-  //       left: -145,
-  //   }
+
 });

@@ -168,7 +168,7 @@ function EventPage({ navigation }) {
         </View>
 
         <View style={styles.textPostion}>
-          <Text style={styles.title}>Group Listings</Text>
+          <Text style={[styles.title,{left:5}]}>Group Listings</Text>
           <MaterialIcons
             name="add"
             size={35}
@@ -233,16 +233,18 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     flexDirection: "row",
+  
   },
   locationInfo: {
     alignSelf: "flex-start",
   },
   heartIcon: {
     top: 4,
+    padding: 5
   },
   addModal: {
     position: "absolute",
-    right: -145,
+    right: -160,
   },
   modalContent: {
     flex: 1,

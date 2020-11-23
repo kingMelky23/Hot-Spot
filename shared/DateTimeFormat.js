@@ -35,6 +35,7 @@ const DateTimeFormat = ({ ...props }) => {
     // console.log(timeStamp.getTime())
     let newTime = (Math.floor(timeStamp.getTime()/1000)).toString()
     setFieldValue(field.name, newTime);
+    console.log(newTime);
     setSelectedDate(dateTime);
 
     hideDateTimePicker();

@@ -48,9 +48,9 @@ export default function Profile() {
         <View style={styles.body}>
           <View style={styles.bodyContent}>
             <Text style={styles.name}>Sarah Snow, 28</Text>
-            <Text style={styles.karma}>40</Text>
+            <Text style={styles.karma}></Text>
             <Text style={styles.info}>Staten Island, New York</Text>
-            <Text style={styles.description}>The description will take a place in here</Text>
+            <Text style={styles.description}>Profile description</Text>
           </View>
       </View>
       <View style={styles.attendedEvents}>
