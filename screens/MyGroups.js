@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import Axios from 'axios'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View,FlatList,TouchableOpacity } from 'react-native'
 
 import GroupItem from '../shared/groupItem'
@@ -30,6 +31,16 @@ export default function MyGroups({navigation}) {
             ],
           },
     ])
+
+    useEffect(() => {
+        console.log("testing my groups _________________________________________________________")
+        const allGroups = async() =>{
+            await Axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/FindRelatedGroups`)
+            .then((res)=>console.log(res))
+            .catch((err)=>console.log(err))
+        }
+        allGroups()
+    })
 
     return (
 

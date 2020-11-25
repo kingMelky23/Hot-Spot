@@ -1,7 +1,17 @@
-import React,{useState} from 'react'
+import Axios from 'axios';
+import React,{useState, useEffect} from 'react'
 import { StyleSheet, Text, View,Image,TouchableOpacity,FlatList } from 'react-native'
 
 export default function Profile() {
+
+
+  const [profileDetails,setProfileDetails] = useState({
+    first_name:"",
+    last_name:"",
+    age:null,
+    username:""
+    
+  })
   const DATA = [
     {
       eventName: "Concert",
@@ -22,13 +32,43 @@ export default function Profile() {
       picture:"https://media-exp1.licdn.com/dms/image/C4D1BAQFAC3o2eHS_vA/company-background_10000/0?e=2159024400&v=beta&t=EUdtqUGN2pXf17w9xlDLBdSI60wIgV4gI0W36q8NHto"
     },
   ];
+
+  useEffect(() => {
+    console.log("user deatils _______________________________________________________________________________")
+    const userDetails = () =>{
+      Axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/GetProfileData`)
+      .then((res)=>{
+        console.log(res.data.user)
+
+        const {
+          username,
+          first_name,
+          last_name,
+          age,
+        } = res.data.user
+        setProfileDetails({
+          username,
+          first_name,
+          last_name,
+          age,
+        })
+
+        console.log(username)
+      })
+      .catch((err)=>console.log(err))
+    }
+
+    userDetails()
+  }, [])
+
+
     return (
         <View style={styles.container}>
         <Image style={styles.header} source={{uri:"https://images.unsplash.com/photo-1489844097929-c8d5b91c456e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"}}></Image>
         <Image style={styles.avatar} source={{uri: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'}}/>
         <View style={styles.body}>
           <View style={styles.bodyContent}>
-            <Text style={styles.name}>Sarah Snow, 28</Text>
+            <Text style={styles.name}>{profileDetails.first_name+" "+profileDetails.last_name+","+profileDetails.age}</Text>
             <Text style={styles.karma}></Text>
             <Text style={styles.info}>Staten Island, New York</Text>
             <Text style={styles.description}>Profile description</Text>
