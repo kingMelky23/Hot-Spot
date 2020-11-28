@@ -25,6 +25,9 @@ const EventScreenTab = createMaterialBottomTabNavigator(
     activeColor: '#f0edf6',
     inactiveColor: '#DD1111',
     barStyle: { backgroundColor: '#FF5555', height:80 },
+    tabBarOptions:{
+      keyboardHidesTabBar:true
+    }
   }
 )
 

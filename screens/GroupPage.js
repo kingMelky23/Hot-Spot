@@ -1,41 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Animated,
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  Button,
-  TouchableHighlight,
 } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
 import UserItem from "../shared/UserItem";
 import { ScrollView } from "react-native-gesture-handler";
 import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { color } from "react-native-reanimated";
+import { useDispatch } from "react-redux";
+import { set_groupName } from "../redux/actions";
 
 export default function GroupPage({ navigation }) {
   const members = navigation.getParam("members");
 
   const [showMore, setShowMore] = useState([false]);
   const [showMoreText, setShowMoreText] = useState(["show more"]);
-
+  const dispatch = useDispatch();
   /**
    * REACT NATIVE SWIPE TO DELETE TUTORIAL
    * SWIPE FEATURE
    * set disable left swipe in the swipe list view to true if the participant is not the admin
    *
-   * 
+   *
    * TIMESTAMP: 19:00
    * SWIPE LEFT FEATURE UN LOCKED AFTER EVENT IS CONSIDERED COMPLETE
    * prop: "leftActivationValue", "onLeftActivation"
-   * 
+   *
    */
 
   /**like button future feature will add location to users favorite spots
     should later be added componenets
   */
+
+  useEffect(() => {
+    dispatch(set_groupName(navigation.getParam("name")));
+  }, []);
 
   const onShowMore = () => {
     setShowMore(!showMore);
@@ -67,7 +70,7 @@ export default function GroupPage({ navigation }) {
   };
 
   const HiddenItemWithActions = (props) => {
-    const { swipeAnimatedValue,onClose, onDelete } = props;
+    const { swipeAnimatedValue, onClose, onDelete } = props;
 
     return (
       <View style={styles.rowBack}>
@@ -76,17 +79,22 @@ export default function GroupPage({ navigation }) {
           style={[styles.backRightBtn, styles.backRightBtnLeft]}
           onPress={onClose}
         >
-          <Animated.View style={[styles.rightButtonIcons,{
-            transform: [
+          <Animated.View
+            style={[
+              styles.rightButtonIcons,
               {
-                scale: swipeAnimatedValue.interpolate({
-                  inputRange: [-90, -45],
-                  outputRange: [1, 0],
-                  extrapolate: 'clamp',
-                }),
+                transform: [
+                  {
+                    scale: swipeAnimatedValue.interpolate({
+                      inputRange: [-90, -45],
+                      outputRange: [1, 0],
+                      extrapolate: "clamp",
+                    }),
+                  },
+                ],
               },
-            ],
-          }]}>
+            ]}
+          >
             <MaterialCommunityIcons
               name="close-circle-outline"
               size={25}
@@ -98,17 +106,22 @@ export default function GroupPage({ navigation }) {
           style={[styles.backRightBtn, styles.backRightBtnRight]}
           onPress={onDelete}
         >
-          <Animated.View style={[styles.rightButtonIcons,{
-            transform: [
+          <Animated.View
+            style={[
+              styles.rightButtonIcons,
               {
-                scale: swipeAnimatedValue.interpolate({
-                  inputRange: [-90, -45],
-                  outputRange: [1, 0],
-                  extrapolate: 'clamp',
-                }),
+                transform: [
+                  {
+                    scale: swipeAnimatedValue.interpolate({
+                      inputRange: [-90, -45],
+                      outputRange: [1, 0],
+                      extrapolate: "clamp",
+                    }),
+                  },
+                ],
               },
-            ],
-          }]}>
+            ]}
+          >
             <MaterialCommunityIcons
               name="trash-can-outline"
               size={25}
@@ -168,7 +181,6 @@ export default function GroupPage({ navigation }) {
             rightOpenValue={-150}
             disableRightSwipe
           />
-
 
           <TouchableOpacity style={styles.leaveButton}>
             <Text style={{ color: "#FFF", fontSize: 20 }}>Leave</Text>
