@@ -53,7 +53,7 @@ export default function MyGroups({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
-      <View style={globalStyles.card}>
+      <View style={[globalStyles.card, { alignItems: "center" }]}>
         <FlatList
           style={{ marginBottom: 50 }}
           data={groups}
