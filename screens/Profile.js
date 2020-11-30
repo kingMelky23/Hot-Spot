@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React,{useState, useEffect} from 'react'
-import { StyleSheet, Text, View,Image,TouchableOpacity,FlatList } from 'react-native'
+import { StyleSheet, Text, View,Image,ScrollView,FlatList } from 'react-native'
 
 export default function Profile() {
 
@@ -63,7 +63,7 @@ export default function Profile() {
 
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
         <Image style={styles.header} source={{uri:"https://images.unsplash.com/photo-1489844097929-c8d5b91c456e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"}}></Image>
         <Image style={styles.avatar} source={{uri: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'}}/>
         <View style={styles.body}>
@@ -94,7 +94,7 @@ export default function Profile() {
         horizontal
       />
       </View>
-    </View>
+    </ScrollView>
     )
 }
 
