@@ -9,8 +9,8 @@ export default function Profile() {
     first_name:"",
     last_name:"",
     age:null,
-    username:""
-    
+    username:"",
+    karma:null
   })
   const DATA = [
     {
@@ -45,12 +45,14 @@ export default function Profile() {
           first_name,
           last_name,
           age,
+          karma
         } = res.data.user
         setProfileDetails({
           username,
           first_name,
           last_name,
           age,
+          karma
         })
 
         console.log(username)

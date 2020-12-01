@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 var faker = require("faker");
 import {GOOGLE_API_KEY } from "../secret"
 import { set_Coordinates } from "../redux/actions";
+import { useFocusEffect } from '@react-navigation/native'
 
 export default function Home({ navigation }) {
   const dispatch = useDispatch();
@@ -28,19 +29,13 @@ export default function Home({ navigation }) {
     },
   ]);
 
-  async function findEvents() {
+  async function findEvents(lat,lng) {
+    console.log("test reload")
     await axios
       .get(
-        `https://hotspot-backend.herokuapp.com/api/v1/get/FindEventsNearCoordinates?lat=${coordinates.latitude}&long=${coordinates.longitude}`
+        `https://hotspot-backend.herokuapp.com/api/v1/get/FindEventsNearCoordinates?lat=${lat}&long=${lng}`
       )
-      .then((res) => {
-        
-        // console.log(
-        //   "Near Events-------------------------------------------------------------"
-        // );
-        // console.log(res.data.events)
-        changeLocations(res.data.events);
-      })
+      .then((res) => changeLocations(res.data.events))
       .catch((err) => {
         console.log(err);
       });
@@ -48,37 +43,31 @@ export default function Home({ navigation }) {
 
   useEffect(() => {
     const geoLocation = async () => {
-      await axios
-        .post(
-          `https://www.googleapis.com/geolocation/v1/geolocate?key=${GOOGLE_API_KEY}`
-        )
+      await axios.post(`https://www.googleapis.com/geolocation/v1/geolocate?key=${GOOGLE_API_KEY}`)
         .then((res) => {
           const lng = parseFloat(res.data.location.lng);
           const lat = parseFloat(res.data.location.lat);
-
           dispatch(
             set_Coordinates({
               longitude: lng,
               latitude: lat,
             })
           );
+          findEvents(lat,lng)
         })
-        .then(() => findEvents())
         .catch((err) => {
           console.log("Geolocation error___________________________________________________")
           console.log(err);
         });
     };
     geoLocation();
-  }, []);
+  }, [navigation]);
 
   const getSize =(arr)=>{
     if(typeof(arr) === "undefined") return 0
     return arr.length || 0
   }
-
-
-
+  
   return (
     <View style={globalStyles.container}>
       <View style={globalStyles.card}>
@@ -103,7 +92,6 @@ export default function Home({ navigation }) {
                 />
                 <View>
                   <Text style={styles.head}> {item.name} </Text>
-              
                   <Text style={styles.groups}>Groups {getSize(item.groups)} </Text>
                 </View>
               </View>
