@@ -45,7 +45,16 @@ export default function MyGroups({ navigation }) {
       await Axios.get(
         `https://hotspot-backend.herokuapp.com/api/v1/get/FindRelatedGroups`
       )
-        .then((res) => console.log(res))
+        .then((res) => {
+          console.log(res.data.events)
+          const groupList = res.data.events
+
+          const temp = groupList.map((item)=>{
+            item.max_members
+          })
+
+          console.log(temp)
+        })
         .catch((err) => console.log(err));
     };
     allGroups();
@@ -53,7 +62,7 @@ export default function MyGroups({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
-      <View style={[globalStyles.card, { alignItems: "center" }]}>
+      <View style={[globalStyles.card, ]}>
         <FlatList
           style={{ marginBottom: 50 }}
           data={groups}

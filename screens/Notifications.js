@@ -5,6 +5,7 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { FontAwesome } from '@expo/vector-icons'; 
 import { not } from 'react-native-reanimated'
+import Axios from 'axios'
 
 import {globalStyles} from '../styles/globalStyles'
 var faker = require("faker");
@@ -19,15 +20,16 @@ export default function Notifications() {
     ])
 
     useEffect(() => {
-      fetch("https://hotspot-backend.herokuapp.com/api/v1/get/FindNotificationsForUser")
+      Axios.get("https://hotspot-backend.herokuapp.com/api/v1/get/FindNotificationsForUser")
       .then((res) => {
         console.log("Test ------------------------------------")
-        console.log(JSON.parse(JSON.stringify(res)))
+        // console.log(JSON.parse(JSON.stringify(res)))
       }).catch((err) => {
         console.log(err)
       })
     },[])
 
+    
 
   
     const readRow = (rowMap, rowKey) => {
