@@ -20,6 +20,7 @@ export default function PlainHeader({ navigation, title }) {
     navigation.openDrawer();
   };
 
+  
   const onSearch = (eventName,eventAddress,photo_ref) =>{
 
     const items={

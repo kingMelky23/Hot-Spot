@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect,useCallback } from "react";
 import {
   StyleSheet,
   FlatList,
@@ -11,9 +11,11 @@ import {useFocusEffect} from "react-navigation-hooks"
 import { globalStyles } from "../styles/globalStyles";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
+import {set_user} from '../redux/actions/'
 var faker = require("faker");
 import {GOOGLE_API_KEY } from "../secret"
 import { set_Coordinates } from "../redux/actions";
+import { company } from "faker";
 
 
 export default function Home({ navigation }) {
@@ -40,6 +42,38 @@ export default function Home({ navigation }) {
         console.log(err);
       });
   }
+
+
+  useEffect(() => {
+    console.log("user deatils _______________________________________________________________________________")
+    const userDetails = () =>{
+      axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/GetProfileData`)
+      .then((res)=>{
+ 
+
+        const {
+          _id:{$oid:uid},
+          username,
+          first_name,
+          last_name,
+          age,
+          karma
+        } = res.data.user
+        dispatch(set_user({
+          uid,
+          username,
+          first_name,
+          last_name,
+          age,
+          karma
+        }))
+
+      })
+      .catch((err)=>console.log(err))
+    }
+
+    userDetails()
+  }, [])
 
   useFocusEffect(useCallback(() => {
     const geoLocation = async () => {

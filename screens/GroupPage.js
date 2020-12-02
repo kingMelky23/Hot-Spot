@@ -11,14 +11,16 @@ import UserItem from "../shared/UserItem";
 import { ScrollView } from "react-native-gesture-handler";
 import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { set_groupName } from "../redux/actions";
 import {useFocusEffect} from 'react-navigation-hooks'
 import axios from'axios'
 
 export default function GroupPage({ navigation }) {
+  const userInfo = useSelector(state => state.currentUserReducer)
+
   const groupKey = navigation.getParam("key");
-  const members = navigation.getParam("members")
+
   const [groupDetail, setGroupDetail] = useState({
     admin: "",
     name: "",
@@ -45,12 +47,10 @@ export default function GroupPage({ navigation }) {
     should later be added componenets
   */
 
-  // useEffect(() => {
-  //   dispatch(set_groupName(navigation.getParam("name")));
-  // }, []);
-
 
   useFocusEffect(useCallback( () => {
+    // console.log("test user info-------------------------------")
+    // console.log(userInfo.uid)
     const findGroup = async()=>{
     await axios.get(
         `https://hotspot-backend.herokuapp.com/api/v1/get/FindGroupById?group_id=${groupKey}`
@@ -69,10 +69,11 @@ export default function GroupPage({ navigation }) {
           members: item.participants,
           start:item.meetup_time.$date,
           end:item.ending_time.$date
-        }))
-        console.log((details[0]))
+        }))      
+        dispatch(set_groupName(details[0].name))
         setGroupDetail(details[0])
         
+        return () => dispatch(set_groupName("Event"))
       })
       .catch((err)=>console.log(err));
     }
@@ -190,8 +191,8 @@ export default function GroupPage({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
-      <ScrollView style={{ flex: 1 }}>
         <View style={globalStyles.card}>
+          <ScrollView >
           <Text style={styles.title}>{groupDetail.name}</Text>
           <Text>{groupDetail.start}</Text>
 
@@ -225,13 +226,14 @@ export default function GroupPage({ navigation }) {
             leftOpenValue={75}
             rightOpenValue={-150}
             disableRightSwipe
+            disableLeftSwipe={userInfo.uid === groupDetail.admin ? false : true}
           />
 
           <TouchableOpacity style={styles.leaveButton}>
-            <Text style={{ color: "#FFF", fontSize: 20 }}>Leave</Text>
+            <Text style={{ color: "#FFF", fontSize: 20}}>Leave</Text>
           </TouchableOpacity>
-        </View>
       </ScrollView>
+        </View>
     </View>
   );
 }
@@ -264,7 +266,7 @@ const styles = StyleSheet.create({
   },
   leaveButton: {
     height: 100,
-    marginTop: 4,
+    marginTop: "63%",
     backgroundColor: "#FF5555",
     justifyContent: "center",
     alignItems: "center",

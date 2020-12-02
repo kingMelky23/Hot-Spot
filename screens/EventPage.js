@@ -4,12 +4,12 @@ import {
   Text,
   SafeAreaView,
   View,
-  FlatList,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
   Image,
   Modal,
+  ScrollView
 } from "react-native";
 import GroupItem from "../shared/groupItem";
 import { Feather, FontAwesome, MaterialIcons } from "@expo/vector-icons";
@@ -134,7 +134,9 @@ function EventPage({ navigation }) {
         </TouchableWithoutFeedback>
       </Modal>
 
-      <View style={[globalStyles.card, { alignItems: "center" }]}>
+      <ScrollView style={globalStyles.card}>
+        <View style={{ alignItems: "center"}}>
+
         <View style={styles.locationInfo}>
           <View
             style={{
@@ -178,22 +180,28 @@ function EventPage({ navigation }) {
             onPress={() => setModalOpen(true)}
           />
         </View>
-        <FlatList
-          style={{ marginBottom: 50 }}
-          data={groupListing}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("JoinGroup", item)}
-            >
-              <GroupItem
-                name={item.name}
-                capacity={item.capacity}
-                participants={item.participants}
-              />
-            </TouchableOpacity>
-          )}
-        />
-      </View>
+          
+
+
+
+          <View style={{ width:"100%",}}>
+                  {groupListing.map( item  => (
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate("JoinGroup", item)}
+                      key={item.key}
+                    >
+                      <GroupItem
+                        name={item.name}
+                        capacity={item.capacity}
+                        participants={item.participants}
+                      />
+                    </TouchableOpacity>
+                  ))}
+
+          </View>
+        </View>
+          
+      </ScrollView>
     </View>
   );
 }

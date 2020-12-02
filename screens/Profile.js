@@ -55,7 +55,6 @@ export default function Profile() {
           karma
         })
 
-        console.log(username)
       })
       .catch((err)=>console.log(err))
     }

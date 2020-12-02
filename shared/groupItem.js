@@ -22,7 +22,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
     groupStyle: {
       height:40,
-      width:"76%",
+      width:"96%",
       backgroundColor:"white",
       borderRadius: 100,
       borderWidth:1,
