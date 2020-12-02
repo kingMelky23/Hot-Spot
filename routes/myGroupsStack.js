@@ -2,6 +2,7 @@ import React from 'react'
 import { createStackNavigator } from "react-navigation-stack";
 import {createMaterialBottomTabNavigator} from'react-navigation-material-bottom-tabs'
 
+import JoinRequests from '../screens/JoinRequests'
 import GroupChat from '../screens/GroupChat'
 import GroupPage from '../screens/GroupPage'
 import MyGroups from '../screens/MyGroups'
@@ -21,9 +22,22 @@ const GroupScreenTab = createMaterialBottomTabNavigator(
       }
 )
 
+const Requests = createMaterialBottomTabNavigator(
+    {
+        MyGroups:{screen: MyGroups},
+        JoinRequests:{screen:JoinRequests}
+    },
+    {
+        initialRouteName: 'MyGroups',
+        activeColor: '#f0edf6',
+        inactiveColor: '#DD1111',
+        barStyle: { backgroundColor: '#FF5555', height:70 },
+      }
+)
+
 const screens = {
     MyGroups: {
-        screen: MyGroups,
+        screen: Requests,
         navigationOptions: ({navigation})=>{
             return{
                 headerTitle: ()=> <Header navigation={navigation} title='My Groups'/>
