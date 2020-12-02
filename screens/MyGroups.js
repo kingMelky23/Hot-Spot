@@ -39,9 +39,7 @@ export default function MyGroups({ navigation }) {
   ]);
 
   useFocusEffect(useCallback(() => {
-    console.log(
-      "testing my groups _________________________________________________________"
-    );
+
     const allGroups = async () => {
       await Axios.get(
         `https://hotspot-backend.herokuapp.com/api/v1/get/FindRelatedGroups`
