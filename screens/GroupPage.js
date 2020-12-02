@@ -69,10 +69,11 @@ export default function GroupPage({ navigation }) {
           members: item.participants,
           start:item.meetup_time.$date,
           end:item.ending_time.$date
-        }))
-        console.log((details[0]))
+        }))      
+        dispatch(set_groupName(details[0].name))
         setGroupDetail(details[0])
         
+        return () => dispatch(set_groupName("Event"))
       })
       .catch((err)=>console.log(err));
     }
@@ -190,8 +191,8 @@ export default function GroupPage({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
-      <ScrollView style={{ flex: 1 }}>
         <View style={globalStyles.card}>
+          <ScrollView >
           <Text style={styles.title}>{groupDetail.name}</Text>
           <Text>{groupDetail.start}</Text>
 
@@ -228,10 +229,10 @@ export default function GroupPage({ navigation }) {
           />
 
           <TouchableOpacity style={styles.leaveButton}>
-            <Text style={{ color: "#FFF", fontSize: 20 }}>Leave</Text>
+            <Text style={{ color: "#FFF", fontSize: 20}}>Leave</Text>
           </TouchableOpacity>
-        </View>
       </ScrollView>
+        </View>
     </View>
   );
 }
@@ -264,7 +265,7 @@ const styles = StyleSheet.create({
   },
   leaveButton: {
     height: 100,
-    marginTop: 4,
+    marginTop: "63%",
     backgroundColor: "#FF5555",
     justifyContent: "center",
     alignItems: "center",
