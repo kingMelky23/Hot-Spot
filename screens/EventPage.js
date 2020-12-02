@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -16,6 +16,7 @@ import { Feather, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { set_Event_Id } from "../redux/actions";
+import {useFocusEffect} from "react-navigation-hooks"
 
 import { globalStyles } from "../styles/globalStyles";
 import CreateGroup from "./createGroup";
@@ -44,7 +45,7 @@ function EventPage({ navigation }) {
     }
   };
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     setGoogleImage(navigation.getParam("locationPhoto"));
 
     const getAddressBackend = async () => {
@@ -70,7 +71,7 @@ function EventPage({ navigation }) {
         .catch((err) => console.log("EventPage: error init render" + err));
     };
     getAddressBackend();
-  }, [groupListing]);
+  }, [groupListing]));
 
   const addGroup = (group) => {
 

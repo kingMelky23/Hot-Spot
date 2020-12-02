@@ -1,11 +1,12 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useCallback} from 'react'
 import { StyleSheet, Text, View,Image,FlatList, TouchableOpacity,Animated } from 'react-native'
 import {ListItem, Icon} from "react-native-elements"
 import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { FontAwesome } from '@expo/vector-icons'; 
-import { not } from 'react-native-reanimated'
+
 import Axios from 'axios'
+import {useFocusEffect} from "react-navigation-hooks"
+
 
 import {globalStyles} from '../styles/globalStyles'
 var faker = require("faker");
@@ -19,21 +20,38 @@ export default function Notifications() {
         {name: faker.name.findName(), request: "join", image:faker.image.people(), hours:faker.random.number({'min':1, 'max':23}), key:"4"},
     ])
 
-    useEffect(() => {
+    useFocusEffect(useCallback(() => {
       Axios.get("https://hotspot-backend.herokuapp.com/api/v1/get/FindNotificationsForUser")
       .then((res) => {
-        console.log("Test ------------------------------------")
-        // console.log(JSON.parse(JSON.stringify(res)))
+        // console.log("Test ------------------------------------")
+        console.log(JSON.parse(JSON.stringify(res.data.notifications)))
+
+        const data = JSON.parse(JSON.stringify(res.data.notifications))
+        setNotifty(data.map(item=>({
+          key : item._id.$oid,
+          created: item.created_time.$date,
+          isRead:item.is_read,
+          message: item.message,
+          uid:item.user.$oid,
+          image:faker.image.people()
+              
+        })))
+        
+
       }).catch((err) => {
         console.log(err)
       })
-    },[])
+    },[]))
 
     
 
   
-    const readRow = (rowMap, rowKey) => {
+    const readRow = async(rowMap, rowKey) => {
       if (rowMap[rowKey]) {
+        Axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/MarkNotificationAsRead`,{
+          notification_id:rowKey
+        }).then((res)=>console.log(res)).catch((err)=>console.log(err))
+
         rowMap[rowKey].closeRow();
       }
     };
@@ -122,15 +140,20 @@ export default function Notifications() {
 
 
     renderItem = ({ item }) => (
-      <ListItem bottomDivider>
+      <View >
+
+      <ListItem bottomDivider
+        
+      >
         <Image style={styles.imageContainer}
          source={{uri:item.image}}/>
-        <ListItem.Content>
-          <ListItem.Title><Text style={{fontWeight:"bold"}}>{item.name}</Text> joined the group </ListItem.Title>
+        <ListItem.Content >
+          <ListItem.Title><Text style={{fontWeight:"bold"}}>{item.message}</Text></ListItem.Title>
           <ListItem.Subtitle style={{color:"grey"}}>{item.hours} hours ago</ListItem.Subtitle>
         </ListItem.Content>
       
       </ListItem>
+      </View>
     )
     
       return (

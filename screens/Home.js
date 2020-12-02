@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import {
   StyleSheet,
   FlatList,
@@ -7,13 +7,14 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import {useFocusEffect} from "react-navigation-hooks"
 import { globalStyles } from "../styles/globalStyles";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 var faker = require("faker");
 import {GOOGLE_API_KEY } from "../secret"
 import { set_Coordinates } from "../redux/actions";
-import { useFocusEffect } from '@react-navigation/native'
+
 
 export default function Home({ navigation }) {
   const dispatch = useDispatch();
@@ -30,7 +31,6 @@ export default function Home({ navigation }) {
   ]);
 
   async function findEvents(lat,lng) {
-    console.log("test reload")
     await axios
       .get(
         `https://hotspot-backend.herokuapp.com/api/v1/get/FindEventsNearCoordinates?lat=${lat}&long=${lng}`
@@ -41,7 +41,7 @@ export default function Home({ navigation }) {
       });
   }
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     const geoLocation = async () => {
       await axios.post(`https://www.googleapis.com/geolocation/v1/geolocate?key=${GOOGLE_API_KEY}`)
         .then((res) => {
@@ -61,7 +61,7 @@ export default function Home({ navigation }) {
         });
     };
     geoLocation();
-  }, [navigation]);
+  }, []));
 
   const getSize =(arr)=>{
     if(typeof(arr) === "undefined") return 0
