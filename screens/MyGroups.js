@@ -1,5 +1,6 @@
 import Axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState,useCallback } from "react";
+import {useFocusEffect} from "react-navigation-hooks"
 import {
   StyleSheet,
   Text,
@@ -37,28 +38,30 @@ export default function MyGroups({ navigation }) {
     },
   ]);
 
-  useEffect(() => {
-    console.log(
-      "testing my groups _________________________________________________________"
-    );
+  useFocusEffect(useCallback(() => {
+
     const allGroups = async () => {
       await Axios.get(
         `https://hotspot-backend.herokuapp.com/api/v1/get/FindRelatedGroups`
       )
         .then((res) => {
-          console.log(res.data.events)
+          // console.log(res.data.events)
           const groupList = res.data.events
 
-          const temp = groupList.map((item)=>{
-            item.max_members
-          })
+          setGroups(groupList.map((item)=>({
+            key:item._id.$oid,
+            capacity:item.max_members,
+            participants:item.participants.length,
+            name: item.name,
+            karma: item.minimal_karma
+          })))
 
-          console.log(temp)
+          // console.log(temp)
         })
         .catch((err) => console.log(err));
     };
     allGroups();
-  });
+  },[]));
 
   return (
     <View style={globalStyles.container}>

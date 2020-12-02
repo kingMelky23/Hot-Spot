@@ -7,9 +7,9 @@ import { ScrollView } from "react-native-gesture-handler";
 import axios from "axios";
 
 export default function JoinGroup({ navigation }) {
-  const groupKey = navigation.getParam("key");
   const [showMore, setShowMore] = useState([false]);
   const [showMoreText, setShowMoreText] = useState(["show more"]);
+  const groupKey = navigation.getParam("key");
   const [groupDetail, setGroupDetail] = useState({
     admin: "",
     name: "",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Animated,
   StyleSheet,
@@ -13,10 +13,19 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch } from "react-redux";
 import { set_groupName } from "../redux/actions";
+import {useFocusEffect} from 'react-navigation-hooks'
+import axios from'axios'
 
 export default function GroupPage({ navigation }) {
-  const members = navigation.getParam("members");
-
+  const groupKey = navigation.getParam("key");
+  const members = navigation.getParam("members")
+  const [groupDetail, setGroupDetail] = useState({
+    admin: "",
+    name: "",
+    description: "",
+    minimal_karma: null,
+    members: [],
+  });
   const [showMore, setShowMore] = useState([false]);
   const [showMoreText, setShowMoreText] = useState(["show more"]);
   const dispatch = useDispatch();
@@ -36,9 +45,40 @@ export default function GroupPage({ navigation }) {
     should later be added componenets
   */
 
-  useEffect(() => {
-    dispatch(set_groupName(navigation.getParam("name")));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(set_groupName(navigation.getParam("name")));
+  // }, []);
+
+
+  useFocusEffect(useCallback( () => {
+    const findGroup = async()=>{
+    await axios.get(
+        `https://hotspot-backend.herokuapp.com/api/v1/get/FindGroupById?group_id=${groupKey}`
+      )
+      .then((res) => {
+       
+        const data = [res.data.group]
+
+        // console.log(data)
+        const details = data.map((item)=>({
+          key:item._id.$oid,
+          admin:item.admins[0].$oid,
+          name:item.name,
+          description:item.description,
+          minimal_karma:item.minimal_karma,
+          members: item.participants,
+          start:item.meetup_time.$date,
+          end:item.ending_time.$date
+        }))
+        console.log((details[0]))
+        setGroupDetail(details[0])
+        
+      })
+      .catch((err)=>console.log(err));
+    }
+
+    findGroup()
+  },[]));
 
   const onShowMore = () => {
     setShowMore(!showMore);
@@ -50,7 +90,11 @@ export default function GroupPage({ navigation }) {
   };
 
   const renderItem = (data, rowMap) => {
-    return <UserItem name={data.item.userName} admin={data.item.admin} />;
+    console.log(data.item)
+    return (
+    <UserItem name={data.item.data.username} 
+      admin={data.item.data._id.$oid  === groupDetail.admin ? true : false} />
+      )
   };
 
   const closeRow = (rowMap, rowKey) => {
@@ -148,11 +192,11 @@ export default function GroupPage({ navigation }) {
     <View style={globalStyles.container}>
       <ScrollView style={{ flex: 1 }}>
         <View style={globalStyles.card}>
-          <Text style={styles.title}>{navigation.getParam("name")}</Text>
-          <Text>{navigation.getParam("date")}</Text>
+          <Text style={styles.title}>{groupDetail.name}</Text>
+          <Text>{groupDetail.start}</Text>
 
           <View style={styles.locationInfo}>
-            <Text>{navigation.getParam("time")}</Text>
+            <Text>{groupDetail.end}</Text>
             <Text>{navigation.getParam("address")}</Text>
           </View>
           <View
@@ -160,7 +204,7 @@ export default function GroupPage({ navigation }) {
               showMore ? styles.descriptionBox : styles.showMoreDescription
             }
           >
-            <Text>lorem</Text>
+            <Text>{groupDetail.description}</Text>
             <TouchableOpacity /* changes size of desciption box */
               style={styles.showMoreButton}
               onPress={() => onShowMore()}
@@ -174,7 +218,8 @@ export default function GroupPage({ navigation }) {
           </Text>
 
           <SwipeListView
-            data={members}
+            keyExtractor={item=>item.$oid}
+            data={groupDetail.members}
             renderItem={renderItem}
             renderHiddenItem={renderHiddenItem}
             leftOpenValue={75}
