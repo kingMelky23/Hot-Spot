@@ -188,6 +188,7 @@ function EventPage({ navigation }) {
                   {groupListing.map( item  => (
                     <TouchableOpacity
                       onPress={() => navigation.navigate("JoinGroup", item)}
+                      key={item.key}
                     >
                       <GroupItem
                         name={item.name}
