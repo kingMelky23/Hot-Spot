@@ -1,6 +1,6 @@
 import {createDrawerNavigator} from 'react-navigation-drawer'
 import {createAppContainer, createSwitchNavigator,} from 'react-navigation'
-import {useFocusEffect} from "react-navigation-hooks"
+
 import HomeStack from './homeStack'
 import profileStack from './profileStack'
 import NotificationStack from './notificationStack'

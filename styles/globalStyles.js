@@ -9,11 +9,10 @@ export const globalStyles = StyleSheet.create({
     },
     card: {
         flex: 1,
-        backgroundColor: "white",
+        backgroundColor: "#fdfcfa",
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
-        borderWidth: 3,
-        borderColor: "#fff",
+      
         padding: 5,
         position: 'relative'
         // alignItems: "center",

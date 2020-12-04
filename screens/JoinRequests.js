@@ -121,9 +121,9 @@ export default function JoinRequests() {
   
     const readRow = async(rowMap, rowKey) => {
       if (rowMap[rowKey]) {
-        Axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/MarkNotificationAsRead`,{
-          notification_id:rowKey
-        }).then((res)=>console.log(res)).catch((err)=>console.log(err))
+        // Axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/MarkNotificationAsRead`,{
+        //   notification_id:rowKey
+        // }).then((res)=>console.log(res)).catch((err)=>console.log(err))
 
         rowMap[rowKey].closeRow();
       }

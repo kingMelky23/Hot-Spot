@@ -20,7 +20,7 @@ export default function GroupPage({ navigation }) {
   const userInfo = useSelector(state => state.currentUserReducer)
 
   const groupKey = navigation.getParam("key");
-
+  const completion = (navigation.getParam("completion")?false:true)
   const [groupDetail, setGroupDetail] = useState({
     admin: "",
     name: "",
@@ -98,7 +98,12 @@ export default function GroupPage({ navigation }) {
       )
   };
 
+  const reviewUser = (rowMap,rowKey) =>{
+    
+  }
+
   const closeRow = (rowMap, rowKey) => {
+    console.log(rowKey)
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
@@ -119,7 +124,11 @@ export default function GroupPage({ navigation }) {
 
     return (
       <View style={styles.rowBack}>
-        <Text>Left</Text>
+        <TouchableOpacity
+        onPress={onClose}
+        >
+          <Text>Review</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={[styles.backRightBtn, styles.backRightBtnLeft]}
           onPress={onClose}
@@ -179,12 +188,14 @@ export default function GroupPage({ navigation }) {
   };
 
   const renderHiddenItem = (data, rowMap) => {
+
     return (
       <HiddenItemWithActions
         data={data}
         rowMap={rowMap}
-        onClose={() => closeRow(rowMap, data.item.key)}
-        onDelete={() => deleteRow(rowMap, data.item.key)}
+        onReview={()=>reviewUser(rowMap,data.item.$oid)}
+        onClose={() => closeRow(rowMap, data.item.$oid)}
+        onDelete={() => deleteRow(rowMap, data.item.$oid)}
       />
     );
   };
@@ -225,7 +236,7 @@ export default function GroupPage({ navigation }) {
             renderHiddenItem={renderHiddenItem}
             leftOpenValue={75}
             rightOpenValue={-150}
-            disableRightSwipe
+            disableRightSwipe={completion}
             disableLeftSwipe={userInfo.uid === groupDetail.admin ? false : true}
           />
 

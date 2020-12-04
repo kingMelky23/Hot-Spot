@@ -47,6 +47,7 @@ const screens = {
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: () => <PlainHeader navigation={navigation} title="Event" />,
+        headerLeft: () => null
       };
     },
   },
@@ -55,6 +56,7 @@ const screens = {
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: () => <PlainHeader navigation={navigation} title="Event" />,
+        headerLeft: () => null
       };
     },
   },

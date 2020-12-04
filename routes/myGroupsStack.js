@@ -41,6 +41,7 @@ const screens = {
         navigationOptions: ({navigation})=>{
             return{
                 headerTitle: ()=> <Header navigation={navigation} title='My Groups'/>
+
             }
         }
     },
@@ -49,6 +50,7 @@ const screens = {
         navigationOptions: ({ navigation }) => {
           return {
             headerTitle: () => <PlainHeader navigation={navigation} title="Event" />,
+            headerLeft: () => null
           };
         },
       },

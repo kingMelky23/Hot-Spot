@@ -45,7 +45,8 @@ export default function Home({ navigation }) {
 
 
   useEffect(() => {
-    console.log("user deatils _______________________________________________________________________________")
+    console.log("navigation _______________________________________________________________________________")
+    console.log(navigation)
     const userDetails = () =>{
       axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/GetProfileData`)
       .then((res)=>{
