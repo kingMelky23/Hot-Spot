@@ -55,7 +55,7 @@ export default function MyGroups({ navigation }) {
           ))
           // console.log(completeObj)
 
-          setGroups(allGroups.map((item)=>{
+          const testing = (allGroups.map((item)=>{
             if(completeObj.includes(item._id.$oid)){
               return{
                 key:item._id.$oid,
@@ -75,6 +75,9 @@ export default function MyGroups({ navigation }) {
             }
             
           }))
+
+
+          console.log(testing)
         }))
         .catch((err) => console.log(err));
     };

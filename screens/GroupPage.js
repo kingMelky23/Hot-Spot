@@ -5,22 +5,28 @@ import {
   Text,
   View,
   TouchableOpacity,
+  ScrollView,
+  Modal
 } from "react-native";
-import { globalStyles } from "../styles/globalStyles";
-import UserItem from "../shared/UserItem";
-import { ScrollView } from "react-native-gesture-handler";
 import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useFocusEffect } from "react-navigation-hooks";
+import axios from "axios";
+
+import UserItem from "../shared/UserItem";
 import { set_groupName } from "../redux/actions";
-import {useFocusEffect} from 'react-navigation-hooks'
-import axios from'axios'
-
+import { globalStyles } from "../styles/globalStyles";
 export default function GroupPage({ navigation }) {
-  const userInfo = useSelector(state => state.currentUserReducer)
-
+  const date = new Date();
+  const [modalOpen, setModalOpen] = useState(false);
   const groupKey = navigation.getParam("key");
-  const completion = (navigation.getParam("completion")?false:true)
+  const completion = navigation.getParam("completion") ? false : true;
+  const userInfo = useSelector((state) => state.currentUserReducer);
+  const dispatch = useDispatch();
+  const [showMore, setShowMore] = useState([false]);
+  const [showMoreText, setShowMoreText] = useState(["show more"]);
+  const [joinRequest, setJoinRequest] = useState([]);
   const [groupDetail, setGroupDetail] = useState({
     admin: "",
     name: "",
@@ -28,9 +34,6 @@ export default function GroupPage({ navigation }) {
     minimal_karma: null,
     members: [],
   });
-  const [showMore, setShowMore] = useState([false]);
-  const [showMoreText, setShowMoreText] = useState(["show more"]);
-  const dispatch = useDispatch();
   /**
    * REACT NATIVE SWIPE TO DELETE TUTORIAL
    * SWIPE FEATURE
@@ -47,38 +50,52 @@ export default function GroupPage({ navigation }) {
     should later be added componenets
   */
 
-
-  useFocusEffect(useCallback( () => {
-    // console.log("test user info-------------------------------")
-
-    const findGroup = async()=>{
-    await axios.get(
+  useFocusEffect(
+    useCallback(() => {
+      const request1 = axios.get(
         `https://hotspot-backend.herokuapp.com/api/v1/get/FindGroupById?group_id=${groupKey}`
-      )
-      .then((res) => {
-       
-        const data = [res.data.group]
+      );
+      const request2 = axios.get(
+        `https://hotspot-backend.herokuapp.com/api/v1/get/GetJoinRequestForGroup?group_id=${groupKey}`
+      );
+      const findGroup = async () => {
+        await axios
+          .all([request1, request2])
+          .then(
+            axios.spread((...res) => {
+              const detailsData = [res[0].data.group];
+              const details = detailsData.map((item) => ({
+                key: item._id.$oid,
+                admin: item.admins[0].$oid,
+                name: item.name,
+                description: item.description,
+                minimal_karma: item.minimal_karma,
+                members: item.participants,
+                start: item.meetup_time.$date,
+                end: item.ending_time.$date,
+              }));
+              dispatch(set_groupName(details[0].name));
+              setGroupDetail(details[0]);
 
-        const details = data.map((item)=>({
-          key:item._id.$oid,
-          admin:item.admins[0].$oid,
-          name:item.name,
-          description:item.description,
-          minimal_karma:item.minimal_karma,
-          members: item.participants,
-          start:item.meetup_time.$date,
-          end:item.ending_time.$date
-        }))      
-        dispatch(set_groupName(details[0].name))
-        setGroupDetail(details[0])
-        
-        return () => dispatch(set_groupName("Event"))
-      })
-      .catch((err)=>console.log(err));
-    }
+              const joinData = res[1].data.requests;
+              console.log(joinData)
+              setJoinRequest(
+                joinData.map((item) => ({
+                  key: item._id.$oid,
+                  username: item.data.username,
+                }))
+              );
 
-    findGroup()
-  },[]));
+              //clean up
+              return () => dispatch(set_groupName("Event"));
+            })
+          )
+          .catch((err) => console.log(err));
+      };
+
+      findGroup();
+    }, [])
+  );
 
   const onShowMore = () => {
     setShowMore(!showMore);
@@ -91,35 +108,38 @@ export default function GroupPage({ navigation }) {
 
   const renderItem = (data, rowMap) => {
     return (
-    <UserItem name={data.item.data.username} 
-      admin={data.item.data._id.$oid  === groupDetail.admin ? true : false} />
-      )
+      <UserItem
+        name={data.item.data.username}
+        admin={data.item.data._id.$oid === groupDetail.admin ? true : false}
+      />
+    );
   };
 
-  const reviewUser = (rowMap,rowKey) =>{
+  const reviewUser = (rowMap, rowKey) => {
 
-    closeRow(rowMap,rowKey)
-  }
+
+    closeRow(rowMap, rowKey);
+  };
 
   const closeRow = (rowMap, rowKey) => {
- 
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
   };
 
-  const removeUser = async(rowMap, rowKey) => {
-    await axios.get(
-      `https://hotspot-backend.herokuapp.com/api/v1/get/RemoveUserFromGroup?`,{
-        group_id:groupKey,
-        user_id: rowKey
-      }
-    )
-
-
+  const removeUser = async (rowMap, rowKey) => {
+    if (rowKey !== groupDetail.admin) {
+      await axios.get(
+        `https://hotspot-backend.herokuapp.com/api/v1/get/RemoveUserFromGroup?`,
+        {
+          group_id: groupKey,
+          user_id: rowKey,
+        }
+      );
+    } else {
+      alert("Admins scan not remove theirself");
+    }
     closeRow(rowMap, rowKey);
-
-
     /**
      * REACT NATIVE SWIPE TO DELETE TUTORIAL
      * TIMESTAMP: 13:40
@@ -128,14 +148,19 @@ export default function GroupPage({ navigation }) {
      */
   };
 
+  const formatDate = (timeStamp) => {
+    const date = new Date(timeStamp).toLocaleDateString("en-US");
+    const time = new Date(timeStamp).toLocaleTimeString("en-US");
+
+    return date + " at " + time;
+  };
+
   const HiddenItemWithActions = (props) => {
-    const { swipeAnimatedValue, onClose, onRemove,onReview } = props;
+    const { swipeAnimatedValue, onClose, onRemove, onReview } = props;
 
     return (
       <View style={styles.rowBack}>
-        <TouchableOpacity
-        onPress={onReview}
-        >
+        <TouchableOpacity onPress={onReview}>
           <Text>Review</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -197,12 +222,11 @@ export default function GroupPage({ navigation }) {
   };
 
   const renderHiddenItem = (data, rowMap) => {
-
     return (
       <HiddenItemWithActions
         data={data}
         rowMap={rowMap}
-        onReview={()=> reviewUser(rowMap,data.item.$oid)}
+        onReview={() => reviewUser(rowMap, data.item.$oid)}
         onClose={() => closeRow(rowMap, data.item.$oid)}
         onRemove={() => removeUser(rowMap, data.item.$oid)}
       />
@@ -211,13 +235,24 @@ export default function GroupPage({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
-        <View style={globalStyles.card}>
-          <ScrollView >
-          <Text style={styles.title}>{groupDetail.name}</Text>
-          <Text>{groupDetail.start}</Text>
+      <View style={globalStyles.card}>
+        <ScrollView>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.title}>{groupDetail.name}</Text>
+            <TouchableOpacity
+              style={styles.newRequest}
+              onPress={()=>navigation.navigate("JoinRequests",{users:joinRequest})}
+            >
+              <Text style={{ color: "white" }}>{joinRequest.length}</Text>
+            </TouchableOpacity>
+          </View>
+
+          <Text>{"start: " + formatDate(groupDetail.start)}</Text>
 
           <View style={styles.locationInfo}>
-            <Text>{groupDetail.end}</Text>
+            <Text>{"end: " + formatDate(groupDetail.end)}</Text>
             <Text>{navigation.getParam("address")}</Text>
           </View>
           <View
@@ -239,7 +274,7 @@ export default function GroupPage({ navigation }) {
           </Text>
 
           <SwipeListView
-            keyExtractor={item=>item.$oid}
+            keyExtractor={(item) => item.$oid}
             data={groupDetail.members}
             renderItem={renderItem}
             renderHiddenItem={renderHiddenItem}
@@ -250,10 +285,10 @@ export default function GroupPage({ navigation }) {
           />
 
           <TouchableOpacity style={styles.leaveButton}>
-            <Text style={{ color: "#FFF", fontSize: 20}}>Leave</Text>
+            <Text style={{ color: "#FFF", fontSize: 20 }}>Leave</Text>
           </TouchableOpacity>
-      </ScrollView>
-        </View>
+        </ScrollView>
+      </View>
     </View>
   );
 }
@@ -348,5 +383,15 @@ const styles = StyleSheet.create({
     height: 25,
     width: 25,
     marginRight: 7,
+  },
+  newRequest: {
+    backgroundColor: "red",
+    height: 27,
+    width: 27,
+    top: 10,
+    right: 10,
+    borderRadius: 13.5,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
