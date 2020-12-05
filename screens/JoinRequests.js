@@ -93,28 +93,7 @@ export default function JoinRequests() {
         {name: faker.name.findName(), request: "join", image:faker.image.people(), hours:faker.random.number({'min':1, 'max':23}), key:"4"},
     ])
 
-    // useFocusEffect(useCallback(() => {
-    //   Axios.get("https://hotspot-backend.herokuapp.com/api/v1/get/FindNotificationsForUser")
-    //   .then((res) => {
-    //     // console.log("Test ------------------------------------")
-    //     console.log(JSON.parse(JSON.stringify(res.data.notifications)))
-
-    //     const data = JSON.parse(JSON.stringify(res.data.notifications))
-    //     setNotifty(data.map(item=>({
-    //       key : item._id.$oid,
-    //       created: item.created_time.$date,
-    //       isRead:item.is_read,
-    //       message: item.message,
-    //       uid:item.user.$oid,
-    //       image:faker.image.people()
-              
-    //     })))
-        
-
-    //   }).catch((err) => {
-    //     console.log(err)
-    //   })
-    // },[]))
+    
 
     
 

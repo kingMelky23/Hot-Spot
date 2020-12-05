@@ -50,7 +50,7 @@ export default function GroupPage({ navigation }) {
 
   useFocusEffect(useCallback( () => {
     // console.log("test user info-------------------------------")
-    // console.log(userInfo.uid)
+
     const findGroup = async()=>{
     await axios.get(
         `https://hotspot-backend.herokuapp.com/api/v1/get/FindGroupById?group_id=${groupKey}`
@@ -59,7 +59,6 @@ export default function GroupPage({ navigation }) {
        
         const data = [res.data.group]
 
-        // console.log(data)
         const details = data.map((item)=>({
           key:item._id.$oid,
           admin:item.admins[0].$oid,
@@ -91,7 +90,6 @@ export default function GroupPage({ navigation }) {
   };
 
   const renderItem = (data, rowMap) => {
-    console.log(data.item)
     return (
     <UserItem name={data.item.data.username} 
       admin={data.item.data._id.$oid  === groupDetail.admin ? true : false} />
@@ -99,11 +97,12 @@ export default function GroupPage({ navigation }) {
   };
 
   const reviewUser = (rowMap,rowKey) =>{
-    
+
+    closeRow(rowMap,rowKey)
   }
 
   const closeRow = (rowMap, rowKey) => {
-    console.log(rowKey)
+ 
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
@@ -120,12 +119,12 @@ export default function GroupPage({ navigation }) {
   };
 
   const HiddenItemWithActions = (props) => {
-    const { swipeAnimatedValue, onClose, onDelete } = props;
+    const { swipeAnimatedValue, onClose, onDelete,onReview } = props;
 
     return (
       <View style={styles.rowBack}>
         <TouchableOpacity
-        onPress={onClose}
+        onPress={onReview}
         >
           <Text>Review</Text>
         </TouchableOpacity>
@@ -193,7 +192,7 @@ export default function GroupPage({ navigation }) {
       <HiddenItemWithActions
         data={data}
         rowMap={rowMap}
-        onReview={()=>reviewUser(rowMap,data.item.$oid)}
+        onReview={()=> reviewUser(rowMap,data.item.$oid)}
         onClose={() => closeRow(rowMap, data.item.$oid)}
         onDelete={() => deleteRow(rowMap, data.item.$oid)}
       />
