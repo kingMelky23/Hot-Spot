@@ -108,8 +108,18 @@ export default function GroupPage({ navigation }) {
     }
   };
 
-  const deleteRow = (rowMap, rowKey) => {
+  const removeUser = async(rowMap, rowKey) => {
+    await axios.get(
+      `https://hotspot-backend.herokuapp.com/api/v1/get/RemoveUserFromGroup?`,{
+        group_id:groupKey,
+        user_id: rowKey
+      }
+    )
+
+
     closeRow(rowMap, rowKey);
+
+
     /**
      * REACT NATIVE SWIPE TO DELETE TUTORIAL
      * TIMESTAMP: 13:40
@@ -119,7 +129,7 @@ export default function GroupPage({ navigation }) {
   };
 
   const HiddenItemWithActions = (props) => {
-    const { swipeAnimatedValue, onClose, onDelete,onReview } = props;
+    const { swipeAnimatedValue, onClose, onRemove,onReview } = props;
 
     return (
       <View style={styles.rowBack}>
@@ -157,7 +167,7 @@ export default function GroupPage({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.backRightBtn, styles.backRightBtnRight]}
-          onPress={onDelete}
+          onPress={onRemove}
         >
           <Animated.View
             style={[
@@ -194,7 +204,7 @@ export default function GroupPage({ navigation }) {
         rowMap={rowMap}
         onReview={()=> reviewUser(rowMap,data.item.$oid)}
         onClose={() => closeRow(rowMap, data.item.$oid)}
-        onDelete={() => deleteRow(rowMap, data.item.$oid)}
+        onRemove={() => removeUser(rowMap, data.item.$oid)}
       />
     );
   };
