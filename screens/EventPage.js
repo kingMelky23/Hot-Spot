@@ -123,7 +123,7 @@ function EventPage({ navigation }) {
     <View style={globalStyles.container}>
       <Modal visible={modalOpen} animationType="slide">
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <SafeAreaView style={styles.modalContent}>
+          <SafeAreaView style={globalStyles.modalContent}>
             <MaterialIcons
               name="close"
               size={24}

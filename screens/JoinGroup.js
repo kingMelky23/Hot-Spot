@@ -65,12 +65,7 @@ export default function JoinGroup({ navigation }) {
   }, [groupKey]);
 
 
-  useEffect(()=>{
-    console.log('test join groups-----------------------------------------------')
-    axios.get(`https://hotspot-backend.herokuapp.com//api/v1/get/GetJoinRequestForGroup?group_id=${groupKey}`)
-    .then((res)=>console.log(res))
-    .catch((err)=>console.log(err))
-  },[])
+
 
 
 

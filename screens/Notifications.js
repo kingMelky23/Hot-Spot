@@ -27,7 +27,7 @@ export default function Notifications() {
         console.log(JSON.parse(JSON.stringify(res.data.notifications)))
 
         const data = JSON.parse(JSON.stringify(res.data.notifications))
-        setNotifty(data.map(item=>({
+        const temp = data.map(item=>({
           key : item._id.$oid,
           created: item.created_time.$date,
           isRead:item.is_read,
@@ -35,7 +35,9 @@ export default function Notifications() {
           uid:item.user.$oid,
           image:faker.image.people()
               
-        })))
+        }))
+
+        setNotifty(temp.filter(item=>item.isRead !== true))
         
 
       }).catch((err) => {
@@ -50,7 +52,13 @@ export default function Notifications() {
       if (rowMap[rowKey]) {
         Axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/MarkNotificationAsRead`,{
           notification_id:rowKey
-        }).then((res)=>console.log(res)).catch((err)=>console.log(err))
+        }).then((res)=>{
+          const newData = [...notify];
+                  const prevIndex = notify.findIndex((item) => item.key === rowKey);
+                  newData.splice(prevIndex, 1);
+                  setNotifty(newData)
+        })
+        .catch((err)=>console.log(err))
 
         rowMap[rowKey].closeRow();
       }

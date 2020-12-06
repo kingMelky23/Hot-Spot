@@ -1,91 +1,17 @@
-// import React,{useState, useEffect} from 'react'
-// import { StyleSheet, Text, View,Button,FlatList } from 'react-native'
-// import {globalStyles} from '../styles/globalStyles'
-// import Axios from 'axios'
+import React, { useState} from 'react'
+import { StyleSheet, View, TouchableOpacity,Animated,Alert } from 'react-native'
 
-
-
-// export default function JoinRequests() {
-
-
-
-
-//     const approve= ()=>{
-//         Axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/AcceptJoinRequest`,{
-//             request_id:"5fc6ded794eb8a000b9f4ded"
-//         })
-//         .then((res)=>console.log(res))
-//         .catch((err)=>console.log(err))
-//     }
-
-//     const deny =() =>{
-//         Axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/DenyJoinRequest`,{
-//             request_id:"5fc6ded794eb8a000b9f4ded"
-//         }).then((res)=>console.log(res))
-//         .catch((err)=>console.log(err))
-//     }
-
-
-//     return (
-//         <View style={globalStyles.container}>
-//             <View style={globalStyles.card}>
-//                 <Text>JoinRequests</Text>
-                
-//                 {/* 5fc69fff3a0964000af0ee27 */}
-
-
-//                 <Button title="accept" onPress={()=>approve()}/>
-//                 <Button title="deny" onPress={()=>deny()}/>
-//             </View>
-//         </View>
-//     )
-// }
-
-// const styles = StyleSheet.create({})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import React, { useState, useCallback} from 'react'
-import { StyleSheet, Text, View,Image,FlatList, TouchableOpacity,Animated } from 'react-native'
-import {ListItem, Icon} from "react-native-elements"
 import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Axios from 'axios'
-import {useFocusEffect} from "react-navigation-hooks"
+import UserItem from '../shared/UserItem'
 
-
-import {globalStyles} from '../styles/globalStyles'
 var faker = require("faker");
 
-export default function JoinRequests() {
+export default function JoinRequests({navigation}) {
 
+    const [users,setUsers] = useState(navigation.getParam("users"))
     const [notify,setNotifty] = useState([
         {name: faker.name.findName(), request: "join", image:faker.image.people(), hours:faker.random.number({'min':1, 'max':23}), key:"1"},
         {name: faker.name.findName(), request: "join", image:faker.image.people(), hours:faker.random.number({'min':1, 'max':23}), key:"2"},
@@ -93,67 +19,87 @@ export default function JoinRequests() {
         {name: faker.name.findName(), request: "join", image:faker.image.people(), hours:faker.random.number({'min':1, 'max':23}), key:"4"},
     ])
 
-    // useFocusEffect(useCallback(() => {
-    //   Axios.get("https://hotspot-backend.herokuapp.com/api/v1/get/FindNotificationsForUser")
-    //   .then((res) => {
-    //     // console.log("Test ------------------------------------")
-    //     console.log(JSON.parse(JSON.stringify(res.data.notifications)))
 
-    //     const data = JSON.parse(JSON.stringify(res.data.notifications))
-    //     setNotifty(data.map(item=>({
-    //       key : item._id.$oid,
-    //       created: item.created_time.$date,
-    //       isRead:item.is_read,
-    //       message: item.message,
-    //       uid:item.user.$oid,
-    //       image:faker.image.people()
-              
-    //     })))
-        
-
-    //   }).catch((err) => {
-    //     console.log(err)
-    //   })
-    // },[]))
-
-    
-
-  
-    const readRow = async(rowMap, rowKey) => {
+    const closeRow = (rowMap, rowKey) => {
       if (rowMap[rowKey]) {
-        Axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/MarkNotificationAsRead`,{
-          notification_id:rowKey
-        }).then((res)=>console.log(res)).catch((err)=>console.log(err))
-
         rowMap[rowKey].closeRow();
       }
     };
+
+    const approve = (rowMap, rowKey) => {
+      
+      Alert.alert(
+        "Continue to approve?",
+        "",
+        [
+          {
+            text: "Continue",
+            onPress: () => {
+              Axios.post(
+                `https://hotspot-backend.herokuapp.com/api/v1/post/AcceptJoinRequest`,
+                {
+                  request_id: rowKey,
+                })
+                .then(() => {
+                  const newData = [...users];
+                  const prevIndex = users.findIndex((item) => item.key === rowKey);
+                  newData.splice(prevIndex, 1);
+                  setUsers(newData);
+                })
+                .catch((err) => console.log(err));
+            },
+            
+          },
+          { text: "Cancel", onPress: () => console.log("OK Pressed")  }
+        ],
+        { cancelable: false }
+      );
+
+      
+ 
+
+        closeRow(rowMap, rowKey);
+      };
   
-    const deleteRow = (rowMap, rowKey) => {
+    const deny = (rowMap, rowKey) => {
+      Alert.alert(
+        "Continue to Deny?",
+        "",
+        [
+          {
+            text: "Continue",
+            onPress: () => {
+              Axios.post(
+                `https://hotspot-backend.herokuapp.com/api/v1/post/DenyJoinRequest`,
+                {
+                  request_id: rowKey,
+                })
+                .then(() => {
+                  const newData = [...users];
+                  const prevIndex = users.findIndex((item) => item.key === rowKey);
+                  newData.splice(prevIndex, 1);
+                  setUsers(newData);
+                })
+                .catch((err) => console.log(err));
+            },
+            
+          },
+          { text: "Cancel", onPress: () => console.log("OK Pressed")  }
+        ],
+        { cancelable: false }
+      );
       closeRow(rowMap, rowKey);
-      /**
-       * REACT NATIVE SWIPE TO DELETE TUTORIAL
-       * TIMESTAMP: 13:40
-       *
-       * USE DELETE FUNCTION FROM BACK END
-       */
+
     };
   
     const HiddenItemWithActions = (props) => {
-      const { swipeAnimatedValue,onRead, onDelete} = props;
+      const { swipeAnimatedValue,onApprove, onDeny} = props;
   
       return (
         <View style={styles.rowBack}>
           <TouchableOpacity
-            style={[styles.backLeftBtn, styles.backLeftBtnLeft]}
-            onPress={onRead}
-          >
-
-            <Text>Read</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
             style={[styles.backRightBtn, styles.backRightBtnLeft]}
-            onPress={onRead}
+            onPress={onApprove}
           >
             <Animated.View style={[styles.rightButtonIcons,{
               transform: [
@@ -175,7 +121,7 @@ export default function JoinRequests() {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.backRightBtn, styles.backRightBtnRight]}
-            onPress={onDelete}
+            onPress={onDeny}
           >
             <Animated.View style={[styles.rightButtonIcons,{
               transform: [
@@ -204,42 +150,33 @@ export default function JoinRequests() {
         <HiddenItemWithActions
           data={data}
           rowMap={rowMap}
-          onRead={() => readRow(rowMap, data.item.key)}
-          onDelete={() => deleteRow(rowMap, data.item.key)}
+          onApprove={()=>approve(rowMap,data.item.key)}
+          onDeny={() => deny(rowMap, data.item.key)}
         />
       );
     };
 
 
 
-    renderItem = ({ item }) => (
+    const renderItem = ({ item }) => (
       <View >
-
-      <ListItem bottomDivider
-        
-      >
-        <Image style={styles.imageContainer}
-         source={{uri:item.image}}/>
-        <ListItem.Content >
-          <ListItem.Title><Text style={{fontWeight:"bold"}}>{item.message}</Text></ListItem.Title>
-          <ListItem.Subtitle style={{color:"grey"}}>{item.hours} hours ago</ListItem.Subtitle>
-        </ListItem.Content>
-      
-      </ListItem>
+        <UserItem name={item.username}/>
       </View>
-    )
+      )
     
+        
       return (
-        <View style={styles.container}>
+        
           <SwipeListView
-            data={notify}
+            keyExtractor={(item) => item.$oid}
+            data={users}
             renderItem={renderItem}
             renderHiddenItem={renderHiddenItem}
-            leftOpenValue={90}
+            leftOpenValue={75}
             rightOpenValue={-150}
-            disableLeftSwipe
+            disableRightSwipe
           />
-        </View>
+       
       )
   }
   
@@ -256,23 +193,22 @@ export default function JoinRequests() {
       flexDirection: "row",
       justifyContent: "space-between",
       paddingLeft: 15,
-      
-      marginRight: 20,
+      margin: 8,
+      marginRight:15,
       borderRadius: 5,
     },
-    backLeftBtn: {
-      alignItems: "flex-start",
+    backRightBtn: {
+      alignItems: "flex-end",
       bottom: 0,
       justifyContent: "center",
       position: "absolute",
       top: 0,
-      width: 90,
+      width: 75,
       paddingRight: 17,
     },
-    backLeftBtnLeft: {
-      alignItems:"center",
+    backRightBtnLeft: {
       backgroundColor: "#1f65ff",
-      left: 0,
+      right: 75,
     },
     backRightBtnRight: {
       backgroundColor: "red",

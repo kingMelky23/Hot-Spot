@@ -13,6 +13,8 @@ import {
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 
 import Search from "./search"
+import {globalStyles} from '../styles/globalStyles'
+
 
 export default function PlainHeader({ navigation, title }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -36,37 +38,38 @@ export default function PlainHeader({ navigation, title }) {
 
 
   return (
-    <SafeAreaView style={styles.header}>
+    <View style={globalStyles.headerContainer}>
       <Modal visible={modalOpen} animationType="slide">
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <SafeAreaView style={styles.modalContent}>
+          <SafeAreaView style={globalStyles.modalContainer}>
             <MaterialIcons
               name="close"
               size={24}
               onPress={() => setModalOpen(false)}
+              style={globalStyles.close}
             />
-            <Search setModalOpen={setModalOpen} onSearch={onSearch}/>
+            <Search setModalOpen={setModalOpen} onSearch={onSearch} />
           </SafeAreaView>
         </TouchableWithoutFeedback>
       </Modal>
+      <View style={globalStyles.headerContent}>
+
+      <MaterialIcons
+        name="arrow-back"
+        size={28}
+        onPress={()=>navigation.goBack()}
+        style={globalStyles.hamburgerIcon}
+      />
+      <Text style={globalStyles.headerText}>{title}</Text>
       <AntDesign
         name="search1"
         size={20}
         color="black"
-        style={styles.searchIcon}
+        style={globalStyles.searchIcon}
         onPress={() => setModalOpen(true)}
       />
-      <View>
-        <Text style={styles.headerText}>{title}</Text>
-        {/**Write function to hide search bar */}
-
-        {/* <TextInput
-                    
-                     style={styles.input}
-                     placeholder = 'Search...'
-                /> */}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

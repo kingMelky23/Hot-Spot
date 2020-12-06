@@ -22,25 +22,26 @@ const GroupScreenTab = createMaterialBottomTabNavigator(
       }
 )
 
-const Requests = createMaterialBottomTabNavigator(
-    {
-        MyGroups:{screen: MyGroups},
-        JoinRequests:{screen:JoinRequests}
-    },
-    {
-        initialRouteName: 'MyGroups',
-        activeColor: '#f0edf6',
-        inactiveColor: '#DD1111',
-        barStyle: { backgroundColor: '#FF5555', height:70 },
-      }
-)
+// const Requests = createMaterialBottomTabNavigator(
+//     {
+//         MyGroups:{screen: MyGroups},
+//         JoinRequests:{screen:JoinRequests}
+//     },
+//     {
+//         initialRouteName: 'MyGroups',
+//         activeColor: '#f0edf6',
+//         inactiveColor: '#DD1111',
+//         barStyle: { backgroundColor: '#FF5555', height:70 },
+//       }
+// )
 
 const screens = {
     MyGroups: {
-        screen: Requests,
+        screen: MyGroups,
         navigationOptions: ({navigation})=>{
             return{
                 headerTitle: ()=> <Header navigation={navigation} title='My Groups'/>
+
             }
         }
     },
@@ -49,6 +50,16 @@ const screens = {
         navigationOptions: ({ navigation }) => {
           return {
             headerTitle: () => <PlainHeader navigation={navigation} title="Event" />,
+            headerLeft: () => null
+          };
+        },
+      },
+    JoinRequests: {
+        screen: JoinRequests,
+        navigationOptions: ({ navigation }) => {
+          return {
+            headerTitle: () => <PlainHeader navigation={navigation} title="Requests" />,
+            headerLeft: () => null
           };
         },
       },

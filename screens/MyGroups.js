@@ -39,25 +39,39 @@ export default function MyGroups({ navigation }) {
   ]);
 
   useFocusEffect(useCallback(() => {
+
+    const findAllGroups = Axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/FindRelatedGroups`)
+    const findCompleted = Axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/FindRelatedGroupsThatAreOver`)
     
     const allGroups = async () => {
-      await Axios.get(
-        `https://hotspot-backend.herokuapp.com/api/v1/get/FindRelatedGroups`
-      )
-        .then((res) => {
-          // console.log(res.data.events)
-          const groupList = res.data.events
-
-          setGroups(groupList.map((item)=>({
-            key:item._id.$oid,
-            capacity:item.max_members,
-            participants:item.participants.length,
-            name: item.name,
-            karma: item.minimal_karma
-          })))
-
-          // console.log(temp)
-        })
+      await Axios.all([findAllGroups,findCompleted])
+        .then(Axios.spread((...res) => {
+          const allGroups=(res[0].data.events)
+          const completedGroups = res[1].data.events
+          const completeObj = completedGroups.map((item,key)=>(
+            item._id.$oid
+          ))
+          setGroups(allGroups.map((item)=>{
+            console.log(item._id.$oid)
+            if(completeObj.includes(item._id.$oid)){
+              return{
+                key:item._id.$oid,
+                capacity:item.max_members,
+                participants:item.participants.length,
+                name: item.name,
+                karma: item.minimal_karma,
+                completion: true,
+              }
+            } else return{
+              key:item._id.$oid,
+              capacity:item.max_members,
+              participants:item.participants.length,
+              name: item.name,
+              karma: item.minimal_karma,
+              completion: false,
+            }
+          }))
+        }))
         .catch((err) => console.log(err));
     };
     allGroups();
@@ -77,6 +91,7 @@ export default function MyGroups({ navigation }) {
                 name={item.name}
                 capacity={item.capacity}
                 participants={item.participants}
+                completion={item.completion}
               />
             </TouchableOpacity>
           )}

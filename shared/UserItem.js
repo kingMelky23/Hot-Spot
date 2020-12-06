@@ -35,8 +35,8 @@ export default function UserItem(props) {
 const styles = StyleSheet.create({
     container:{
         height: 80,
-        width: 370,
-        backgroundColor:"white",
+        width: "95%",
+        backgroundColor:"#fdfcfa",
         borderRadius: 5,
         borderWidth:1,
         borderColor:"gray",
