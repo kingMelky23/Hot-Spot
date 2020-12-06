@@ -82,4 +82,7 @@ export const globalStyles = StyleSheet.create({
       modalContainer: {
         flex: 1,
       },
+      modalContent: {
+        flex: 1,
+      },
 }) 

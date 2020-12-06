@@ -47,15 +47,12 @@ export default function MyGroups({ navigation }) {
       await Axios.all([findAllGroups,findCompleted])
         .then(Axios.spread((...res) => {
           const allGroups=(res[0].data.events)
-          const completedGroups = res[0].data.events
-          console.log(allGroups)
-          
+          const completedGroups = res[1].data.events
           const completeObj = completedGroups.map((item,key)=>(
             item._id.$oid
           ))
-          // console.log(completeObj)
-
-          const testing = (allGroups.map((item)=>{
+          setGroups(allGroups.map((item)=>{
+            console.log(item._id.$oid)
             if(completeObj.includes(item._id.$oid)){
               return{
                 key:item._id.$oid,
@@ -63,7 +60,7 @@ export default function MyGroups({ navigation }) {
                 participants:item.participants.length,
                 name: item.name,
                 karma: item.minimal_karma,
-                completion: true
+                completion: true,
               }
             } else return{
               key:item._id.$oid,
@@ -71,13 +68,9 @@ export default function MyGroups({ navigation }) {
               participants:item.participants.length,
               name: item.name,
               karma: item.minimal_karma,
-              completion: false
+              completion: false,
             }
-            
           }))
-
-
-          console.log(testing)
         }))
         .catch((err) => console.log(err));
     };

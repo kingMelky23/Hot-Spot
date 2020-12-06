@@ -6,9 +6,14 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  Modal
-} from "react-native";
+  Modal,
+  TouchableWithoutFeedback,
+  Keyboard,
+  SafeAreaView
+} from "react-native"; 
 import { SwipeListView } from "react-native-swipe-list-view";
+import { Feather, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
 import { useFocusEffect } from "react-navigation-hooks";
@@ -17,12 +22,14 @@ import axios from "axios";
 import UserItem from "../shared/UserItem";
 import { set_groupName } from "../redux/actions";
 import { globalStyles } from "../styles/globalStyles";
+import KarmaReview from './KarmaReview'
 export default function GroupPage({ navigation }) {
   const date = new Date();
   const [modalOpen, setModalOpen] = useState(false);
   const groupKey = navigation.getParam("key");
   const completion = navigation.getParam("completion") ? false : true;
   const userInfo = useSelector((state) => state.currentUserReducer);
+  const [selectedID,setSelectedID] = useState("") 
   const dispatch = useDispatch();
   const [showMore, setShowMore] = useState([false]);
   const [showMoreText, setShowMoreText] = useState(["show more"]);
@@ -116,10 +123,24 @@ export default function GroupPage({ navigation }) {
   };
 
   const reviewUser = (rowMap, rowKey) => {
-
-
+    setSelectedID(rowKey)
+    setModalOpen(true)
     closeRow(rowMap, rowKey);
   };
+
+  const addReview = async(review)=>{
+    await axios.post(
+      `https://hotspot-backend.herokuapp.com/api/v1/post/GiveReview?`,
+      {
+        user_id: review.id,
+        comment: review.comment,
+        likes: review.karma
+      }
+    ).then((res)=>console.log(res))
+    .catch((err)=>console.log(err));
+    
+    setModalOpen(false);
+  }
 
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
@@ -140,12 +161,6 @@ export default function GroupPage({ navigation }) {
       alert("Admins scan not remove theirself");
     }
     closeRow(rowMap, rowKey);
-    /**
-     * REACT NATIVE SWIPE TO DELETE TUTORIAL
-     * TIMESTAMP: 13:40
-     *
-     * USE DELETE FUNCTION FROM BACK END
-     */
   };
 
   const formatDate = (timeStamp) => {
@@ -235,6 +250,18 @@ export default function GroupPage({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
+      <Modal visible={modalOpen} animationType="slide">
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <SafeAreaView style={globalStyles.modalContent}>
+            <MaterialIcons
+              name="close"
+              size={24}
+              onPress={() => setModalOpen(false)}
+            />
+            <KarmaReview selectedID={selectedID} addReview={addReview}/>
+          </SafeAreaView>
+        </TouchableWithoutFeedback>
+      </Modal>
       <View style={globalStyles.card}>
         <ScrollView>
           <View
