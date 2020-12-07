@@ -23,6 +23,7 @@ import CreateGroup from "./createGroup";
 
 
 function EventPage({ navigation }) {
+  const today = new Date()
   const [modalOpen, setModalOpen] = useState(false);
   const [heart, setHeart] = useState(["heart-o"]);
   const [like, setLike] = useState([false]);
@@ -55,13 +56,15 @@ function EventPage({ navigation }) {
             "locationAddress"
           )}`
         )
-        .then((res) => {          
+        .then((res) => {
+          console.log(res.data.events[0].groups)          
           const groups = res.data.events[0].groups
           let group = groups.map(data =>({
             key: data.$oid,
             name: data.data.name,
             participants: Object.keys(data.data.participants).length,
-            capacity: data.data.max_members
+            capacity: data.data.max_members,
+            startDay: data.data.meetup_time.$date
           }))
           setGroupListing(group)
 
@@ -185,7 +188,9 @@ function EventPage({ navigation }) {
 
 
           <View style={{ width:"100%",}}>
-                  {groupListing.map( item  => (
+                  {groupListing.map( item  => {
+                    if(item.startDay > today.getTime() )
+                    return (
                     <TouchableOpacity
                       onPress={() => navigation.navigate("JoinGroup", item)}
                       key={item.key}
@@ -196,7 +201,7 @@ function EventPage({ navigation }) {
                         participants={item.participants}
                       />
                     </TouchableOpacity>
-                  ))}
+                  )})}
 
           </View>
         </View>
