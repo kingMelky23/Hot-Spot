@@ -7,6 +7,7 @@ import NotificationStack from './notificationStack'
 import MyGroups from './myGroupsStack'
 import AuthStack from './authStack'
 import AuthLoadingScreen from '../screens/AuthLoadingScreen'
+import ProfileReviewScreen from '../screens/ProfileReviewScreen'
 
 import SignoutStack from './SignoutStack'
 
