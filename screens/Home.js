@@ -37,7 +37,9 @@ export default function Home({ navigation }) {
       .get(
         `https://hotspot-backend.herokuapp.com/api/v1/get/FindEventsNearCoordinates?lat=${lat}&long=${lng}`
       )
-      .then((res) => changeLocations(res.data.events))
+      .then((res) => {changeLocations(res.data.events)
+
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -45,13 +47,9 @@ export default function Home({ navigation }) {
 
 
   useEffect(() => {
-    console.log("navigation _______________________________________________________________________________")
-    console.log(navigation)
     const userDetails = () =>{
       axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/GetProfileData`)
       .then((res)=>{
- 
-
         const {
           _id:{$oid:uid},
           username,
@@ -108,6 +106,7 @@ export default function Home({ navigation }) {
       <View style={globalStyles.card}>
         <FlatList
           data={locations}
+          // keyExtractor={item=>item._id.$oid}
           renderItem={({ item }) => {
 
             if(getSize(item.groups)!== 0){

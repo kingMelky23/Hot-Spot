@@ -46,19 +46,14 @@ export default function JoinGroup({ navigation }) {
             participants,
           } = res.data.group;
 
-          // participants.map((item)=>{
-          //   console.log(item.data)
-          // })
-          // console.log(Object.values(participants))
-
-          // console.log(res)
           setGroupDetail({
             admin,
             description,
             minimal_karma,
             members: participants,
           });
-        });
+        })
+        .catch((res)=>console.log(res));
     };
 
     findGroup();

@@ -45,11 +45,6 @@ export default function Search({ setModalOpen, onSearch }) {
   }, [eventAddress]);
 
   const submitData = async (photoURL,coordinates) => {
-    console.log("long_______________________________________________________")
-
-    console.log(coordinates)
-
-
     await axios
       .post(`https://hotspot-backend.herokuapp.com/api/v1/post/CreateEvent`, {
         name: eventName,
@@ -60,9 +55,7 @@ export default function Search({ setModalOpen, onSearch }) {
         photo_url: photoURL,
       })
       .catch((res) => {
-        console.log(
-          "createEvent Error ____________________________________________________________"
-        );
+        console.log("createEvent Error _______________________________");
         console.log(res);
       });
 
@@ -75,8 +68,6 @@ export default function Search({ setModalOpen, onSearch }) {
       placeholder="Search"
       minLength={2}
       onPress={(data, details = null) => {
-        // console.log(details)
-        // 'details' is provided when fetchDetails = true
         setEventname(data.structured_formatting.main_text);
         setEventAddress(data.description.toString());
       }}

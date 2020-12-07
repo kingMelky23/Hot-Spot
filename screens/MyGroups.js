@@ -52,7 +52,6 @@ export default function MyGroups({ navigation }) {
             item._id.$oid
           ))
           setGroups(allGroups.map((item)=>{
-            console.log(item._id.$oid)
             if(completeObj.includes(item._id.$oid)){
               return{
                 key:item._id.$oid,
