@@ -108,30 +108,36 @@ export default function Home({ navigation }) {
       <View style={globalStyles.card}>
         <FlatList
           data={locations}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("EventPage", {
-                  locationName: item.name,
-                  locationAddress:item.location_address,
-                  locationPhoto: item.photo_url,
-                })
-              }
-            >
-              <View style={styles.boxView}>
-                <Image
-                  style={styles.img}
-                  source={{
-                    uri: item.photo_url,
-                  }}
-                />
-                <View>
-                  <Text style={styles.head}> {item.name} </Text>
-                  <Text style={styles.groups}>Groups {getSize(item.groups)} </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          )}
+          renderItem={({ item }) => {
+
+            if(getSize(item.groups)!== 0){
+              return(
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("EventPage", {
+                      locationName: item.name,
+                      locationAddress:item.location_address,
+                      locationPhoto: item.photo_url,
+                    })
+                  }
+                >
+                  <View style={styles.boxView}>
+                    <Image
+                      style={styles.img}
+                      source={{
+                        uri: item.photo_url,
+                      }}
+                    />
+                    <View>
+                      <Text style={styles.head}> {item.name} </Text>
+                      <Text style={styles.groups}>Groups {getSize(item.groups)} </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              ) 
+            } else {}
+
+         }}
         />
       </View>
     </View>

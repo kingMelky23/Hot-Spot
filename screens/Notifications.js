@@ -1,6 +1,6 @@
 import React, { useState, useCallback} from 'react'
 import { StyleSheet, Text, View,Image,FlatList, TouchableOpacity,Animated } from 'react-native'
-import {ListItem, Icon} from "react-native-elements"
+import {ListItem} from "react-native-elements"
 import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -8,7 +8,6 @@ import Axios from 'axios'
 import {useFocusEffect} from "react-navigation-hooks"
 
 
-import {globalStyles} from '../styles/globalStyles'
 var faker = require("faker");
 
 export default function Notifications() {
