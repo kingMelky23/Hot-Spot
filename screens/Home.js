@@ -38,7 +38,6 @@ export default function Home({ navigation }) {
         `https://hotspot-backend.herokuapp.com/api/v1/get/FindEventsNearCoordinates?lat=${lat}&long=${lng}`
       )
       .then((res) => {changeLocations(res.data.events)
-
       })
       .catch((err) => {
         console.log(err);
@@ -127,7 +126,7 @@ export default function Home({ navigation }) {
                         uri: item.photo_url,
                       }}
                     />
-                    <View>
+                    <View style={{width:"40%"}}>
                       <Text style={styles.head}> {item.name} </Text>
                       <Text style={styles.groups}>Groups {getSize(item.groups)} </Text>
                     </View>
