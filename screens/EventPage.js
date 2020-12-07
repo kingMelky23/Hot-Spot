@@ -1,27 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useCallback } from "react";
 import {
   StyleSheet,
   Text,
   SafeAreaView,
   View,
-  FlatList,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
   Image,
   Modal,
+  ScrollView
 } from "react-native";
 import GroupItem from "../shared/groupItem";
 import { Feather, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { set_Event_Id } from "../redux/actions";
+import {useFocusEffect} from "react-navigation-hooks"
 
 import { globalStyles } from "../styles/globalStyles";
 import CreateGroup from "./createGroup";
 
 
 function EventPage({ navigation }) {
+  const today = new Date()
   const [modalOpen, setModalOpen] = useState(false);
   const [heart, setHeart] = useState(["heart-o"]);
   const [like, setLike] = useState([false]);
@@ -44,7 +46,7 @@ function EventPage({ navigation }) {
     }
   };
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     setGoogleImage(navigation.getParam("locationPhoto"));
 
     const getAddressBackend = async () => {
@@ -54,13 +56,15 @@ function EventPage({ navigation }) {
             "locationAddress"
           )}`
         )
-        .then((res) => {          
+        .then((res) => {
+          console.log(res.data.events[0].groups)          
           const groups = res.data.events[0].groups
           let group = groups.map(data =>({
             key: data.$oid,
             name: data.data.name,
             participants: Object.keys(data.data.participants).length,
-            capacity: data.data.max_members
+            capacity: data.data.max_members,
+            startDay: data.data.meetup_time.$date
           }))
           setGroupListing(group)
 
@@ -70,7 +74,7 @@ function EventPage({ navigation }) {
         .catch((err) => console.log("EventPage: error init render" + err));
     };
     getAddressBackend();
-  }, [groupListing]);
+  }, [groupListing]));
 
   const addGroup = (group) => {
 
@@ -122,7 +126,7 @@ function EventPage({ navigation }) {
     <View style={globalStyles.container}>
       <Modal visible={modalOpen} animationType="slide">
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <SafeAreaView style={styles.modalContent}>
+          <SafeAreaView style={globalStyles.modalContent}>
             <MaterialIcons
               name="close"
               size={24}
@@ -133,7 +137,9 @@ function EventPage({ navigation }) {
         </TouchableWithoutFeedback>
       </Modal>
 
-      <View style={[globalStyles.card, { alignItems: "center" }]}>
+      <ScrollView style={globalStyles.card}>
+        <View style={{ alignItems: "center"}}>
+
         <View style={styles.locationInfo}>
           <View
             style={{
@@ -177,22 +183,30 @@ function EventPage({ navigation }) {
             onPress={() => setModalOpen(true)}
           />
         </View>
-        <FlatList
-          style={{ marginBottom: 50 }}
-          data={groupListing}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("JoinGroup", item)}
-            >
-              <GroupItem
-                name={item.name}
-                capacity={item.capacity}
-                participants={item.participants}
-              />
-            </TouchableOpacity>
-          )}
-        />
-      </View>
+          
+
+
+
+          <View style={{ width:"100%",}}>
+                  {groupListing.map( item  => {
+                    if(item.startDay > today.getTime() )
+                    return (
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate("JoinGroup", item)}
+                      key={item.key}
+                    >
+                      <GroupItem
+                        name={item.name}
+                        capacity={item.capacity}
+                        participants={item.participants}
+                      />
+                    </TouchableOpacity>
+                  )})}
+
+          </View>
+        </View>
+          
+      </ScrollView>
     </View>
   );
 }

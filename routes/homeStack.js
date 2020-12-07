@@ -25,6 +25,9 @@ const EventScreenTab = createMaterialBottomTabNavigator(
     activeColor: '#f0edf6',
     inactiveColor: '#DD1111',
     barStyle: { backgroundColor: '#FF5555', height:80 },
+    tabBarOptions:{
+      keyboardHidesTabBar:true
+    }
   }
 )
 
@@ -40,10 +43,11 @@ const screens = {
     },
   },
   EventPage: {
-    screen: EventScreenTab,
+    screen: Event,
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: () => <PlainHeader navigation={navigation} title="Event" />,
+        headerLeft: () => null
       };
     },
   },
@@ -52,6 +56,7 @@ const screens = {
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: () => <PlainHeader navigation={navigation} title="Event" />,
+        headerLeft: () => null
       };
     },
   },

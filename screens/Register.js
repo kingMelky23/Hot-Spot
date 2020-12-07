@@ -52,7 +52,7 @@ export default function Register({ navigation }) {
               gender:'M',
               age: values.age.toString()
             }).then((res) => {
-              console.log(res);
+              // console.log(res);
               navigation.goBack();
               }
             ).catch((err) => {

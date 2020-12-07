@@ -7,15 +7,6 @@ import DateTimeFormat from "../shared/DateTimeFormat";
 
 import FlatButton from "../shared/button";
 
-
-/** add yup validation for date and time */
-
-
-
-/**
- * send date as epoc time
- */
-
 const groupSchema = yup.object({
   name: yup.string().required().min(4),
   description: yup.string().required().min(8),

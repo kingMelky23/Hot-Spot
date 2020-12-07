@@ -9,11 +9,10 @@ export const globalStyles = StyleSheet.create({
     },
     card: {
         flex: 1,
-        backgroundColor: "white",
+        backgroundColor: "#fdfcfa",
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
-        borderWidth: 3,
-        borderColor: "#fff",
+      
         padding: 5,
         position: 'relative'
         // alignItems: "center",
@@ -46,5 +45,44 @@ export const globalStyles = StyleSheet.create({
         marginBottom: 10,
         marginTop: 6,
         textAlign: "center"
-      }
+      },
+      headerContainer: {
+        width: "100%",
+        height: "100%",
+        flexDirection: "row",
+        alignItems: "flex-start",
+        justifyContent:"center"
+        
+      },
+      headerContent:{
+        width:"100%",
+        flexDirection: "row",
+        justifyContent:"space-between",
+        alignItems:"center",
+        
+
+      },
+      headerText: {
+        fontSize: 30,
+        fontFamily: "Kalam-Bold",
+      
+      },
+      hamburgerIcon: {
+        // position: "absolute",
+        // right:"111%",
+        // top: 0,
+      },
+      searchIcon: {
+        // position: "absolute",
+        // left: "111%",
+        borderWidth: 1,
+        borderRadius: 18,
+        padding: 7,
+      },
+      modalContainer: {
+        flex: 1,
+      },
+      modalContent: {
+        flex: 1,
+      },
 }) 

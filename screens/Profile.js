@@ -1,21 +1,18 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  FlatList,
-  SafeAreaView,
-  Modal,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from "react-native";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import ManageProfile from "./ManageProfile";
+import Axios from 'axios';
+import React,{useState, useEffect,useCallback} from 'react'
+import { StyleSheet, Text, View,Image,ScrollView,FlatList } from 'react-native'
+import {useFocusEffect} from "react-navigation-hooks"
 
 export default function Profile() {
-  const [modalOpen, setModalOpen] = useState(false);
+
+
+  const [profileDetails,setProfileDetails] = useState({
+    first_name:"",
+    last_name:"",
+    age:null,
+    username:"",
+    karma:null
+  })
   const DATA = [
     {
       eventName: "Concert",
@@ -40,58 +37,46 @@ export default function Profile() {
     },
   ];
 
-  const updateProfile = (updates) => {
-    console.log(updates);
-  };
+  useEffect(() => {
+    const userDetails = () =>{
+      Axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/GetProfileData`)
+      .then((res)=>{
 
-  return (
-    <View style={styles.container}>
-      <Modal visible={modalOpen} animationType="slide">
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <SafeAreaView style={styles.modalContent}>
-            <MaterialIcons
-              name="close"
-              size={24}
-              onPress={() => setModalOpen(false)}
-            />
-            <ManageProfile updateProfile={updateProfile} />
-          </SafeAreaView>
-        </TouchableWithoutFeedback>
-      </Modal>
 
-      <Image
-        style={styles.header}
-        source={{
-          uri:
-            "https://images.unsplash.com/photo-1489844097929-c8d5b91c456e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
-        }}
-      ></Image>
-      <Image
-        style={styles.avatar}
-        source={{
-          uri:
-            "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
-        }}
-      />
-      {/* <View style={styles.manageIcon}>
-          <TouchableOpacity
-          style={{backgroundColor:"blue"}}
-          onPress={()=>touched()}>
-            <Ionicons name="ios-settings" size={50} color="#FF5555" />
-          </TouchableOpacity>
-        </View> */}
-      <View style={styles.manageIcon}>
-        <TouchableOpacity onPress={() => setModalOpen(true)}>
-          <Ionicons name="ios-settings" size={26} color="#FF5555" />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.body}>
-        <View style={styles.bodyContent}>
-          <Text style={styles.name}>Sarah Snow, 28</Text>
-          <Text style={styles.karma}></Text>
-          <Text style={styles.info}>Staten Island, New York</Text>
-          <Text style={styles.description}>Profile description</Text>
-        </View>
+        const {
+          username,
+          first_name,
+          last_name,
+          age,
+          karma
+        } = res.data.user
+        setProfileDetails({
+          username,
+          first_name,
+          last_name,
+          age,
+          karma
+        })
+
+      })
+      .catch((err)=>console.log(err))
+    }
+
+    userDetails()
+  }, [])
+
+
+    return (
+        <ScrollView style={styles.container}>
+        <Image style={styles.header} source={{uri:"https://images.unsplash.com/photo-1489844097929-c8d5b91c456e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"}}></Image>
+        <Image style={styles.avatar} source={{uri: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'}}/>
+        <View style={styles.body}>
+          <View style={styles.bodyContent}>
+            <Text style={styles.name}>{profileDetails.first_name+" "+profileDetails.last_name+","+profileDetails.age}</Text>
+            <Text style={styles.karma}></Text>
+            <Text style={styles.info}>Staten Island, New York</Text>
+            <Text style={styles.description}>Profile description</Text>
+          </View>
       </View>
       <View style={styles.attendedEvents}>
         <Text style={styles.eventsHeaderText}>Recently Attended Events</Text>
@@ -116,8 +101,8 @@ export default function Profile() {
           horizontal
         />
       </View>
-    </View>
-  );
+    </ScrollView>
+    )
 }
 
 const styles = StyleSheet.create({

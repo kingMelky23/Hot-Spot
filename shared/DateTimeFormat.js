@@ -30,12 +30,11 @@ const DateTimeFormat = ({ ...props }) => {
   };
 
   const handleConfirm = (dateTime) => {
-
-    let timeStamp = new Date()
-    // console.log(timeStamp.getTime())
+    let timeStamp = new Date(dateTime)
+    // console.log("time stamp:"+timeStamp.getTime())
     let newTime = (Math.floor(timeStamp.getTime()/1000)).toString()
     setFieldValue(field.name, newTime);
-    console.log(newTime);
+    // console.log(" final time "+newTime);
     setSelectedDate(dateTime);
 
     hideDateTimePicker();

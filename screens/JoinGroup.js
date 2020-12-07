@@ -7,15 +7,17 @@ import { ScrollView } from "react-native-gesture-handler";
 import axios from "axios";
 
 export default function JoinGroup({ navigation }) {
-  const groupKey = navigation.getParam("key");
   const [showMore, setShowMore] = useState([false]);
   const [showMoreText, setShowMoreText] = useState(["show more"]);
+  const groupKey = navigation.getParam("key");
   const [groupDetail, setGroupDetail] = useState({
     admin: "",
     name: "",
     description: "",
     minimal_karma: null,
     members: [],
+    start: "",
+    end: "",
   });
 
   /**like button future feature will add location to users favorite spots
@@ -44,21 +46,20 @@ export default function JoinGroup({ navigation }) {
             description,
             minimal_karma,
             participants,
+            ending_time: { $date: end },
+            meetup_time: { $date: start },
           } = res.data.group;
 
-          // participants.map((item)=>{
-          //   console.log(item.data)
-          // })
-          // console.log(Object.values(participants))
-
-          // console.log(res)
           setGroupDetail({
             admin,
             description,
             minimal_karma,
             members: participants,
+            end,
+            start,
           });
-        });
+        })
+        .catch((res) => console.log(res));
     };
 
     findGroup();
@@ -73,15 +74,22 @@ export default function JoinGroup({ navigation }) {
     );
   };
 
+  const formatDate = (timeStamp) => {
+    const date = new Date(timeStamp).toLocaleDateString("en-US");
+    const time = new Date(timeStamp).toLocaleTimeString("en-US");
+    return date + " at " + time;
+  };
+
   return (
     <View style={globalStyles.container}>
       <View style={globalStyles.card}>
         <ScrollView>
           <Text style={styles.title}>{navigation.getParam("name")}</Text>
-          <Text>{navigation.getParam("date")}</Text>
+
+          <Text>{"start: " + formatDate(groupDetail.start)}</Text>
 
           <View style={styles.locationInfo}>
-            <Text>{navigation.getParam("time")}</Text>
+            <Text>{"end: " + formatDate(groupDetail.end)}</Text>
             <Text>{navigation.getParam("address")}</Text>
           </View>
           <View

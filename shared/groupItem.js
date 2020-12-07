@@ -1,15 +1,23 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { MaterialIcons,AntDesign } from '@expo/vector-icons'; 
 
 
 //Group Props: Time, Date,Capacity, Participants, Name, Location
+
+const color = "#ffdc14"
 
  export default function Group(props) {
     return (
       <View style={styles.groupStyle}>
           <Text style={styles.groupText}>{props.name}</Text>
+          
           <View style={styles.iconAndNumberView}>
+              {props.completion?(<View style={{flexDirection:"row", alignItems:"center"}}>
+              <AntDesign name="star" size={24} color={color}  />
+                <Text style={{color}}>COMPLETE</Text>
+                </View>
+              ): null}
               <MaterialIcons name="person" size={24} color="#000" style={styles.personIcon} />
               <Text style={styles.numberText}>{props.participants}/{props.capacity}</Text>
           </View>
@@ -22,7 +30,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
     groupStyle: {
       height:40,
-      width:370,
+      width:"96%",
       backgroundColor:"white",
       borderRadius: 100,
       borderWidth:1,
