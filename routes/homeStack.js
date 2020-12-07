@@ -43,7 +43,7 @@ const screens = {
     },
   },
   EventPage: {
-    screen: EventScreenTab,
+    screen: Event,
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: () => <PlainHeader navigation={navigation} title="Event" />,

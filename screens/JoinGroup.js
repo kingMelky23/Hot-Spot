@@ -16,6 +16,8 @@ export default function JoinGroup({ navigation }) {
     description: "",
     minimal_karma: null,
     members: [],
+    start: "",
+    end: "",
   });
 
   /**like button future feature will add location to users favorite spots
@@ -44,6 +46,8 @@ export default function JoinGroup({ navigation }) {
             description,
             minimal_karma,
             participants,
+            ending_time: { $date: end },
+            meetup_time: { $date: start },
           } = res.data.group;
 
           setGroupDetail({
@@ -51,19 +55,15 @@ export default function JoinGroup({ navigation }) {
             description,
             minimal_karma,
             members: participants,
+            end,
+            start,
           });
         })
-        .catch((res)=>console.log(res));
+        .catch((res) => console.log(res));
     };
 
     findGroup();
   }, [groupKey]);
-
-
-
-
-
-
 
   const joinRequest = async () => {
     await axios.post(
@@ -74,15 +74,22 @@ export default function JoinGroup({ navigation }) {
     );
   };
 
+  const formatDate = (timeStamp) => {
+    const date = new Date(timeStamp).toLocaleDateString("en-US");
+    const time = new Date(timeStamp).toLocaleTimeString("en-US");
+    return date + " at " + time;
+  };
+
   return (
     <View style={globalStyles.container}>
       <View style={globalStyles.card}>
         <ScrollView>
           <Text style={styles.title}>{navigation.getParam("name")}</Text>
-          <Text>{navigation.getParam("date")}</Text>
+
+          <Text>{"start: " + formatDate(groupDetail.start)}</Text>
 
           <View style={styles.locationInfo}>
-            <Text>{navigation.getParam("time")}</Text>
+            <Text>{"end: " + formatDate(groupDetail.end)}</Text>
             <Text>{navigation.getParam("address")}</Text>
           </View>
           <View
