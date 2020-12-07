@@ -1,6 +1,7 @@
 import Axios from 'axios';
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect,useCallback} from 'react'
 import { StyleSheet, Text, View,Image,ScrollView,FlatList } from 'react-native'
+import {useFocusEffect} from "react-navigation-hooks"
 
 export default function Profile() {
 
@@ -34,11 +35,10 @@ export default function Profile() {
   ];
 
   useEffect(() => {
-    console.log("user deatils _______________________________________________________________________________")
     const userDetails = () =>{
       Axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/GetProfileData`)
       .then((res)=>{
-        console.log(res.data.user)
+
 
         const {
           username,

@@ -85,7 +85,6 @@ export default function GroupPage({ navigation }) {
               setGroupDetail(details[0]);
 
               const joinData = res[1].data.requests;
-              console.log(joinData)
               setJoinRequest(
                 joinData.map((item) => ({
                   key: item._id.$oid,
@@ -268,12 +267,16 @@ export default function GroupPage({ navigation }) {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <Text style={styles.title}>{groupDetail.name}</Text>
-            <TouchableOpacity
+            {userInfo.uid === groupDetail.admin ? 
+            (
+              <TouchableOpacity
               style={styles.newRequest}
               onPress={()=>navigation.navigate("JoinRequests",{users:joinRequest})}
             >
               <Text style={{ color: "white" }}>{joinRequest.length}</Text>
             </TouchableOpacity>
+            ) : null}
+            
           </View>
 
           <Text>{"start: " + formatDate(groupDetail.start)}</Text>
