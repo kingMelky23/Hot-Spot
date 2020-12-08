@@ -1,31 +1,29 @@
 import React from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
 import { Formik } from "formik";
 import * as yup from "yup";
 
 import FlatButton from "../shared/button";
 
-
-
 const updateSchema = yup.object({
-  first_name: yup.string().required().min(4),
-  last_name: yup.string().required().min(4),
+  first_name: yup.string().required().min(3),
+  last_name: yup.string().required().min(3),
   age: yup.string().required(),
   email: yup.string().required(),
   gender:yup.string().required(),
 });
 
-export default function ManageProfile({ updateProfile }) {
+export default function ManageProfile({ prevDetails,updateProfile }) {
   return (
     <View style={{ ...globalStyles.card, marginTop: 10 }}>
       <Formik
         initialValues={{
-          first_name: "",
-          last_name: "",
-          age: "",
-          gender: "",
-          email: "",
+          first_name: prevDetails.first_name,
+          last_name: prevDetails.last_name,
+          age: prevDetails.age,
+          gender: prevDetails.gender,
+          email: prevDetails.email,
         }}
         validationSchema={updateSchema}
         onSubmit={(values, actions) => {
@@ -78,20 +76,20 @@ export default function ManageProfile({ updateProfile }) {
               placeholder="example@gmail.com"
               onChangeText={formikProps.handleChange("email")}
               value={formikProps.values.email}
-              keyboardType={"numeric"}
+             
               onBlur={formikProps.handleBlur("email")}
             />
             <Text style={globalStyles.errorText}>
               {formikProps.touched.email &&
                 formikProps.errors.email}
             </Text>
-            <Text style={styles.title}>E-mail:</Text>
+            <Text style={styles.title}>Gender:</Text>
             <TextInput
               style={globalStyles.input}
               placeholder="Gender"
               onChangeText={formikProps.handleChange("gender")}
               value={formikProps.values.gender}
-              keyboardType={"numeric"}
+              // keyboardType={"numeric"}
               onBlur={formikProps.handleBlur("gender")}
             />
             <Text style={globalStyles.errorText}>

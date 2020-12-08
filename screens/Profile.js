@@ -1,18 +1,38 @@
+
 import Axios from 'axios';
 import React,{useState, useEffect,useCallback} from 'react'
-import { StyleSheet, Text, View,Image,ScrollView,FlatList } from 'react-native'
+import {
+   StyleSheet,
+   Text,
+   View,
+   Image,
+   ScrollView,
+   FlatList,
+ 
+  TouchableOpacity,
+  SafeAreaView,
+  Modal,
+  TouchableWithoutFeedback,
+  Keyboard,
+   } from 'react-native'
 import {useFocusEffect} from "react-navigation-hooks"
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import ManageProfile from "./ManageProfile";
+import { globalStyles } from "../styles/globalStyles";
 
 export default function Profile() {
-
+  const [modalOpen, setModalOpen] = useState(false);
 
   const [profileDetails,setProfileDetails] = useState({
     first_name:"",
     last_name:"",
     age:null,
     username:"",
-    karma:null
+    karma:null,
+    email:"",
+    gender:"",
   })
+
   const DATA = [
     {
       eventName: "Concert",
@@ -37,7 +57,8 @@ export default function Profile() {
     },
   ];
 
-  useEffect(() => {
+  useFocusEffect(
+    useCallback(() => {
     const userDetails = () =>{
       Axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/GetProfileData`)
       .then((res)=>{
@@ -48,14 +69,18 @@ export default function Profile() {
           first_name,
           last_name,
           age,
-          karma
+          karma,
+          email,
+          gender
         } = res.data.user
         setProfileDetails({
           username,
           first_name,
           last_name,
           age,
-          karma
+          karma,
+          email,
+          gender
         })
 
       })
@@ -63,17 +88,46 @@ export default function Profile() {
     }
 
     userDetails()
-  }, [])
+  }), [])
+
+
+  const updateProfile =(update)=>{
+    setModalOpen(false)
+     const {email,age,first_name,last_name,gender} = update
+    Axios.post(`https://hotspot-backend.herokuapp.com/api/v1/post/UpdateProfile`,{
+      email,age,first_name,last_name,gender
+    })
+    .then((res)=>console.log(res))
+    .catch((err)=>console.log(err))
+ 
+  }
 
 
     return (
         <ScrollView style={styles.container}>
+        <Modal visible={modalOpen} animationType="slide">
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <SafeAreaView style={globalStyles.modalContent}>
+            <MaterialIcons
+              name="close"
+              size={24}
+              onPress={() => setModalOpen(false)}
+            />
+            <ManageProfile prevDetails={profileDetails} updateProfile={updateProfile} />
+          </SafeAreaView>
+        </TouchableWithoutFeedback>
+      </Modal>
         <Image style={styles.header} source={{uri:"https://images.unsplash.com/photo-1489844097929-c8d5b91c456e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"}}></Image>
         <Image style={styles.avatar} source={{uri: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'}}/>
+        <View style={styles.manageIcon}>
+        <TouchableOpacity onPress={() => setModalOpen(true)}>
+          <Ionicons name="ios-settings" size={26} color="#FF5555" />
+        </TouchableOpacity>
+      </View>
         <View style={styles.body}>
           <View style={styles.bodyContent}>
             <Text style={styles.name}>{profileDetails.first_name+" "+profileDetails.last_name+","+profileDetails.age}</Text>
-            <Text style={styles.karma}></Text>
+            <Text style={styles.karma}>{profileDetails.karma}</Text>
             <Text style={styles.info}>Staten Island, New York</Text>
             <Text style={styles.description}>Profile description</Text>
           </View>
@@ -148,6 +202,7 @@ const styles = StyleSheet.create({
   },
   karma: {
     fontSize: 18,
+    color:"#FF5555"
   },
   name: {
     fontSize: 22,
