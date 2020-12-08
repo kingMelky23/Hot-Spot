@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity,Animated,Alert } from 'react-native'
 
 import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-
+import { AntDesign } from '@expo/vector-icons';
 import Axios from 'axios'
 import UserItem from '../shared/UserItem'
 
@@ -112,10 +112,10 @@ export default function JoinRequests({navigation}) {
                 },
               ],
             }]}>
-              <MaterialCommunityIcons
-                name="close-circle-outline"
-                size={25}
-                color="#FFF"
+              <AntDesign 
+                name="checkcircleo"
+                size={24}
+                color="black"
               />
             </Animated.View>
           </TouchableOpacity>

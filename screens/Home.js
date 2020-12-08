@@ -37,7 +37,9 @@ export default function Home({ navigation }) {
       .get(
         `https://hotspot-backend.herokuapp.com/api/v1/get/FindEventsNearCoordinates?lat=${lat}&long=${lng}`
       )
-      .then((res) => {changeLocations(res.data.events)
+      .then((res) => {
+        console.log(res.data.events)
+        changeLocations(res.data.events)
       })
       .catch((err) => {
         console.log(err);
@@ -49,13 +51,15 @@ export default function Home({ navigation }) {
     const userDetails = () =>{
       axios.get(`https://hotspot-backend.herokuapp.com/api/v1/get/GetProfileData`)
       .then((res)=>{
+        console.log(res.data.user)
         const {
           _id:{$oid:uid},
           username,
           first_name,
           last_name,
           age,
-          karma
+          karma,
+          reviews
         } = res.data.user
         dispatch(set_user({
           uid,
@@ -63,7 +67,8 @@ export default function Home({ navigation }) {
           first_name,
           last_name,
           age,
-          karma
+          karma,
+          reviews
         }))
 
       })
@@ -126,8 +131,8 @@ export default function Home({ navigation }) {
                         uri: item.photo_url,
                       }}
                     />
-                    <View style={{width:"40%"}}>
-                      <Text style={styles.head}> {item.name} </Text>
+                    <View style={{width:"40%",marginLeft:5}}>
+                      <Text style={styles.head}>{item.name}</Text>
                       <Text style={styles.groups}>Groups {getSize(item.groups)} </Text>
                     </View>
                   </View>
@@ -136,6 +141,7 @@ export default function Home({ navigation }) {
             } else {}
 
          }}
+         
         />
       </View>
     </View>
